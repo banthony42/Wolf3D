@@ -6,7 +6,7 @@
 #    By: banthony <banthony@students.42.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/04/08 12:07:25 by banthony         ###   ########.fr        #
+#    Updated: 2018/04/08 17:49:16 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -34,14 +34,14 @@ LIBFT = ./libft
 
 ifeq ($(UNAME), Linux)
 MLX_LIB = ./minilibx_linux/
-HEAD_DIR = -I ./include -I ~/libft -I ~/minilibx
+HEAD_DIR = -I ./include -I $(LIBFT) -I ~/minilibx
 LIB = -L $(LIBFT) -lft -L MLX_LIB -lmlx -lXext -lX11
 FLAGS = -Wall -Wextra -Werror
 endif
 
 ifeq ($(UNAME), Darwin)
 MLX_LIB = ./minilibx_macos/
-HEAD_DIR = -I ./include -I ~/libft
+HEAD_DIR = -I ./include -I $(LIBFT)
 LIB = -L $(LIBFT) -lft -L $(MLX_LIB) -lmlx -framework OpenGL -framework Appkit
 FLAGS = -Wall -Wextra -Werror -Weverything
 endif
