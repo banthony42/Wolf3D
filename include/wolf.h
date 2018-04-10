@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/08 12:29:33 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/10 17:45:06 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
 #include "mlx.h"
 #include "libft.h"
 #include <stdlib.h>
+
+/*
+**	Message d'Erreur
+*/
+# define ERR_MAP "Invalid Map"
+# define ERR_QUIT "User exit"
 
 /*
 ** MACRO CALCUL
@@ -67,30 +73,67 @@
 # define MAP_MAX 20
 # define BOX 50
 
-enum {VOID, STONE, BRICK, WOOD, DOOR, HEAL, WEAPON, AMO, SPAWN};
-
-typedef struct	s_wolf
+typedef enum	e_item
 {
-	void		*mlx;
-	void		*win;
-	void		*img;
-	void		*img_d;
-	int			img_dsize;
-	int			img_bpp;
-	int			img_endian;
-	int			win_w;
-	int			win_h;
-	int			_pad4;
-	char		**map;
-}				t_wolf;
+	VOID, STONE, BRICK, WOOD, DOOR, HEAL, WEAPON, AMO, SPAWN, NB_ITEM,
+}				t_item;
+
+typedef enum	e_texture
+{
+	T_FLOOR, T_SKY, T_STONE, T_BRICK, T_WOOD, T_DOOR, T_HEAL, T_WEAPON, T_AMO, T_SPAWN,
+	T_MAIN_MENU, T_GAME_OVER, T_GAME_WIN, T_MAP_CREATOR, T_GAME_INTERFACE, T_MINI_MAP,
+	NB_TEXTURE,
+}				t_texture;
 
 /*
-**	Message d'Erreur
+** Definition des etats du jeux.
+** Menu principal, Ecran du jeu, Ecran de fin de jeu (win/loose), creation de map
 */
-# define ERR_MAP "Invalid Map"
-# define ERR_QUIT "User exit"
+typedef enum	e_page
+{
+	MAIN_MENU, GAME, GAME_OVER, GAME_WIN, MAP_CREATOR, NB_PAGE,
+}				t_page;
 
-int  keyhook(int keycode, t_wolf *wolf);
-void init(t_wolf *wolf);
+typedef struct		t_coord
+{
+	int				x;
+	int				y;
+}					t_coord;
+
+typedef struct		s_pixel
+{
+	t_coord			pos;
+	int				color;
+}					t_pixel;
+
+typedef struct		s_img
+{
+	void			*ptr;
+	t_coord			size;
+	char			*data;
+	int				width;
+	int				bpp;
+	int				endian;
+	int				max_size;
+	unsigned int	octet;
+	int				padding4;
+}					t_img;
+
+typedef struct		s_wolf
+{
+	void			*mlx;
+	void			*win;
+	t_img			img[NB_PAGE];
+	t_coord			img_size[NB_PAGE];
+	t_img			texture[NB_TEXTURE];
+	t_coord			size_win;
+	char			**map;
+}					t_wolf;
+
+int					keyhook(int keycode, t_wolf *wolf);
+int					new_img(t_wolf *wolf, t_page page);
+void				expose(t_wolf *wolf);
+int					refresh(void *wptr);
+void				init(t_wolf *wolf);
 
 #endif
