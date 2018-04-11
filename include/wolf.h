@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/11 18:42:48 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/11 19:33:41 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ typedef struct		s_wolf
 	t_page			current_page;
 	t_player		player;
 	int				cursor;
-	t_coord			font_cursor;
+	t_coord			font_cursor; //tmp
 	t_creator		map_creator;
 }					t_wolf;
 

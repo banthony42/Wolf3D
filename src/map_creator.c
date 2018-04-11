@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/11 19:29:20 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/11 19:34:11 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int					eventm_map_creator(int button, int x, int y, void *wolf)
 	return (0);
 }
 
+// ** CODE TEMPORAIRE
 static void put_pixel_from_texture(t_coord pt, t_img *text, t_img *img)
 {
 	unsigned int pos;
@@ -92,7 +93,7 @@ static void target(int x, int y, int square, t_img *img)
 		i.y++;
 	}
 }
-
+// ** FIN CODE TEMPORAIRE
 void	draw_map_creator(void *wolf)
 {
 	t_wolf *w;
