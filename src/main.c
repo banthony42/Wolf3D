@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/10 17:36:28 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/11 17:21:36 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ int main(int ac, char **av)
 	else
 		ft_putstr("Map OK!");
 	init(&wolf);
+	mlx_key_hook(wolf.win, keyhook, &wolf);	/* Sur event clavier */
+	mlx_mouse_hook(wolf.win, mousehook, &wolf);		/* Sur event de type souris */
 	mlx_loop_hook(wolf.mlx, refresh, &wolf);		/* Appel a refresh() quand aucun event ne pop */
-	mlx_key_hook(wolf.win, keyhook, &wolf);			/* Appel a keyhook() sur event de type clavier */
-//	mlx_mouse_hook(wolf.win, mousehook, &wolf);		/* Appel a mousehook() sur event de type souris */
 //	mlx_expose_hook(wolf.win, exposehook, &wolf);	/* Apppel a exposehook() sur event de type resize fenetre */
 	mlx_loop(wolf.mlx);								/* Permet de recevoir des event	*/
 	ft_freetab(wolf.map);

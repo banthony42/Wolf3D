@@ -1,39 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event.c                                            :+:      :+:    :+:   */
+/*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/11 17:17:38 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/11 17:21:19 by banthony         ###   ########.fr       */
+/*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
+/*   Updated: 2018/04/11 15:46:55 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-int keyhook(int keycode, t_wolf *wolf)
+int					eventk_game(int keyhook, void *wolf)
 {
-	if (!wolf)
-		return (0);
-	wolf->event_key[wolf->current_page](keycode, wolf);
+	(void)keyhook;
+	(void)wolf;
+return (0);
+}
+
+int					eventm_game(int button, int x, int y, void *wolf)
+{
+	(void)wolf;
+	(void)button;
+	(void)x;
+	(void)y;
 	return (0);
 }
 
-int mousehook(int button, int x, int y, t_wolf *wolf)
+void	draw_game(void *wolf)
 {
-	if (!wolf)
-		return (0);
-	wolf->event_mouse[wolf->current_page](button, x, y, wolf);
-	return (0);
+	(void)wolf;
 }
-
-
-
-
-
-
-
-
-
-

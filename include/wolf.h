@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/10 17:45:06 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/11 18:18:39 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef enum	e_texture
 {
 	T_FLOOR, T_SKY, T_STONE, T_BRICK, T_WOOD, T_DOOR, T_HEAL, T_WEAPON, T_AMO, T_SPAWN,
 	T_MAIN_MENU, T_GAME_OVER, T_GAME_WIN, T_MAP_CREATOR, T_GAME_INTERFACE, T_MINI_MAP,
-	NB_TEXTURE,
+	T_POLICE, NB_TEXTURE,
 }				t_texture;
 
 /*
@@ -91,7 +91,7 @@ typedef enum	e_texture
 */
 typedef enum	e_page
 {
-	MAIN_MENU, GAME, GAME_OVER, GAME_WIN, MAP_CREATOR, NB_PAGE,
+	MAIN_MENU, GAME, GAME_END, MAP_CREATOR, NB_PAGE,
 }				t_page;
 
 typedef struct		t_coord
@@ -114,22 +114,78 @@ typedef struct		s_img
 	int				width;
 	int				bpp;
 	int				endian;
-	int				max_size;
+	unsigned int	max_size;
 	unsigned int	octet;
 	int				padding4;
 }					t_img;
 
+/*
+**	Variables et gestion du joueur
+*/
+typedef struct		s_player
+{
+	t_coord			pos;
+}					t_player;
+
+/*
+**	Variables et gestion de la creation de map
+*/
+typedef struct		s_creator
+{
+	char			**map;
+}					t_creator;
+
+/*
+** Definit les fonctions qui dessine les pages
+*/
+typedef void		(*t_draw)(void *wolf);
+
+/*
+** Definit les fonctions qui gere les event de chaque pages
+*/
+typedef int			(*t_event_k)(int keyhook, void *wolf);
+typedef int			(*t_event_m)(int button, int x, int y, void *wolf);
+
+/*
+**	Eclaircir img_size et img.size
+*/
 typedef struct		s_wolf
 {
 	void			*mlx;
 	void			*win;
+	t_coord			size_win;
 	t_img			img[NB_PAGE];
 	t_coord			img_size[NB_PAGE];
 	t_img			texture[NB_TEXTURE];
-	t_coord			size_win;
+	t_draw			draw[NB_PAGE];
+	t_event_k		event_key[NB_PAGE];
+	t_event_m		event_mouse[NB_PAGE];
 	char			**map;
+	t_page			current_page;
+	t_player		player;
+	int				cursor;
+	t_creator		map_creator;
 }					t_wolf;
 
+int					load_texture(t_wolf *wolf);
+void				put_pixel_img(t_coord pt, int color, t_img *img);
+
+int					eventk_menu(int keyhook, void *wolf);
+int					eventk_game(int keyhook, void *wolf);
+int					eventk_game_end(int keyhook, void *wolf);
+int					eventk_map_creator(int keyhook, void *wolf);
+
+int					eventm_menu(int button, int x, int y, void *wolf);
+int					eventm_game(int button, int x, int y, void *wolf);
+int					eventm_game_end(int button, int x, int y, void *wolf);
+int					eventm_map_creator(int button, int x, int y, void *wolf);
+
+void				draw_main_menu(void *wolf);
+void				draw_game(void *wolf);
+void				draw_game_end(void *wolf);
+void				draw_map_creator(void *wolf);
+
+int					mousehook(int button, int x, int y, t_wolf *wolf);
 int					keyhook(int keycode, t_wolf *wolf);
 int					new_img(t_wolf *wolf, t_page page);
 void				expose(t_wolf *wolf);
