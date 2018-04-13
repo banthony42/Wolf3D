@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/13 18:33:20 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/13 20:27:46 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,17 @@ int					eventm_map_creator(int button, int x, int y, void *wolf)
 }
 
 // ** CODE TEMPORAIRE
-static void put_pixel_from_texture(t_coord pt, t_img *text, t_img *img)
+static void put_pixel_from_texture(t_coord pti, t_coord ptt, t_img *text, t_img *img)
 {
 	unsigned int pos;
 	unsigned int pos_text;
 
-	pos = (unsigned int)(pt.y * img->width) + ((unsigned int)pt.x * img->octet);
-	if (pt.x > text->size.x || pt.y > text->size.y)
+	if (ptt.x > text->size.x || ptt.y > text->size.y || ptt.x < 0 || ptt.y < 0)
 		return ;
-	pos_text = (unsigned int)(pt.y * text->width) + ((unsigned int)pt.x * text->octet);
-	if (pt.y >= WIN_H || pt.y < 0 || pt.x >= WIN_W || pt.x < 0)
+	if (pti.y >= WIN_H || pti.y < 0 || pti.x >= WIN_W || pti.x < 0)
 		return ;
+	pos = (unsigned int)(pti.y * img->width) + ((unsigned int)pti.x * img->octet);
+	pos_text = (unsigned int)(ptt.y * text->width) + ((unsigned int)ptt.x * text->octet);
 	if (pos > (unsigned)(img->width * WIN_W))
 		return ;
 	ft_memcpy(img->data + pos, text->data + pos_text, (size_t)img->octet);
@@ -76,130 +76,93 @@ static void put_pixel_from_texture(t_coord pt, t_img *text, t_img *img)
 #define GET_POS_Y(c) (34 + (48 * GET_Y(c)) )	//premier pixel en y de la case
 #define BOX_X 30
 #define BOX_Y 46
-#include <math.h>
 
-static void	matrix_rot_z(t_coord *coord, int angle)
-{
-	double	cos_teta;
-	double	sin_teta;
-	double	sin_teta_inv;
-	double	teta;
-	int		vx;
-
-	vx = coord->x;
-	teta = ((M_PI * angle) / 180);
-	cos_teta = cos(teta);
-	sin_teta = sin(teta);
-	sin_teta_inv = -sin_teta;
-	coord->x = (int)((cos_teta * coord->x) + (sin_teta_inv * coord->y));
-	coord->y = (int)((sin_teta * vx) + (cos_teta * coord->y));
-}
 /*
-static void handle_six(t_coord pt, t_img *img, t_wolf *wolf)
+**	Le caractere '6' est manquant dans la texture doom_font.xpm
+**	Nous devons donc utiliser le '9', auquel on applique une rotation de 180deg.
+**	Il est necessaire d'appliquer une constante de repositionnement,
+**	afin que le caractere soit centre dans un mot.
+*/
+static void	handle_six(t_coord pt, t_img *img, t_wolf *wolf)
 {
-	unsigned int pos;
-	unsigned int text_pos;
-	t_coord pt_text;
-	t_coord i;
-	t_coord calc;
+	t_coord			i;
+	t_coord			calc;
+	t_coord			pt_t;
+	int				constante;
 
-	i.y = pt.y;
-	pt_text.y = GET_POS_Y('8');
-	while (i.y < pt.y + BOX_Y)
+	constante = 5;
+	i.y = -1;
+	while (++i.y < BOX_Y)
 	{
-		pt_text.x = GET_POS_X('8');
-		i.x = pt.x;
-		while (i.x < pt.x + BOX_X)
+		i.x = -1;
+		while (++i.x < BOX_X - constante)
 		{
-			calc = i;
-			calc.x = (i.y * -1);
-			calc.y = (i.x);
-			pos = (unsigned int)(calc.y * img->width) + ((unsigned int)calc.x * img->octet);
-			text_pos = (unsigned int)(pt_text.y * wolf->texture[T_POLICE].width) + ((unsigned int)pt_text.x * wolf->texture[T_POLICE].octet);
-			ft_memcpy(img->data + pos, wolf->texture[T_POLICE].data + text_pos, (size_t)((img->octet)));
-			i.x++;
-			pt_text.x++;
+			calc.x = ((-1 * i.x)) + (pt.x + (BOX_X - constante));
+			calc.y = (-1 * (i.y - constante)) + (pt.y + (BOX_Y) / 2);
+			pt_t.x = i.x + GET_POS_X('9' - 1);
+			pt_t.y = i.y + GET_POS_Y('9' - 1);
+			put_pixel_from_texture(calc, pt_t, &wolf->texture[T_POLICE], img);
 		}
-		i.y++;
-		pt_text.y++;
 	}
-	}*/
+}
 
-static void handle_six(t_coord pt, t_img *img, t_wolf *wolf)
+static char handle_exceptions(char c, t_coord *var, t_coord *pt_t)
 {
-	unsigned int pos;
-	unsigned int text_pos;
-	t_coord pt_text;
-	t_coord i;
-	t_coord calc;
-
-	i.y = 0;
-	pt_text.y = GET_POS_Y('8');
-	while (i.y < BOX_Y)
+	if (c == '6')
+		return ('6');
+	if (c > '6')
+		var->y = 1;
+	pt_t->x = GET_POS_X(c - var->y);
+	pt_t->y = GET_POS_Y(c - var->y);
+	if (c == 'l')
+		var->x = 14;
+	if (c == 'm')
 	{
-		pt_text.x = GET_POS_X('8');
-		i.x = 0;
-		while (i.x < BOX_X)
-		{
-			calc = i;
-			matrix_rot_z(&calc, 180);
-			calc.x += pt.x + BOX_X / 2;
-			calc.y += pt.y + BOX_Y / 2;
-			pos = (unsigned int)(calc.y * img->width) + ((unsigned int)calc.x * img->octet);
-			text_pos = (unsigned int)(pt_text.y * wolf->texture[T_POLICE].width) + ((unsigned int)pt_text.x * wolf->texture[T_POLICE].octet);
-			ft_memcpy(img->data + pos, wolf->texture[T_POLICE].data + text_pos, (size_t)((img->octet)));
-			i.x++;
-			pt_text.x++;
-		}
-		i.y++;
-		pt_text.y++;
+		var->x += 16;
+		pt_t->x -= 16;
 	}
+	return (0);
 }
 
 static void	char_to_img(char c, t_coord pt, t_img *img, t_wolf *wolf)
 {
-	unsigned int pos;
-	unsigned int text_pos;
-	t_coord pt_text;
-	t_coord i;
+	unsigned int	pos;
+	unsigned int	text_pos;
+	t_coord			pt_t;
+	t_coord			var;
 
-	i = pt;
-	if (!c || c < 32)
+	var.y = 0;
+	var.x = BOX_X;
+	if (!c || c <= 32 || pt.x + BOX_X > WIN_W || pt.y + BOX_Y > WIN_H || pt.x < 0 || pt.y < 0)
 		return ;
-	pt_text.x = GET_POS_X(c);
-	pt_text.y = GET_POS_Y(c);
-	if (c > '6')
-	{
-		pt_text.x = GET_POS_X(c - 1);
-		pt_text.y = GET_POS_Y(c - 1);
-	}
-	if (c == ' ')
-		pt_text.y += 6 * 48;
-	if (c == '6')
-	{
+	if ((handle_exceptions(c, &var, &pt_t)) == '6')
 		handle_six(pt, img, wolf);
-		return ;
-	}
-	while (i.y < pt.y + BOX_Y)
+	var.y = -1;
+	while (++var.y < BOX_Y && c != '6')
 	{
-		pos = (unsigned int)(i.y * img->width) + ((unsigned int)i.x * img->octet);
-		text_pos = (unsigned int)(pt_text.y * wolf->texture[T_POLICE].width) + ((unsigned int)pt_text.x * wolf->texture[T_POLICE].octet);
-		ft_memcpy(img->data + pos, wolf->texture[T_POLICE].data + text_pos, (size_t)((img->octet) * BOX_X));
-		i.y++;
-		pt_text.y++;
+		pos = (unsigned int)((var.y + pt.y) * img->width)
+				+ ((unsigned int)pt.x * img->octet);
+		text_pos = (unsigned int)((pt_t.y + var.y) * wolf->texture[T_POLICE].width)
+				+ ((unsigned int)pt_t.x * wolf->texture[T_POLICE].octet);
+		ft_memcpy(img->data + pos, wolf->texture[T_POLICE].data
+				  + text_pos, (size_t)((img->octet) * (unsigned int)(var.x)));
 	}
 }
 
 static void string_to_img(char *str, t_coord pt, t_img *img, t_wolf *wolf)
 {
+	char *tiny_char;
 	int i;
 
+	tiny_char = ".,1l!':;]Iij|[";
 	i = -1;
 	if (!str)
 		return;
 	while (str[++i])
 	{
 		char_to_img(str[i], pt, img, wolf);
+		if (ft_strchr(tiny_char, str[i]))
+			pt.x -= 15;
 		pt.x += BOX_X;
 	}
 }
@@ -216,7 +179,7 @@ static void display_font(t_img *dest, t_img *text, t_wolf *w)
 		pt.x = 0;
 		while (pt.x < w->img_size[MAP_CREATOR].x)
 		{
-			put_pixel_from_texture(pt, text, dest);
+			put_pixel_from_texture(pt, pt, text, dest);
 			pt.x++;
 		}
 		pt.y++;
@@ -255,9 +218,14 @@ void	draw_map_creator(void *wolf)
 	rectgl.y = (16 * 3);
 	if (!(w = (t_wolf*)wolf))
 		return ;
-	pt.x = w->img_size[MAP_CREATOR].x / 2;
-	pt.y = w->img_size[MAP_CREATOR].y / 2;
-	put_pixel_img(pt, 0x0000ff, &w->img[MAP_CREATOR]);
+	ft_bzero(&pt, sizeof(pt));
+	while (pt.y < WIN_H)
+	{
+		pt.x = -1;
+		while (++pt.x < WIN_W)
+			put_pixel_img(pt, 0x000000, &w->img[MAP_CREATOR]);
+		pt.y++;
+	}
 	display_font(&w->img[MAP_CREATOR], &w->texture[T_POLICE], w);
 	if (!w->font_cursor.x && !w->font_cursor.y)
 	{
@@ -268,11 +236,11 @@ void	draw_map_creator(void *wolf)
 		w->cursor = (int)' ';
 	target(w->font_cursor.x, w->font_cursor.y, rectgl, &w->img[MAP_CREATOR]);
 
-	test.x = 400;
+	test.x = 10;
 	test.y = 450;
 	char_to_img((char)w->cursor, test, &w->img[MAP_CREATOR], w);
 	test.y += 48;
-	string_to_img("GAME 666", test, &w->img[MAP_CREATOR], w);
+	string_to_img(".,16l!':;]ij6|[", test, &w->img[MAP_CREATOR], w);
 
 	(void)wolf;
 }
