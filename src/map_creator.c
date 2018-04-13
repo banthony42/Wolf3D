@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/13 14:49:57 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/13 18:33:20 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,92 @@ static void put_pixel_from_texture(t_coord pt, t_img *text, t_img *img)
 	ft_memcpy(img->data + pos, text->data + pos_text, (size_t)img->octet);
 }
 
-#define GET_Y(c) ((c - ' ') / 18)
-#define GET_X(c) ((c - ' ') % 18)
+#define NB_C 18
+#define GET_Y(c) ((c - ' ') / NB_C)
+#define GET_X(c) ((c - ' ') % NB_C)
 #define	GET_POS_X(c) (34 + (32 * GET_X(c)) )	//premier pixel en x de la case
 #define GET_POS_Y(c) (34 + (48 * GET_Y(c)) )	//premier pixel en y de la case
 #define BOX_X 30
 #define BOX_Y 46
+#include <math.h>
+
+static void	matrix_rot_z(t_coord *coord, int angle)
+{
+	double	cos_teta;
+	double	sin_teta;
+	double	sin_teta_inv;
+	double	teta;
+	int		vx;
+
+	vx = coord->x;
+	teta = ((M_PI * angle) / 180);
+	cos_teta = cos(teta);
+	sin_teta = sin(teta);
+	sin_teta_inv = -sin_teta;
+	coord->x = (int)((cos_teta * coord->x) + (sin_teta_inv * coord->y));
+	coord->y = (int)((sin_teta * vx) + (cos_teta * coord->y));
+}
+/*
+static void handle_six(t_coord pt, t_img *img, t_wolf *wolf)
+{
+	unsigned int pos;
+	unsigned int text_pos;
+	t_coord pt_text;
+	t_coord i;
+	t_coord calc;
+
+	i.y = pt.y;
+	pt_text.y = GET_POS_Y('8');
+	while (i.y < pt.y + BOX_Y)
+	{
+		pt_text.x = GET_POS_X('8');
+		i.x = pt.x;
+		while (i.x < pt.x + BOX_X)
+		{
+			calc = i;
+			calc.x = (i.y * -1);
+			calc.y = (i.x);
+			pos = (unsigned int)(calc.y * img->width) + ((unsigned int)calc.x * img->octet);
+			text_pos = (unsigned int)(pt_text.y * wolf->texture[T_POLICE].width) + ((unsigned int)pt_text.x * wolf->texture[T_POLICE].octet);
+			ft_memcpy(img->data + pos, wolf->texture[T_POLICE].data + text_pos, (size_t)((img->octet)));
+			i.x++;
+			pt_text.x++;
+		}
+		i.y++;
+		pt_text.y++;
+	}
+	}*/
+
+static void handle_six(t_coord pt, t_img *img, t_wolf *wolf)
+{
+	unsigned int pos;
+	unsigned int text_pos;
+	t_coord pt_text;
+	t_coord i;
+	t_coord calc;
+
+	i.y = 0;
+	pt_text.y = GET_POS_Y('8');
+	while (i.y < BOX_Y)
+	{
+		pt_text.x = GET_POS_X('8');
+		i.x = 0;
+		while (i.x < BOX_X)
+		{
+			calc = i;
+			matrix_rot_z(&calc, 180);
+			calc.x += pt.x + BOX_X / 2;
+			calc.y += pt.y + BOX_Y / 2;
+			pos = (unsigned int)(calc.y * img->width) + ((unsigned int)calc.x * img->octet);
+			text_pos = (unsigned int)(pt_text.y * wolf->texture[T_POLICE].width) + ((unsigned int)pt_text.x * wolf->texture[T_POLICE].octet);
+			ft_memcpy(img->data + pos, wolf->texture[T_POLICE].data + text_pos, (size_t)((img->octet)));
+			i.x++;
+			pt_text.x++;
+		}
+		i.y++;
+		pt_text.y++;
+	}
+}
 
 static void	char_to_img(char c, t_coord pt, t_img *img, t_wolf *wolf)
 {
@@ -83,12 +163,23 @@ static void	char_to_img(char c, t_coord pt, t_img *img, t_wolf *wolf)
 	t_coord pt_text;
 	t_coord i;
 
-	i.y = pt.y;
-	i.x = pt.x;
-	if (!c)
+	i = pt;
+	if (!c || c < 32)
 		return ;
 	pt_text.x = GET_POS_X(c);
 	pt_text.y = GET_POS_Y(c);
+	if (c > '6')
+	{
+		pt_text.x = GET_POS_X(c - 1);
+		pt_text.y = GET_POS_Y(c - 1);
+	}
+	if (c == ' ')
+		pt_text.y += 6 * 48;
+	if (c == '6')
+	{
+		handle_six(pt, img, wolf);
+		return ;
+	}
 	while (i.y < pt.y + BOX_Y)
 	{
 		pos = (unsigned int)(i.y * img->width) + ((unsigned int)i.x * img->octet);
@@ -96,6 +187,20 @@ static void	char_to_img(char c, t_coord pt, t_img *img, t_wolf *wolf)
 		ft_memcpy(img->data + pos, wolf->texture[T_POLICE].data + text_pos, (size_t)((img->octet) * BOX_X));
 		i.y++;
 		pt_text.y++;
+	}
+}
+
+static void string_to_img(char *str, t_coord pt, t_img *img, t_wolf *wolf)
+{
+	int i;
+
+	i = -1;
+	if (!str)
+		return;
+	while (str[++i])
+	{
+		char_to_img(str[i], pt, img, wolf);
+		pt.x += BOX_X;
 	}
 }
 
@@ -166,16 +271,8 @@ void	draw_map_creator(void *wolf)
 	test.x = 400;
 	test.y = 450;
 	char_to_img((char)w->cursor, test, &w->img[MAP_CREATOR], w);
+	test.y += 48;
+	string_to_img("GAME 666", test, &w->img[MAP_CREATOR], w);
 
 	(void)wolf;
 }
-
-
-
-
-
-
-
-
-
-
