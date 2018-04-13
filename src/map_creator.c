@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/11 19:34:11 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/13 13:07:04 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int					eventk_map_creator(int keyhook, void *wolf)
 	if (keyhook == MLX_KEY_ESCAPE)
 		w->current_page = MAIN_MENU;
 	else if (keyhook == MLX_KEY_DOWN)
-		w->font_cursor.y += 32;
+		w->font_cursor.y += 48;
 	else if (keyhook == MLX_KEY_RIGHT)
 		w->font_cursor.x += 32;
 	else if (keyhook == MLX_KEY_UP)
-		w->font_cursor.y -= 32;
+		w->font_cursor.y -= 48;
 	else if (keyhook == MLX_KEY_LEFT)
 		w->font_cursor.x -= 32;
 	return (0);
@@ -74,19 +74,19 @@ static void display_font(t_img *dest, t_img *text, t_wolf *w)
 	}
 }
 
-static void target(int x, int y, int square, t_img *img)
+static void target(int x, int y, t_coord shape, t_img *img)
 {
 	t_coord i;
 
 	i.y = y;
-	while (i.y < y + square)
+	while (i.y < y + shape.y)
 	{
 		i.x = x;
-		while (i.x < x + square)
+		while (i.x < x + shape.x)
 		{
-			if (i.x == x || i.y == y || i.x == x + square || i.y == y + square)
+			if (i.x == x || i.y == y || i.x == x + shape.x || i.y == y + shape.y)
 				put_pixel_img(i, 0x00ff00, img);
-			if (i.x == x + square-1 || i.y == y + square -1)
+			if (i.x == x + shape.x - 1 || i.y == y + shape.y - 1)
 				put_pixel_img(i, 0x00ff00, img);
 			i.x++;
 		}
@@ -98,7 +98,10 @@ void	draw_map_creator(void *wolf)
 {
 	t_wolf *w;
 	t_coord pt;
+	t_coord rectgl;
 
+	rectgl.x = 16 * 2;
+	rectgl.y = 16 * 3;
 	if (!(w = (t_wolf*)wolf))
 		return ;
 	pt.x = w->img_size[MAP_CREATOR].x / 2;
@@ -107,10 +110,10 @@ void	draw_map_creator(void *wolf)
 	display_font(&w->img[MAP_CREATOR], &w->texture[T_POLICE], w);
 	if (!w->font_cursor.x && !w->font_cursor.y)
 	{
-		w->font_cursor.x = 55;
-		w->font_cursor.y = 148;
+		w->font_cursor.x = 32;
+		w->font_cursor.y = 32;
 	}
-	target(w->font_cursor.x, w->font_cursor.y, 32, &w->img[MAP_CREATOR]);
+	target(w->font_cursor.x, w->font_cursor.y, rectgl, &w->img[MAP_CREATOR]);
 	(void)wolf;
 }
 

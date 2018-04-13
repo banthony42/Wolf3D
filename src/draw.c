@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/11 19:14:23 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/13 12:53:03 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int load_texture(t_wolf *wolf)
 	int error;
 
 	error = 0;
-	error = load_img("./texture/joystix.xpm", &wolf->texture[T_POLICE], wolf);
+	error = load_img("./texture/doom_font.xpm", &wolf->texture[T_POLICE], wolf);
 	if (error)
 		ft_exit("Error while loading texture", 0);
 	return (0);
