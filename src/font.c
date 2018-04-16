@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 13:54:12 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/16 14:35:59 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/16 18:24:52 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,4 +155,15 @@ void		string_to_img(char *str, t_coord pt, t_img *img, t_wolf *wolf)
 			pt.x -= 15;
 		pt.x += BOX_X;
 	}
+}
+
+t_coord center_str_x(char *str, t_coord pt)
+{
+	size_t len;
+
+	if (!str)
+		return (pt);
+	len = ft_strlen(str);
+	pt.x -= (len / 2) * 32;
+	return (pt);
 }

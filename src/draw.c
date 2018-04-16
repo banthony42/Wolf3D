@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/16 14:46:09 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/16 18:21:31 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,55 @@ int load_texture(t_wolf *wolf)
 
 	error = 0;
 	error = load_img("./texture/doom_font.xpm", &wolf->texture[T_FONT], wolf);
+	error = load_img("./texture/main_menu.xpm", &wolf->texture[T_MAIN_MENU], wolf);
 	if (error)
 		ft_exit("Error while loading texture", 0);
 	return (0);
+}
+
+void put_texture_on_img(t_img *dest, t_img *text, t_wolf *w)
+{
+	t_coord pt;
+	t_coord ptt;
+
+	pt.y = 0;
+	if (!dest || !text || !w)
+		return ;
+	while (pt.y < dest->size.y)
+	{
+		pt.x = 0;
+		while (pt.x < dest->size.x)
+		{
+			ptt.x = (text->size.x * pt.x) / dest->size.x;
+			ptt.y = (text->size.y * pt.y) / dest->size.y;
+			put_pixel_from_texture(pt, ptt, text, dest);
+			pt.x++;
+		}
+		pt.y++;
+	}
+}
+
+/* FONCTION TEMPORAIRE*/
+
+/*
+**	Trace deux ligne pour mieux visualiser le centre de la fenetre
+*/
+void draw_grid(t_wolf *w)
+{
+	t_coord pt;
+
+	pt.y = 0;
+	while (pt.y < w->img[w->current_page].size.y)
+	{
+		pt.x = 0;
+		while (pt.x < w->img[w->current_page].size.x)
+		{
+			if (pt.x == w->img[w->current_page].size.x / 2)
+				put_pixel_img(pt, 0xff0000, &w->img[w->current_page]);
+			if (pt.y == w->img[w->current_page].size.y / 2)
+				put_pixel_img(pt, 0xff0000, &w->img[w->current_page]);
+			pt.x++;
+		}
+		pt.y++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/16 16:43:01 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/16 17:56:37 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef enum	e_item
 
 typedef enum	e_texture
 {
-	T_FLOOR, T_SKY, T_STONE, T_BRICK, T_WOOD, T_DOOR, T_HEAL, T_WEAPON, T_AMO, T_SPAWN,
+	T_FLOOR, T_SKY, T_STONE, T_BRICK, T_WOOD, T_METAL, T_DOOR, T_HEAL, T_WEAPON, T_AMO, T_SPAWN,
 	T_MAIN_MENU, T_GAME_OVER, T_GAME_WIN, T_MAP_CREATOR, T_GAME_INTERFACE, T_MINI_MAP,
 	T_FONT, NB_TEXTURE,
 }				t_texture;
@@ -168,7 +168,7 @@ typedef struct		s_wolf
 
 t_coord				center_str_x(char *str, t_coord pt);
 void				string_to_img(char *str, t_coord pt, t_img *img, t_wolf *wolf);
-int					load_texture(t_wolf *wolf);
+void				put_texture_on_img(t_img *dest, t_img *text, t_wolf *w);
 void				put_pixel_from_texture(t_coord pti, t_coord ptt, t_img *text, t_img *img);
 void				put_pixel_img(t_coord pt, int color, t_img *img);
 
@@ -191,7 +191,10 @@ int					mousehook(int button, int x, int y, t_wolf *wolf);
 int					keyhook(int keycode, t_wolf *wolf);
 int					new_img(t_wolf *wolf, t_page page, t_coord size);
 void				expose(t_wolf *wolf);
+int					load_texture(t_wolf *wolf);
 int					refresh(void *wptr);
 void				init(t_wolf *wolf);
 
+/*TEMPORAIRE*/
+void				draw_grid(t_wolf *w);
 #endif

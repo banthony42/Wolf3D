@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/16 16:41:07 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/16 17:51:01 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,7 @@ void	draw_map_creator(void *wolf)
 
 // ** CODE TEMPORAIRE
 /*
-static void display_font(t_img *dest, t_img *text, t_wolf *w)
-{
-	t_coord pt;
 
-	pt.y = 0;
-	if (!dest || !text || !w)
-		return ;
-	while (pt.y < w->img_size[MAP_CREATOR].y)
-	{
-		pt.x = 0;
-		while (pt.x < w->img_size[MAP_CREATOR].x)
-		{
-			put_pixel_from_texture(pt, pt, text, dest);
-			pt.x++;
-		}
-		pt.y++;
-	}
-}
 
 static void target(int x, int y, t_coord shape, t_img *img)
 {
