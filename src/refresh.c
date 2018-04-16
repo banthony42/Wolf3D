@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/16 16:29:11 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/16 23:56:11 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@ static void img_size(t_wolf *wolf)
 
 void init(t_wolf *wolf)
 {
-	int width;
-
-	width = WIN_W;
 	wolf->mlx = mlx_init();
 	wolf->win = mlx_new_window(wolf->mlx, WIN_W, WIN_H, WIN_NAME);
 

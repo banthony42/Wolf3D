@@ -6,7 +6,7 @@
 #    By: banthony <banthony@students.42.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/04/16 17:48:59 by banthony         ###   ########.fr        #
+#    Updated: 2018/04/17 00:14:45 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -40,8 +40,8 @@ LIBFT = ./libft
 
 ifeq ($(UNAME), Linux)
 MLX_LIB = ./minilibx_linux/
-HEAD_DIR = -I ./include -I $(LIBFT) -I ~/minilibx
-LIB = -L $(LIBFT) -lft -L MLX_LIB -lmlx -lXext -lX11
+HEAD_DIR = -I ./include -I $(LIBFT) -I $(MLX_LIB)
+LIB = -L $(LIBFT) -lft -L $(MLX_LIB) -lmlx -lXext -lX11 -lbsd
 FLAGS = -Wall -Wextra -Werror
 endif
 
