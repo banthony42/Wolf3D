@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/11 17:21:36 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/16 15:33:49 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int main(int ac, char **av)
 	t_wolf wolf;
 
 	line = NULL;
-	wolf.map = NULL;
+	ft_bzero(&wolf, sizeof(wolf));
 	if (ac != 2)
 		usage(av[0]);
 	fd = open(av[1], O_RDONLY);

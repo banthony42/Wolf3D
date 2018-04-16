@@ -6,7 +6,7 @@
 #    By: banthony <banthony@students.42.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/04/11 17:19:09 by banthony         ###   ########.fr        #
+#    Updated: 2018/04/16 14:09:04 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -26,6 +26,7 @@ SRC_FILE += main_menu.c
 SRC_FILE += refresh.c
 SRC_FILE += draw.c
 SRC_FILE += event.c
+SRC_FILE += font.c
 
 SRC = $(SRC_FILE:%c=$(PATH_SRC)%c)
 INCLUDE = $(HEADER_FILE:%h=$(PATH_HEAD)%h)

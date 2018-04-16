@@ -6,11 +6,16 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:40:31 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/11 19:06:54 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/16 17:18:16 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
+
+#define G_NAME "WOLF 3D"
+#define G_RUN "Game"
+#define G_MC "Map Creator"
+#define MENU_ENTRY 3
 
 int					eventk_menu(int keyhook, void *wolf)
 {
@@ -20,8 +25,12 @@ int					eventk_menu(int keyhook, void *wolf)
 		return (0);
 	if (keyhook == MLX_KEY_ESCAPE)
 		ft_exit("End menu", 0);
-	else if (keyhook == MLX_KEY_M)
-		w->current_page = MAP_CREATOR;
+	else if (keyhook == MLX_KEY_UP && w->cursor > 1)
+			w->cursor--;
+	else if (keyhook == MLX_KEY_DOWN && w->cursor < MENU_ENTRY - 1)
+			w->cursor++;
+	else if (keyhook == MLX_KEY_ENTER && w->cursor >= 1 && w->cursor <= MENU_ENTRY - 1)
+		w->current_page = (t_page)w->cursor;
 	(void)wolf;
 	return (0);
 }
@@ -35,14 +44,91 @@ int					eventm_menu(int button, int x, int y, void *wolf)
 	return (0);
 }
 
-void	draw_main_menu(void *wolf)
+t_coord center_str_x(char *str, t_coord pt)
+{
+	size_t len;
+
+	if (!str)
+		return (pt);
+	len = ft_strlen(str);
+	pt.x -= (len / 2) * 32;
+	return (pt);
+}
+
+/*
+**	Trace deux ligne pour mieux visualiser le centre de la fenetre
+*/
+static void draw_grid(t_wolf *w)
 {
 	t_coord pt;
+
+	pt.y = 0;
+	while (pt.y < w->img[w->current_page].size.y)
+	{
+		pt.x = 0;
+		while (pt.x < w->img[w->current_page].size.x)
+		{
+			if (pt.x == w->img[w->current_page].size.x / 2)
+				put_pixel_img(pt, 0xff0000, &w->img[w->current_page]);
+			if (pt.y == w->img[w->current_page].size.y / 2)
+				put_pixel_img(pt, 0xff0000, &w->img[w->current_page]);
+			pt.x++;
+		}
+		pt.y++;
+	}
+}
+
+void	draw_main_menu(void *wolf)
+{
+	t_coord pt[MENU_ENTRY];
+	char	*entry[MENU_ENTRY];
 	t_wolf *w;
 
-	w = (t_wolf*)wolf;
-	pt.x = w->img_size[MAIN_MENU].x / 2;
-	pt.y = w->img_size[MAIN_MENU].y / 2;
-	put_pixel_img(pt, 0xff0000, &w->img[MAIN_MENU]);
-	(void)wolf;
+	if (!(w = (t_wolf*)wolf))
+		return ;
+	draw_grid(w);
+
+	entry[0] = G_NAME;
+	entry[1] = G_RUN;
+	entry[2] = G_MC;
+
+	pt[0].x = w->img[MAIN_MENU].size.x / 2;
+	pt[0].y = w->img[MAIN_MENU].size.y / 8;
+
+	pt[1] = pt[0];
+	pt[2] = pt[0];
+
+	pt[1].y = w->img[MAIN_MENU].size.y / MENU_ENTRY;
+	pt[2].y = pt[1].y + 48;
+
+	string_to_img(G_NAME, center_str_x(G_NAME, pt[0]), &w->img[MAIN_MENU], w);
+	string_to_img(G_RUN, center_str_x(G_RUN, pt[1]), &w->img[MAIN_MENU], w);
+	string_to_img(G_MC, center_str_x(G_MC, pt[2]), &w->img[MAIN_MENU], w);
+
+	if (w->cursor)
+	{
+		pt[w->cursor].x -= 32 * (1 + (ft_strlen(entry[w->cursor]) / 2));
+		string_to_img(">", pt[w->cursor], &w->img[MAIN_MENU], w);
+		pt[w->cursor].x += 32 * (1 + (ft_strlen(entry[w->cursor])));
+		string_to_img("<", pt[w->cursor], &w->img[MAIN_MENU], w);
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

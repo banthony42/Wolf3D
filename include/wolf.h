@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/11 19:33:41 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/16 16:43:01 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@
 /*
 ** Parametre Interface mini map
 */
-# define IMAP_W PERCENTAGE(10, INTRF_W)
-# define IMAP_H INTRF_W
+# define MAPI_W PERCENTAGE(10, INTRF_W)
+# define MAPI_H INTRF_W
 # define CENTERIMAP_W(x) (IMAP_W - x) / 2
 # define CENTERIMAP_H(x) (IMAP_H - x) / 2
 
@@ -82,7 +82,7 @@ typedef enum	e_texture
 {
 	T_FLOOR, T_SKY, T_STONE, T_BRICK, T_WOOD, T_DOOR, T_HEAL, T_WEAPON, T_AMO, T_SPAWN,
 	T_MAIN_MENU, T_GAME_OVER, T_GAME_WIN, T_MAP_CREATOR, T_GAME_INTERFACE, T_MINI_MAP,
-	T_POLICE, NB_TEXTURE,
+	T_FONT, NB_TEXTURE,
 }				t_texture;
 
 /*
@@ -91,7 +91,7 @@ typedef enum	e_texture
 */
 typedef enum	e_page
 {
-	MAIN_MENU, GAME, GAME_END, MAP_CREATOR, NB_PAGE,
+	MAIN_MENU, GAME, MAP_CREATOR, GAME_END, NB_PAGE, GAME_I, MAP_I, NB_IMG,
 }				t_page;
 
 typedef struct		t_coord
@@ -147,28 +147,29 @@ typedef int			(*t_event_k)(int keyhook, void *wolf);
 typedef int			(*t_event_m)(int button, int x, int y, void *wolf);
 
 /*
-**	Eclaircir img_size et img.size
+**	img.size = taille de la texture lors d'un chargement d'un fichier xpm
 */
 typedef struct		s_wolf
 {
 	void			*mlx;
 	void			*win;
 	t_coord			size_win;
-	t_img			img[NB_PAGE];
-	t_coord			img_size[NB_PAGE];
+	t_img			img[NB_IMG];
 	t_img			texture[NB_TEXTURE];
 	t_draw			draw[NB_PAGE];
 	t_event_k		event_key[NB_PAGE];
 	t_event_m		event_mouse[NB_PAGE];
 	char			**map;
-	t_page			current_page;
-	t_player		player;
 	int				cursor;
-	t_coord			font_cursor; //tmp
+	t_page			current_page;
+	t_player		*player;
 	t_creator		map_creator;
 }					t_wolf;
 
+t_coord				center_str_x(char *str, t_coord pt);
+void				string_to_img(char *str, t_coord pt, t_img *img, t_wolf *wolf);
 int					load_texture(t_wolf *wolf);
+void				put_pixel_from_texture(t_coord pti, t_coord ptt, t_img *text, t_img *img);
 void				put_pixel_img(t_coord pt, int color, t_img *img);
 
 int					eventk_menu(int keyhook, void *wolf);
@@ -188,7 +189,7 @@ void				draw_map_creator(void *wolf);
 
 int					mousehook(int button, int x, int y, t_wolf *wolf);
 int					keyhook(int keycode, t_wolf *wolf);
-int					new_img(t_wolf *wolf, t_page page);
+int					new_img(t_wolf *wolf, t_page page, t_coord size);
 void				expose(t_wolf *wolf);
 int					refresh(void *wptr);
 void				init(t_wolf *wolf);
