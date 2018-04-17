@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/17 14:54:42 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/17 16:40:10 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,20 +111,38 @@ void put_texture_on_img(t_img *dest, t_img *text, t_wolf *w)
 /*
 **	Trace deux ligne pour mieux visualiser le centre de la fenetre
 */
-void draw_grid(t_wolf *w)
+
+void fill_img(t_img *img, int color)
 {
 	t_coord pt;
 
 	pt.y = 0;
-	while (pt.y < w->img[w->current_page].size.y)
+	while (pt.y < img->size.y)
 	{
 		pt.x = 0;
-		while (pt.x < w->img[w->current_page].size.x)
+		while (pt.x < img->size.x)
 		{
-			if (pt.x == w->img[w->current_page].size.x / 2)
-				put_pixel_img(pt, 0xff0000, &w->img[w->current_page]);
-			if (pt.y == w->img[w->current_page].size.y / 2)
-				put_pixel_img(pt, 0xff0000, &w->img[w->current_page]);
+			put_pixel_img(pt, color, img);
+			pt.x++;
+		}
+		pt.y++;
+	}
+}
+
+void draw_grid(t_img *img)
+{
+	t_coord pt;
+
+	pt.y = 0;
+	while (pt.y < img->size.y)
+	{
+		pt.x = 0;
+		while (pt.x < img->size.x)
+		{
+			if (pt.x == img->size.x / 2)
+				put_pixel_img(pt, 0xff0000, img);
+			if (pt.y == img->size.y / 2)
+				put_pixel_img(pt, 0xff0000, img);
 			pt.x++;
 		}
 		pt.y++;

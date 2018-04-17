@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/16 23:55:43 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/17 16:39:29 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,22 @@ void	draw_map_creator(void *wolf)
 
 	if (!(w = (t_wolf*)wolf))
 		return ;
-	ft_bzero(&pt, sizeof(pt));
-	pt.x = 660;
-	pt.y = 490;
-	string_to_img(".,16l!':;]ij6|[", pt, &w->img[MAP_CREATOR], w);
+	fill_img(&w->img[MAP_CREATOR], 0x311111);
+	fill_img(&w->img[GAME_I], 0x2f2f2f);
+	draw_grid(&w->img[MAP_CREATOR]);
+	draw_grid(&w->img[GAME_I]);
+	mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_CREATOR].ptr, 0, 0);
+	pt.x = 100;
+	pt.y = 100;
+	string_to_img("Map creator  Work in progress ...", pt, &w->img[GAME], w);
 
+	pt.x = 0;
+	pt.y = w->img[GAME].size.y;
+	mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, pt.x, pt.y);
+
+	pt.x = 16;
+	pt.y = 32;
+	string_to_img("Interface Work in progress ...", pt, &w->img[GAME_I], w);
 }
 
 // ** CODE TEMPORAIRE

@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:40:31 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/17 14:56:13 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/17 16:39:49 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int					eventm_menu(int button, int x, int y, void *wolf)
 static void print_entry(t_coord (*pt)[MENU_ENTRY], t_wolf *w)
 {
 	(*pt)[0].x = w->img[MAIN_MENU].size.x / 2;
-	(*pt)[0].y = (w->img[MAIN_MENU].size.y / 3);
+	(*pt)[0].y = (w->img[MAIN_MENU].size.y / 5);
 	(*pt)[1] = (*pt)[0];
 	(*pt)[2] = (*pt)[0];
 	(*pt)[3] = (*pt)[0];
@@ -70,7 +70,7 @@ void	draw_main_menu(void *wolf)
 
 	if (!(w = (t_wolf*)wolf))
 		return ;
-	draw_grid(w);
+	draw_grid(&w->img[MAIN_MENU]);
 	entry[0] = G_NAME;
 	entry[1] = G_RUN;
 	entry[2] = G_MC;

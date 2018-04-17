@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/17 15:01:37 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/17 18:39:18 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,63 +21,12 @@
 
 #include "mlx.h"
 #include "libft.h"
+#include "wolf_constante.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 
-/*
-**	Message d'Erreur
-*/
-# define ERR_MAP "Error: Invalid Map"
-# define ERR_OPEN "Error: While openning the file"
-# define ERR_CLOSE "Error: While closing the file"
-# define ERR_IMG "Error: While creating new image"
-# define ERR_TEXTURE "Error: While loading texture"
-# define ERR_QUIT "User exit"
-
-/*
-** MACRO CALCUL
-*/
-# define PERCENTAGE(p, x) ((p * x) / 100)
-
-/*
-**	Parametre fenetre
-*/
-# define WIN_W 800
-# define WIN_H 600
-# define WIN_NAME "Wolf3D"
-# define CENTERWIN_W(x) (WIN_W - x) / 2
-# define CENTERWIN_H(x) (WIN_H - x) / 2
-
-/*
-** Parametre Interface Joueur
-*/
-# define INTRF_W WIN_W
-# define INTRF_H PERCENTAGE(17, WIN_H)
-# define CENTERINTRF_W(x) (INTRF_W - x) / 2
-# define CENTERINTRF_H(x) (INTRF_H - x) / 2
-
-/*
-** Parametre Interface mini map
-*/
-# define MAPI_W PERCENTAGE(10, INTRF_W)
-# define MAPI_H INTRF_W
-# define CENTERIMAP_W(x) (IMAP_W - x) / 2
-# define CENTERIMAP_H(x) (IMAP_H - x) / 2
-
-/*
-**	Parametre ecran du jeu
-*/
-# define SCREEN_W WIN_W
-# define SCREEN_H WIN_H - INTRF_H
-# define CENTERSCR_W(x) (SCREEN_W - x) / 2
-# define CENTERSCR_H(x) (SCREEN_H - x) / 2
-
-/*
-** Wolf3D
-*/
-# define MAP_MAX 20
-# define BOX 50
+#include <stdio.h>
 
 typedef enum	e_item
 {
@@ -99,6 +48,11 @@ typedef enum	e_page
 {
 	MAIN_MENU, GAME, MAP_CREATOR, GAME_END, NB_PAGE, GAME_I, MAP_I, NB_IMG,
 }				t_page;
+
+typedef enum	e_keystate
+{
+	KEY_M, NB_KEYSTATE,
+}				t_keystate;
 
 typedef struct		t_coord
 {
@@ -122,7 +76,7 @@ typedef struct		s_img
 	int				endian;
 	unsigned int	max_size;
 	unsigned int	octet;
-	int				padding4;
+	int				padding;
 }					t_img;
 
 /*
@@ -170,6 +124,8 @@ typedef struct		s_wolf
 	t_page			current_page;
 	t_player		*player;
 	t_creator		map_creator;
+	int				keypress[NB_KEYSTATE];
+	int				_padding;
 }					t_wolf;
 
 t_coord				center_str_x(char *str, t_coord pt);
@@ -202,5 +158,6 @@ int					refresh(void *wptr);
 void				init(t_wolf *wolf);
 void				wolf_exit(char *str, int status, t_wolf *wolf);
 /*TEMPORAIRE*/
-void				draw_grid(t_wolf *w);
+void				draw_grid(t_img *img);
+void				fill_img(t_img *img, int color);
 #endif

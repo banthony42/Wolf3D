@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/17 15:01:27 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/17 18:36:28 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,29 @@ void	wolf_exit(char *str, int status, t_wolf *wolf)
 	ft_exit(str, status);
 }
 
+static int keypress(int keycode, void *w)
+{
+	t_wolf *wolf;
+
+	if (!(wolf = (t_wolf*)w))
+		return (0);
+	if (keycode == MLX_KEY_M)
+		wolf->keypress[KEY_M] = 1;
+	keyhook(keycode, wolf);
+	return (1);
+}
+
+static int keyrelease(int keycode, void *w)
+{
+	t_wolf *wolf;
+
+	if (!(wolf = (t_wolf*)w))
+		return (0);
+	if (keycode == MLX_KEY_M)
+		wolf->keypress[KEY_M] = 0;
+	return (1);
+}
+
 int main(int ac, char **av)
 {
 	char *line;
@@ -90,10 +113,11 @@ int main(int ac, char **av)
 	if (close(fd) < 0)
 		wolf_exit(ERR_CLOSE, -1, &wolf);
 	init(&wolf);
-	mlx_key_hook(wolf.win, keyhook, &wolf);			/* Sur event clavier */
+	refresh(&wolf);
 	mlx_mouse_hook(wolf.win, mousehook, &wolf);		/* Sur event de type souris */
 	mlx_loop_hook(wolf.mlx, refresh, &wolf);		/* Appel a refresh() quand aucun event ne pop */
-//	mlx_expose_hook(wolf.win, exposehook, &wolf);	/* Apppel a exposehook() sur event de type resize fenetre */
+	mlx_hook(wolf.win, KEY_PRESS, KEY_PRESS_MASK, keypress, &wolf);
+	mlx_hook(wolf.win, KEY_RELEASE, KEY_RELEASE_MASK, keyrelease, &wolf);
 	mlx_loop(wolf.mlx);								/* Permet de recevoir des event	*/
 	ft_freetab(wolf.map);
 	return (0);
