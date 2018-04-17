@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/17 16:40:10 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/17 19:17:42 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 /*
 **	Remplit le pixel de coordonees pt, et de l'image *img, avec color.
 */
-void	put_pixel_img(t_coord pt, int color, t_img *img)
+
+void		put_pixel_img(t_coord pt, int color, t_img *img)
 {
 	unsigned int pos;
 
@@ -30,26 +31,30 @@ void	put_pixel_img(t_coord pt, int color, t_img *img)
 /*
 **	Remplit le pixel pti de l'img avec le pixel ptt de la texture text.
 */
-void put_pixel_from_texture(t_coord pti, t_coord ptt, t_img *text, t_img *img)
+
+void		put_pixel_from_txt(t_coord pti, t_coord ptt, t_img *txt, t_img *img)
 {
 	unsigned int pos;
-	unsigned int pos_text;
+	unsigned int pos_txt;
 
-	if (ptt.x > text->size.x || ptt.y > text->size.y || ptt.x < 0 || ptt.y < 0)
+	if (ptt.x > txt->size.x || ptt.y > txt->size.y || ptt.x < 0 || ptt.y < 0)
 		return ;
 	if (pti.y >= WIN_H || pti.y < 0 || pti.x >= WIN_W || pti.x < 0)
 		return ;
-	pos = (unsigned int)(pti.y * img->width) + ((unsigned int)pti.x * img->octet);
-	pos_text = (unsigned int)(ptt.y * text->width) + ((unsigned int)ptt.x * text->octet);
+	pos = (unsigned int)(pti.y * img->width)
+			+ ((unsigned int)pti.x * img->octet);
+	pos_txt = (unsigned int)(ptt.y * txt->width)
+			+ ((unsigned int)ptt.x * txt->octet);
 	if (pos > (unsigned)(img->width * WIN_W))
 		return ;
-	ft_memcpy(img->data + pos, text->data + pos_text, (size_t)img->octet);
+	ft_memcpy(img->data + pos, txt->data + pos_txt, (size_t)img->octet);
 }
 
 /*
 **	Charge dans une structure img, un fichier xpm.
 */
-static int load_img(char *path, t_img *i, t_wolf *wolf)
+
+static int	load_img(char *path, t_img *i, t_wolf *wolf)
 {
 	i->endian = 0;
 	i->ptr = mlx_xpm_file_to_image(wolf->mlx, path, &i->size.x, &i->size.y);
@@ -72,19 +77,19 @@ static int load_img(char *path, t_img *i, t_wolf *wolf)
 	return (0);
 }
 
-int load_texture(t_wolf *wolf)
+int			load_texture(t_wolf *w)
 {
 	int error;
 
 	error = 0;
-	error = load_img("./texture/doom_font.xpm", &wolf->texture[T_FONT], wolf);
-	error = load_img("./texture/main_menu.xpm", &wolf->texture[T_MAIN_MENU], wolf);
+	error = load_img("./texture/doom_font.xpm", &w->texture[T_FONT], w);
+	error = load_img("./texture/main_menu.xpm", &w->texture[T_MAIN_MENU], w);
 	if (error)
-		wolf_exit(ERR_TEXTURE, -1, wolf);
+		wolf_exit(ERR_TEXTURE, -1, w);
 	return (0);
 }
 
-void put_texture_on_img(t_img *dest, t_img *text, t_wolf *w)
+void		put_texture_on_img(t_img *dest, t_img *text, t_wolf *w)
 {
 	t_coord pt;
 	t_coord ptt;
@@ -99,20 +104,19 @@ void put_texture_on_img(t_img *dest, t_img *text, t_wolf *w)
 		{
 			ptt.x = (text->size.x * pt.x) / dest->size.x;
 			ptt.y = (text->size.y * pt.y) / dest->size.y;
-			put_pixel_from_texture(pt, ptt, text, dest);
+			put_pixel_from_txt(pt, ptt, text, dest);
 			pt.x++;
 		}
 		pt.y++;
 	}
 }
 
-/* FONCTION TEMPORAIRE*/
-
 /*
-**	Trace deux ligne pour mieux visualiser le centre de la fenetre
+**	FONCTION TEMPORAIRE
+**	Remplit l'image avec la couleur en parametre
 */
 
-void fill_img(t_img *img, int color)
+void		fill_img(t_img *img, int color)
 {
 	t_coord pt;
 
@@ -129,7 +133,12 @@ void fill_img(t_img *img, int color)
 	}
 }
 
-void draw_grid(t_img *img)
+/*
+**	FONCTION TEMPORAIRE
+**	Trace un repere pour mieux visualiser le centre de la fenetre
+*/
+
+void		draw_grid(t_img *img)
 {
 	t_coord pt;
 

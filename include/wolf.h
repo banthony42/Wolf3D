@@ -6,27 +6,27 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/17 18:39:18 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/17 19:26:27 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef		WOLF_H
-# define	WOLF_H
+#ifndef WOLF_H
+# define WOLF_H
 
-#ifdef __linux__
-#include "mlx_linux_key.h"
-#elif __APPLE__
-#include "mlx_macos_key.h"
-#endif
+# ifdef __linux__
+# include "mlx_linux_key.h"
+# elif __APPLE__
+# include "mlx_macos_key.h"
+# endif
 
-#include "mlx.h"
-#include "libft.h"
-#include "wolf_constante.h"
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
+# include "mlx.h"
+# include "libft.h"
+# include "wolf_constante.h"
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
 
-#include <stdio.h>
+# include <stdio.h>
 
 typedef enum	e_item
 {
@@ -128,10 +128,10 @@ typedef struct		s_wolf
 	int				_padding;
 }					t_wolf;
 
-t_coord				center_str_x(char *str, t_coord pt);
+t_coord				centerx_str(char *str, t_coord pt);
 void				string_to_img(char *str, t_coord pt, t_img *img, t_wolf *wolf);
 void				put_texture_on_img(t_img *dest, t_img *text, t_wolf *w);
-void				put_pixel_from_texture(t_coord pti, t_coord ptt, t_img *text, t_img *img);
+void				put_pixel_from_txt(t_coord pti, t_coord ptt, t_img *text, t_img *img);
 void				put_pixel_img(t_coord pt, int color, t_img *img);
 
 int					eventk_menu(int keyhook, void *wolf);
@@ -149,6 +149,8 @@ void				draw_game(void *wolf);
 void				draw_game_end(void *wolf);
 void				draw_map_creator(void *wolf);
 
+int					keypress(int keycode, void *w);
+int					keyrelease(int keycode, void *w);
 int					mousehook(int button, int x, int y, t_wolf *wolf);
 int					keyhook(int keycode, t_wolf *wolf);
 int					new_img(t_wolf *wolf, t_page page, t_coord size);
@@ -157,7 +159,12 @@ int					load_texture(t_wolf *wolf);
 int					refresh(void *wptr);
 void				init(t_wolf *wolf);
 void				wolf_exit(char *str, int status, t_wolf *wolf);
-/*TEMPORAIRE*/
+
+/*
+**	Fonctions temporaire
+*/
+
 void				draw_grid(t_img *img);
 void				fill_img(t_img *img, int color);
+
 #endif

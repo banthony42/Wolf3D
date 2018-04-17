@@ -6,12 +6,12 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/17 18:02:40 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/17 19:24:05 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef		WOLF_CONSTANTE_H
-# define	WOLF_CONSTANTE_H
+#ifndef WOLF_CONSTANTE_H
+# define WOLF_CONSTANTE_H
 
 /*
 **	Message d'Erreur
@@ -72,30 +72,9 @@
 */
 # define MAP_OVERLAY 0x0d1f1f1f
 
-
 # define KEY_PRESS 2
 # define KEY_RELEASE 3
 # define KEY_PRESS_MASK (1L<<0)
 # define KEY_RELEASE_MASK (1L<<1)
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

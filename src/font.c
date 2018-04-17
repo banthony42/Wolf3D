@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 13:54:12 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/16 18:24:52 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/17 19:18:03 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	handle_six(t_coord pt, t_img *img, t_wolf *wolf)
 			calc.y = (-1 * (i.y - constante)) + (pt.y + (BOX_Y) / 2);
 			pt_t.x = i.x + GET_POS_X('9' - 1);
 			pt_t.y = i.y + GET_POS_Y('9' - 1);
-			put_pixel_from_texture(calc, pt_t, &wolf->texture[T_FONT], img);
+			put_pixel_from_txt(calc, pt_t, &wolf->texture[T_FONT], img);
 		}
 	}
 }
@@ -157,7 +157,7 @@ void		string_to_img(char *str, t_coord pt, t_img *img, t_wolf *wolf)
 	}
 }
 
-t_coord center_str_x(char *str, t_coord pt)
+t_coord		centerx_str(char *str, t_coord pt)
 {
 	size_t len;
 

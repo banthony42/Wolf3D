@@ -6,32 +6,26 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/17 18:34:58 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/17 19:11:06 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-int					eventk_game(int keyhook, void *wolf)
+int		eventk_game(int keyhook, void *wolf)
 {
-	t_wolf *w;
-	t_coord pt;
+	t_wolf	*w;
+	t_coord	pt;
 
 	ft_bzero(&pt, sizeof(pt));
 	if (!(w = (t_wolf*)wolf))
 		return (0);
 	if (keyhook == MLX_KEY_ESCAPE)
 		w->current_page = MAIN_MENU;
-	if (keyhook == MLX_KEY_M)
-	{
-/*		pt.x = (SCREEN_W - MAPI_W) / 2;
-		pt.y = (SCREEN_H - MAPI_H) / 2;
-		mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr, pt.x, pt.y);*/
-	}
 	return (0);
 }
 
-int					eventm_game(int button, int x, int y, void *wolf)
+int		eventm_game(int button, int x, int y, void *wolf)
 {
 	(void)wolf;
 	(void)button;
@@ -42,8 +36,8 @@ int					eventm_game(int button, int x, int y, void *wolf)
 
 void	draw_game(void *wolf)
 {
-	t_wolf *w;
-	t_coord pt;
+	t_wolf	*w;
+	t_coord	pt;
 
 	if (!(w = (t_wolf*)wolf))
 		return ;
@@ -56,14 +50,10 @@ void	draw_game(void *wolf)
 	pt.x = 100;
 	pt.y = 100;
 	string_to_img("Game Work in progress ...", pt, &w->img[GAME], w);
-
 	pt.x = 0;
 	pt.y = w->img[GAME].size.y;
 	mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, pt.x, pt.y);
-
 	pt.x = 16;
 	pt.y = 32;
 	string_to_img("Interface Work in progress ...", pt, &w->img[GAME_I], w);
 }
-
-
