@@ -6,13 +6,11 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/16 15:33:49 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/17 15:01:27 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-#include <stdio.h>
-#include <fcntl.h>
 
 static size_t line_is_valid(char *line)
 {
@@ -48,12 +46,10 @@ static size_t	tab_is_valid(char **tab)
 	{
 		tmp = line_is_valid(tab[i]);
 		if (!tmp || tmp != len)
-		{
-			ft_putendl(ERR_MAP);
 			return (0);
-		}
 		i++;
 	}
+	ft_putstr("Map OK!");
 	return (len);
 }
 
@@ -62,6 +58,14 @@ static void usage(char *bin)
 	ft_putstr("Error: Usage ");
 	ft_putstr(bin);
 	ft_putendl(" [file.txt]");
+	ft_exit(NULL, -1);
+}
+
+void	wolf_exit(char *str, int status, t_wolf *wolf)
+{
+	if (wolf && wolf->map)
+		ft_freetab(wolf->map);
+	ft_exit(str, status);
 }
 
 int main(int ac, char **av)
@@ -74,19 +78,19 @@ int main(int ac, char **av)
 	ft_bzero(&wolf, sizeof(wolf));
 	if (ac != 2)
 		usage(av[0]);
-	fd = open(av[1], O_RDONLY);
+	if ((fd = open(av[1], O_RDONLY)) < 0)
+		ft_exit(ERR_OPEN, -1);
 	while ((ret = get_next_line(fd, &line)) > 0)
 	{
 		wolf.map = ft_tabadd(wolf.map, line);
 		ft_strdel(&line);
 	}
-
 	if (!tab_is_valid(wolf.map))
-		return (0);
-	else
-		ft_putstr("Map OK!");
+		wolf_exit(ERR_MAP, -1, &wolf);
+	if (close(fd) < 0)
+		wolf_exit(ERR_CLOSE, -1, &wolf);
 	init(&wolf);
-	mlx_key_hook(wolf.win, keyhook, &wolf);	/* Sur event clavier */
+	mlx_key_hook(wolf.win, keyhook, &wolf);			/* Sur event clavier */
 	mlx_mouse_hook(wolf.win, mousehook, &wolf);		/* Sur event de type souris */
 	mlx_loop_hook(wolf.mlx, refresh, &wolf);		/* Appel a refresh() quand aucun event ne pop */
 //	mlx_expose_hook(wolf.win, exposehook, &wolf);	/* Apppel a exposehook() sur event de type resize fenetre */

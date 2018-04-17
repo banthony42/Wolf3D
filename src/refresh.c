@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/16 23:56:11 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/17 14:58:42 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,17 @@ static void img_size(t_wolf *wolf)
 
 	size.x = WIN_W;
 	size.y = WIN_H;
-	if (!(new_img(wolf, MAIN_MENU, size)))
-		return ;
-	if (!(new_img(wolf, MAP_CREATOR, size)))
-		return ;
+	new_img(wolf, MAIN_MENU, size);
+	new_img(wolf, MAP_CREATOR, size);
 	size.x = SCREEN_W;
 	size.y = SCREEN_H;
-	if (!(new_img(wolf, GAME, size)))
-		return ;
+	new_img(wolf, GAME, size);
 	size.x = INTRF_W;
 	size.y = INTRF_H;
-	if (!(new_img(wolf, GAME_I, size)))
-		return ;
+	new_img(wolf, GAME_I, size);
 	size.x = MAPI_W;
 	size.y = MAPI_H;
-	if (!(new_img(wolf, MAP_I, size)))
-		return ;
+	new_img(wolf, MAP_I, size);
 }
 
 void init(t_wolf *wolf)
@@ -67,10 +62,7 @@ int	new_img(t_wolf *wolf, t_page page, t_coord size)
 	wolf->img[page].size = size;
 	wolf->img[page].ptr = mlx_new_image(wolf->mlx, size.x, size.y);
 	if (!wolf->img[page].ptr)
-	{
-		ft_putendl("Error: mlx_new_image");
-		return (0);
-	}
+		wolf_exit(ERR_IMG, -1, wolf);
 	wolf->img[page].width = size.x;
 	wolf->img[page].data = mlx_get_data_addr(wolf->img[page].ptr, &wolf->img[page].bpp,
 										 &wolf->img[page].width, &wolf->img[page].endian);
@@ -96,8 +88,7 @@ int refresh(void *wptr)
 		return (0);
 	size = wolf->img[wolf->current_page].size;
 	mlx_destroy_image(wolf->mlx, wolf->img[wolf->current_page].ptr);
-	if (!(new_img(wolf, wolf->current_page, size)))
-		return (0);
+	new_img(wolf, wolf->current_page, size);
 	expose(wolf);
 	return (1);
 }

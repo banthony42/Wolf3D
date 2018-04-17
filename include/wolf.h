@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/16 17:56:37 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/17 15:01:37 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,17 @@
 #include "mlx.h"
 #include "libft.h"
 #include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 /*
 **	Message d'Erreur
 */
-# define ERR_MAP "Invalid Map"
+# define ERR_MAP "Error: Invalid Map"
+# define ERR_OPEN "Error: While openning the file"
+# define ERR_CLOSE "Error: While closing the file"
+# define ERR_IMG "Error: While creating new image"
+# define ERR_TEXTURE "Error: While loading texture"
 # define ERR_QUIT "User exit"
 
 /*
@@ -194,7 +200,7 @@ void				expose(t_wolf *wolf);
 int					load_texture(t_wolf *wolf);
 int					refresh(void *wptr);
 void				init(t_wolf *wolf);
-
+void				wolf_exit(char *str, int status, t_wolf *wolf);
 /*TEMPORAIRE*/
 void				draw_grid(t_wolf *w);
 #endif

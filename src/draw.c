@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/16 18:21:31 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/17 14:54:42 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int load_texture(t_wolf *wolf)
 	error = load_img("./texture/doom_font.xpm", &wolf->texture[T_FONT], wolf);
 	error = load_img("./texture/main_menu.xpm", &wolf->texture[T_MAIN_MENU], wolf);
 	if (error)
-		ft_exit("Error while loading texture", 0);
+		wolf_exit(ERR_TEXTURE, -1, wolf);
 	return (0);
 }
 
