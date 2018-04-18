@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/17 19:01:48 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/18 16:16:10 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void		expose(t_wolf *w)
 	mlx_put_image_to_window(w->mlx, w->win, w->img[w->current_page].ptr, 0, 0);
 	if (w->current_page == GAME)
 	{
-		if (w->keypress[KEY_M])
+		if (w->keypress[KEY_TAB])
 		{
 			pt.x = (SCREEN_W - MAPI_W) / 2;
 			pt.y = (SCREEN_H - MAPI_H) / 2;

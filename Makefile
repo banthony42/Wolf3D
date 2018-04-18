@@ -6,7 +6,7 @@
 #    By: banthony <banthony@students.42.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/04/17 00:14:45 by banthony         ###   ########.fr        #
+#    Updated: 2018/04/18 14:05:33 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -25,6 +25,7 @@ SRC_FILE += map_creator.c
 SRC_FILE += main_menu.c
 SRC_FILE += refresh.c
 SRC_FILE += draw.c
+SRC_FILE += bresenham.c
 SRC_FILE += event.c
 SRC_FILE += font.c
 

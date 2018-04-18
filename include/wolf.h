@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/17 19:26:27 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/18 17:44:23 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ typedef enum	e_item
 
 typedef enum	e_texture
 {
-	T_FLOOR, T_SKY, T_STONE, T_BRICK, T_WOOD, T_METAL, T_DOOR, T_HEAL, T_WEAPON, T_AMO, T_SPAWN,
-	T_MAIN_MENU, T_GAME_OVER, T_GAME_WIN, T_MAP_CREATOR, T_GAME_INTERFACE, T_MINI_MAP,
-	T_FONT, NB_TEXTURE,
+	T_VOID, T_STONE, T_WOOD, T_METAL, T_DOOR, T_HEAL, T_WEAPON,
+	T_AMO, T_SPAWN, T_FLOOR, T_SKY, T_MAIN_MENU, T_GAME_OVER, T_GAME_WIN,
+	T_MAP_CREATOR, T_GAME_INTERFACE, T_MINI_MAP, T_FONT, NB_TEXTURE,
 }				t_texture;
 
 /*
@@ -51,13 +51,14 @@ typedef enum	e_page
 
 typedef enum	e_keystate
 {
-	KEY_M, NB_KEYSTATE,
+	KEY_VOID, KEY_TAB, NB_KEYSTATE,
 }				t_keystate;
 
 typedef struct		t_coord
 {
 	int				x;
 	int				y;
+	int				color;
 }					t_coord;
 
 typedef struct		s_pixel
@@ -70,13 +71,14 @@ typedef struct		s_img
 {
 	void			*ptr;
 	t_coord			size;
+	int				_pad1;
 	char			*data;
 	int				width;
 	int				bpp;
 	int				endian;
 	unsigned int	max_size;
 	unsigned int	octet;
-	int				padding;
+	int				_pad2;
 }					t_img;
 
 /*
@@ -113,21 +115,22 @@ typedef struct		s_wolf
 {
 	void			*mlx;
 	void			*win;
-	t_coord			size_win;
 	t_img			img[NB_IMG];
 	t_img			texture[NB_TEXTURE];
 	t_draw			draw[NB_PAGE];
 	t_event_k		event_key[NB_PAGE];
 	t_event_m		event_mouse[NB_PAGE];
 	char			**map;
+	t_coord			map_size;
 	int				cursor;
 	t_page			current_page;
+	int				_pad3;
 	t_player		*player;
 	t_creator		map_creator;
 	int				keypress[NB_KEYSTATE];
-	int				_padding;
 }					t_wolf;
 
+void				draw_line_img(t_img *img, t_coord *pts_a, t_coord *pts_b);
 t_coord				centerx_str(char *str, t_coord pt);
 void				string_to_img(char *str, t_coord pt, t_img *img, t_wolf *wolf);
 void				put_texture_on_img(t_img *dest, t_img *text, t_wolf *w);

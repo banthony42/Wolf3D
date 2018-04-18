@@ -6,24 +6,29 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/17 19:09:38 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/18 18:45:39 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-static size_t	line_is_valid(char *line)
+static size_t	line_is_valid(char *line, size_t y, size_t sizetab)
 {
 	size_t i;
 	size_t len;
 
 	i = 0;
 	len = 0;
+	/*Chaque ligne doit commencer et se terminer par un mur*/
+	if (line[0] != '1' || line[ft_strlen(line) - 1] != '1')
+		return (0);
 	while (line[i])
 	{
+		if ((y == 0 || y == sizetab) && line[i] != '1')
+			return (0);
 		if (ft_isdigit((int)line[i]))
 			len++;
-		else if (line[i] != ' ')
+		else
 			return (0);
 		i++;
 	}
@@ -36,20 +41,21 @@ static size_t	tab_is_valid(char **tab, t_wolf *wolf)
 	size_t len;
 	size_t tmp;
 
-	if ((len = ft_tablen(tab)) > MAP_MAX)
-	{
-		ft_putendl(ERR_MAP);
-		return (0);
-	}
+	len = 0;
+	if (!tab || (len = ft_tablen(tab)) > MAP_MAX || len < MAP_MIN)
+		wolf_exit(ERR_MAP, -1, wolf);
 	i = 0;
+	wolf->map_size.y = (int)len;
 	while (i < len)
 	{
-		tmp = line_is_valid(tab[i]);
-		if (!tmp || tmp != len)
+		if (!(tmp = line_is_valid(tab[i], i, len)) || tmp < MAP_MIN || tmp > MAP_MAX)
 			wolf_exit(ERR_MAP, -1, wolf);
+		if ((int)tmp > wolf->map_size.x)
+			wolf->map_size.x = (int)tmp;
 		i++;
 	}
-	ft_putstr("Map OK!");
+	ft_printtab(tab, ft_putstr, "\n");
+	ft_putstr("\nMap OK!\n");
 	return (len);
 }
 
@@ -74,6 +80,7 @@ void			wolf_exit(char *str, int status, t_wolf *wolf)
 
 int				main(int ac, char **av)
 {
+	char	*tmp;
 	char	*line;
 	int		fd;
 	t_wolf	wolf;
@@ -86,7 +93,9 @@ int				main(int ac, char **av)
 		ft_exit(ERR_OPEN, -1);
 	while ((get_next_line(fd, &line)) > 0)
 	{
-		wolf.map = ft_tabadd(wolf.map, line);
+		tmp = ft_strtrim2(line);
+		wolf.map = ft_tabadd(wolf.map, tmp);
+		ft_strdel(&tmp);
 		ft_strdel(&line);
 	}
 	tab_is_valid(wolf.map, &wolf);
