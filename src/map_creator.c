@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/17 19:28:30 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/27 17:08:40 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,19 @@ int		eventm_map_creator(int button, int x, int y, void *wolf)
 	return (0);
 }
 
+static void	draw_interface(t_wolf *w)
+{
+	char *str = "< MAP CREATOR >";
+	t_coord pt;
+
+	pt.y = 100;
+	pt.x = 100;
+	string_to_img(str, centerx_str(str, pt), &w->img[MAP_CREATOR], w);
+}
+
 void	draw_map_creator(void *wolf)
 {
 	t_wolf	*w;
-	t_coord	pt;
 
 	if (!(w = (t_wolf*)wolf))
 		return ;
@@ -52,7 +61,5 @@ void	draw_map_creator(void *wolf)
 	draw_grid(&w->img[MAP_CREATOR]);
 	draw_grid(&w->img[GAME_I]);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_CREATOR].ptr, 0, 0);
-	pt.x = 100;
-	pt.y = 100;
-	string_to_img("Map creator Work in progress", pt, &w->img[MAP_CREATOR], w);
+	draw_interface(w);
 }

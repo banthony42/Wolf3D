@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:40:31 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/17 19:01:05 by banthony         ###   ########.fr       */
+/*   Updated: 2018/04/27 17:09:27 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ int			eventm_menu(int button, int x, int y, void *wolf)
 	return (0);
 }
 
+/*
+**	Remplacer MENU_ENTRY par un enum
+*/
 static void	print_entry(t_coord (*pt)[MENU_ENTRY], t_wolf *w)
 {
 	(*pt)[0].x = w->img[MAIN_MENU].size.x / 2;
