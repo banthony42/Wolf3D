@@ -6,13 +6,13 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:40:31 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/27 17:09:27 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/13 17:28:56 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-#define G_NAME "W O L F 3-D"
+#define G_NAME "WOLF 3-D"
 #define G_RUN "Game"
 #define G_MC "Map Creator"
 #define G_EXIT "Exit"
@@ -57,7 +57,7 @@ static void	print_entry(t_coord (*pt)[MENU_ENTRY], t_wolf *w)
 	(*pt)[1] = (*pt)[0];
 	(*pt)[2] = (*pt)[0];
 	(*pt)[3] = (*pt)[0];
-	(*pt)[1].y += 120;
+	(*pt)[1].y += 240;
 	(*pt)[2].y = (*pt)[1].y + 48;
 	(*pt)[3].y = (*pt)[2].y + 48;
 	string_to_img(G_NAME, centerx_str(G_NAME, (*pt)[0]), &w->img[MAIN_MENU], w);

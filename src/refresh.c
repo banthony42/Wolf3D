@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/18 16:16:10 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/13 17:51:12 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void	img_size(t_wolf *wolf)
 	size.x = WIN_W;
 	size.y = WIN_H;
 	new_img(wolf, MAIN_MENU, size);
-	new_img(wolf, MAP_CREATOR, size);
 	size.x = SCREEN_W;
 	size.y = SCREEN_H;
 	new_img(wolf, GAME, size);
+	new_img(wolf, MAP_CREATOR, size);
 	size.x = INTRF_W;
 	size.y = INTRF_H;
 	new_img(wolf, GAME_I, size);
@@ -93,6 +93,15 @@ void		expose(t_wolf *w)
 		mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, 0,
 								w->img[GAME].size.y);
 	}
+	else if (w->current_page == MAP_CREATOR)
+	{
+		pt.x = (SCREEN_W - MAPI_W) / 2;
+		pt.y = (SCREEN_H - MAPI_H) / 2;
+		mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr
+									, pt.x, pt.y);
+		mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, 0,
+								w->img[GAME].size.y);
+	}
 }
 
 /*
@@ -119,6 +128,25 @@ int			refresh(void *wptr)
 		mlx_destroy_image(wolf->mlx, wolf->img[MAP_I].ptr);
 		new_img(wolf, MAP_I, size);
 	}
+	else if (wolf->current_page == MAP_CREATOR)	// Voir si necessaire pour le map creator
+	{
+		size = wolf->img[GAME_I].size;
+		mlx_destroy_image(wolf->mlx, wolf->img[GAME_I].ptr);
+		new_img(wolf, GAME_I, size);
+		size = wolf->img[MAP_I].size;
+		mlx_destroy_image(wolf->mlx, wolf->img[MAP_I].ptr);
+		new_img(wolf, MAP_I, size);
+	}
 	expose(wolf);
 	return (1);
 }
+
+
+
+
+
+
+
+
+
+
