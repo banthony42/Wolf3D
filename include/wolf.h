@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/14 16:45:38 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/14 17:33:02 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ typedef struct		s_wolf
 	int				keypress[NB_KEYSTATE];
 }					t_wolf;
 
+void				draw_box(t_coord size, int x, int y, t_wolf *w);
 void				draw_line_img(t_img *img, t_coord *pts_a, t_coord *pts_b);
 t_coord				centerx_str(char *str, t_coord pt);
 void				string_to_img(char *str, t_coord pt, t_img *img, t_wolf *wolf);

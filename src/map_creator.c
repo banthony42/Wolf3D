@@ -6,13 +6,19 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/14 16:54:01 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/14 17:36:41 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-int		eventk_map_creator(int keyhook, void *wolf)
+#define TITLE "MAP CREATOR"
+#define INFO "Draw your map"
+#define SAVE "save"
+#define TEXT 5
+#define TEXT_P 16
+
+int			eventk_map_creator(int keyhook, void *wolf)
 {
 	t_wolf *w;
 
@@ -31,7 +37,7 @@ int		eventk_map_creator(int keyhook, void *wolf)
 	return (0);
 }
 
-int		eventm_map_creator(int button, int x, int y, void *wolf)
+int			eventm_map_creator(int button, int x, int y, void *wolf)
 {
 	(void)wolf;
 	(void)button;
@@ -40,74 +46,48 @@ int		eventm_map_creator(int button, int x, int y, void *wolf)
 	return (0);
 }
 
-static void draw_box(t_coord size, int x, int y, t_wolf *w)
+static void	put_interface_text(t_wolf *w)
 {
-	t_coord i;
-	t_coord max;
+	t_coord pt;
 
-	i.x = x;
-	i.y = y;
-	max.x = x + size.x;
-	max.y = y + size.y;
-	while (i.y < max.y)
-	{
-		i.x = x;
-		while (i.x < max.x)
-		{
-			if (i.x == x || i.y == y || i.x == max.x - 1 || i.y == max.y - 1)
-				put_pixel_img(i, 0xd4af37, &w->img[GAME_I]);
-			i.x++;
-		}
-		i.y++;
-	}
+	pt.x = PERCENTAGE(50, w->img[MAP_CREATOR].size.x);
+	pt.y = PERCENTAGE(2, w->img[MAP_CREATOR].size.y);
+	string_to_img(TITLE, centerx_str(TITLE, pt), &w->img[MAP_CREATOR], w);
+	pt.x = PERCENTAGE(50, w->img[GAME_I].size.x);
+	pt.y = PERCENTAGE(5, w->img[GAME_I].size.y);
+	string_to_img(INFO, centerx_str(INFO, pt), &w->img[GAME_I], w);
 }
 
 static void	draw_interface(t_wolf *w)
 {
-	char *title = "MAP CREATOR";
-	char *info = "Draw your map";
-	char *save = "save";
-
-	t_coord pt;
-	t_coord box_size;
-	int n_box;
-	int box_pitch;
-	int i;
+	t_coord	pt;
+	t_coord	box_size;
+	int		i;
 
 	i = 0;
-	n_box = 5;
-	box_pitch = 16;
-	box_size.x = 48;
-	box_size.y = 48;
-	pt.color = 46;
-
-	pt.x = PERCENTAGE(50, w->img[MAP_CREATOR].size.x);
-	pt.y = PERCENTAGE(2, w->img[MAP_CREATOR].size.y);
-	string_to_img(title, centerx_str(title, pt), &w->img[MAP_CREATOR], w);
-
-	pt.x = PERCENTAGE(50, w->img[GAME_I].size.x);
-	pt.y = PERCENTAGE(5, w->img[GAME_I].size.y);
-	string_to_img(info, centerx_str(info, pt), &w->img[GAME_I], w);
-
+	box_size.x = 50;
+	box_size.y = 50;
+	pt.color = 48;
+	put_interface_text(w);
 	pt.y = PERCENTAGE(50, w->img[GAME_I].size.y);
-	pt.x = (PERCENTAGE(50, w->img[GAME_I].size.x)) - ((n_box / 2) * (box_size.x + box_pitch));
-	while (i < n_box)
+	pt.x = (PERCENTAGE(50, w->img[GAME_I].size.x));
+	pt.x -= ((TEXT / 2) * (box_size.x + TEXT_P));
+	while (i < TEXT)
 	{
 		draw_box(box_size, pt.x - 1, pt.y - 1, w);
 		put_texture_on_img_at(&w->img[GAME_I], &w->texture[T_STONE + i], w, pt);
-		pt.x += box_size.x + box_pitch;
+		pt.x += box_size.x + TEXT_P;
 		i++;
 	}
-	box_size.y = 50;
-	box_size.x = (int)(ft_strlen(save) * 32);
+	box_size.x = (int)(ft_strlen(SAVE) * 32);
 	pt.x = PERCENTAGE(80, w->img[GAME_I].size.x);
 	draw_box(box_size, pt.x, pt.y, w);
 	pt.x += (box_size.x / 2) + 7;
 	pt.y += 2;
-	string_to_img(save, centerx_str(save, pt), &w->img[GAME_I], w);
+	string_to_img(SAVE, centerx_str(SAVE, pt), &w->img[GAME_I], w);
 }
 
-void	draw_map_creator(void *wolf)
+void		draw_map_creator(void *wolf)
 {
 	t_wolf	*w;
 
@@ -117,7 +97,9 @@ void	draw_map_creator(void *wolf)
 	put_texture_on_img(&w->img[MAP_CREATOR], &w->texture[T_MAP_CREATOR], w);
 	put_texture_on_img(&w->img[GAME_I], &w->texture[T_CREATOR_INTERFACE], w);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_CREATOR].ptr, 0, 0);
-	mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr, (SCREEN_W - MAPI_W) / 2, (SCREEN_H - MAPI_H) / 2);
-	mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, 0, w->img[GAME].size.y);
+	mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr,
+							(SCREEN_W - MAPI_W) / 2, (SCREEN_H - MAPI_H) / 2);
+	mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, 0,
+							w->img[GAME].size.y);
 	draw_interface(w);
 }

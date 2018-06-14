@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:40:31 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/14 15:56:33 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/14 16:57:51 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int			eventm_menu(int button, int x, int y, void *wolf)
 */
 static void	print_entry(t_coord (*pt)[MENU_ENTRY], t_wolf *w)
 {
-	(*pt)[0].x = w->img[MAIN_MENU].size.x / 2;
-	(*pt)[0].y = (w->img[MAIN_MENU].size.y / 5);
+	(*pt)[0].x = PERCENTAGE(50, w->img[MAIN_MENU].size.x);
+	(*pt)[0].y = PERCENTAGE(20, w->img[MAIN_MENU].size.y);
 	(*pt)[1] = (*pt)[0];
 	(*pt)[2] = (*pt)[0];
 	(*pt)[3] = (*pt)[0];

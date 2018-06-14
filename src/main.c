@@ -6,11 +6,15 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/18 18:45:39 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/14 17:46:52 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
+
+/*
+**	Chaque ligne doit commencer et se terminer par un mur
+*/
 
 static size_t	line_is_valid(char *line, size_t y, size_t sizetab)
 {
@@ -19,7 +23,6 @@ static size_t	line_is_valid(char *line, size_t y, size_t sizetab)
 
 	i = 0;
 	len = 0;
-	/*Chaque ligne doit commencer et se terminer par un mur*/
 	if (line[0] != '1' || line[ft_strlen(line) - 1] != '1')
 		return (0);
 	while (line[i])
@@ -48,7 +51,8 @@ static size_t	tab_is_valid(char **tab, t_wolf *wolf)
 	wolf->map_size.y = (int)len;
 	while (i < len)
 	{
-		if (!(tmp = line_is_valid(tab[i], i, len)) || tmp < MAP_MIN || tmp > MAP_MAX)
+		if (!(tmp = line_is_valid(tab[i], i, len))
+			|| tmp < MAP_MIN || tmp > MAP_MAX)
 			wolf_exit(ERR_MAP, -1, wolf);
 		if ((int)tmp > wolf->map_size.x)
 			wolf->map_size.x = (int)tmp;
@@ -72,6 +76,16 @@ void			wolf_exit(char *str, int status, t_wolf *wolf)
 	if (wolf && wolf->map)
 		ft_freetab(wolf->map);
 	ft_exit(str, status);
+}
+
+static void		wolf_run(t_wolf wolf)
+{
+	init(&wolf);
+	mlx_mouse_hook(wolf.win, mousehook, &wolf);
+	mlx_loop_hook(wolf.mlx, refresh, &wolf);
+	mlx_hook(wolf.win, KEY_PRESS, KEY_PRESS_MASK, keypress, &wolf);
+	mlx_hook(wolf.win, KEY_RELEASE, KEY_RELEASE_MASK, keyrelease, &wolf);
+	mlx_loop(wolf.mlx);
 }
 
 /*
@@ -101,11 +115,6 @@ int				main(int ac, char **av)
 	tab_is_valid(wolf.map, &wolf);
 	if (close(fd) < 0)
 		wolf_exit(ERR_CLOSE, -1, &wolf);
-	init(&wolf);
-	mlx_mouse_hook(wolf.win, mousehook, &wolf);
-	mlx_loop_hook(wolf.mlx, refresh, &wolf);
-	mlx_hook(wolf.win, KEY_PRESS, KEY_PRESS_MASK, keypress, &wolf);
-	mlx_hook(wolf.win, KEY_RELEASE, KEY_RELEASE_MASK, keyrelease, &wolf);
-	mlx_loop(wolf.mlx);
+	wolf_run(wolf);
 	return (0);
 }

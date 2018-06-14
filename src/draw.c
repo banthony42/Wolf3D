@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/14 16:44:31 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/14 17:32:32 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,5 +192,27 @@ void		draw_grid(t_img *img)
 			pt.x++;
 		}
 		pt.y++;
+	}
+}
+
+void draw_box(t_coord size, int x, int y, t_wolf *w)
+{
+	t_coord i;
+	t_coord max;
+
+	i.x = x;
+	i.y = y;
+	max.x = x + size.x;
+	max.y = y + size.y;
+	while (i.y < max.y)
+	{
+		i.x = x;
+		while (i.x < max.x)
+		{
+			if (i.x == x || i.y == y || i.x == max.x - 1 || i.y == max.y - 1)
+				put_pixel_img(i, 0xd4af37, &w->img[GAME_I]);
+			i.x++;
+		}
+		i.y++;
 	}
 }

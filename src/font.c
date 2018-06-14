@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 13:54:12 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/27 17:10:50 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/14 17:47:48 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ void		string_to_img(char *str, t_coord pt, t_img *img, t_wolf *wolf)
 /*
 ** Securiser la fonction !
 */
+
 t_coord		centerx_str(char *str, t_coord pt)
 {
 	size_t len;
