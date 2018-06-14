@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/14 17:38:55 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/14 17:59:15 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int			refresh(void *wptr)
 	size = wolf->img[wolf->current_page].size;
 	mlx_destroy_image(wolf->mlx, wolf->img[wolf->current_page].ptr);
 	new_img(wolf, wolf->current_page, size);
-	if (wolf->current_page == GAME || wolf->current_page == MAP_CREATOR)
+	if (wolf->current_page == GAME)
 	{
 		size = wolf->img[GAME_I].size;
 		mlx_destroy_image(wolf->mlx, wolf->img[GAME_I].ptr);
@@ -127,6 +127,12 @@ int			refresh(void *wptr)
 		size = wolf->img[MAP_I].size;
 		mlx_destroy_image(wolf->mlx, wolf->img[MAP_I].ptr);
 		new_img(wolf, MAP_I, size);
+	}
+	if (wolf->current_page == MAP_CREATOR)
+	{
+		size = wolf->img[GAME_I].size;
+		mlx_destroy_image(wolf->mlx, wolf->img[GAME_I].ptr);
+		new_img(wolf, GAME_I, size);
 	}
 	expose(wolf);
 	return (1);

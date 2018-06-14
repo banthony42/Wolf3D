@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/14 17:44:03 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/14 18:42:15 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void	draw_map_overlay(t_wolf *w)
 
 	ft_bzero(&i, sizeof(i));
 	fill_img(&w->img[MAP_I], MAP_OVERLAY);
-	draw_grid(&w->img[MAP_I]);
+	draw_landmark(&w->img[MAP_I]);
 	size.y = (int)ft_tablen(w->map);
 	while (w->map[i.y])
 	{

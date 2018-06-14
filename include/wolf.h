@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/14 17:33:02 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/14 19:02:33 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,8 +168,8 @@ void				wolf_exit(char *str, int status, t_wolf *wolf);
 /*
 **	Fonctions temporaire
 */
-
-void				draw_grid(t_img *img);
+void				draw_box2(t_coord size, int x, int y, t_wolf *w);
+void				draw_landmark(t_img *img);
 void				fill_img(t_img *img, int color);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:40:31 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/14 16:57:51 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/14 18:42:31 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void		draw_main_menu(void *wolf)
 
 	if (!(w = (t_wolf*)wolf))
 		return ;
-	draw_grid(&w->img[MAIN_MENU]);
+	draw_landmark(&w->img[MAIN_MENU]);
 	entry[0] = G_NAME;
 	entry[1] = G_RUN;
 	entry[2] = G_MC;

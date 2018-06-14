@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/14 17:36:41 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/14 19:05:28 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #define SAVE "save"
 #define TEXT 5
 #define TEXT_P 16
+#define TEXT_SIZE 48
 
 int			eventk_map_creator(int keyhook, void *wolf)
 {
@@ -39,11 +40,54 @@ int			eventk_map_creator(int keyhook, void *wolf)
 
 int			eventm_map_creator(int button, int x, int y, void *wolf)
 {
-	(void)wolf;
+	t_wolf	*w;
+	t_coord pt;
+	t_coord start;
+
+	if (!(w = (t_wolf*)wolf))
+		return (0);
+
+	start.x = (SCREEN_W - MAPI_W) / 2;
+	start.y = (SCREEN_H - MAPI_H) / 2;
+	/*
+	  MAP_I x = [ start.x , start.x + MAPI_W]
+	  MAP_I y = [ start.y , start.y + MAPI_H]
+	*/
+	pt.x = x - start.x;
+	pt.y = y - start.y;
+	pt.color = TEXT_SIZE;
+	put_texture_on_img_at(&w->img[MAP_I], &w->texture[T_STONE], w, pt);
+	ft_putendl("test");
 	(void)button;
-	(void)x;
-	(void)y;
 	return (0);
+}
+
+// Reecrire la fonction draw_box, t_coord pour le start, et choix de la couleur
+// y = 12 * TEXT_SIZE
+// x = 16 * TEXT_SIZE
+// Trouver le plus grand nombre de TEXT_SIZE dans MAP_I, a faire sur x et y
+// Diviser le reste par 2 et demarrer le tracage a cette valeur, a faire sur x et y
+// Boucler sur maxText.y
+// Boucler sur maxText.x
+// Dessiner un carre de taille TEXT_SIZE a chaque tour
+static void	draw_grid(t_wolf *w, t_page page)
+{
+	t_coord pt;
+	t_coord	box_size;
+
+	box_size.x = TEXT_SIZE + 2;
+	box_size.y = TEXT_SIZE + 2;
+	ft_bzero(&pt, sizeof(pt));
+	while (pt.y < w->img[page].size.y)
+	{
+		pt.x = 0;
+		while (pt.x < w->img[page].size.x)
+		{
+			draw_box2(box_size, pt.x - 1, pt.y - 1, w);
+			pt.x += box_size.x;
+		}
+		pt.y += box_size.y;
+	}
 }
 
 static void	put_interface_text(t_wolf *w)
@@ -65,9 +109,9 @@ static void	draw_interface(t_wolf *w)
 	int		i;
 
 	i = 0;
-	box_size.x = 50;
-	box_size.y = 50;
-	pt.color = 48;
+	box_size.x = TEXT_SIZE + 2;
+	box_size.y = TEXT_SIZE + 2;
+	pt.color = TEXT_SIZE;
 	put_interface_text(w);
 	pt.y = PERCENTAGE(50, w->img[GAME_I].size.y);
 	pt.x = (PERCENTAGE(50, w->img[GAME_I].size.x));
@@ -93,7 +137,6 @@ void		draw_map_creator(void *wolf)
 
 	if (!(w = (t_wolf*)wolf))
 		return ;
-	fill_img(&w->img[MAP_I], 0x2f2f2f);
 	put_texture_on_img(&w->img[MAP_CREATOR], &w->texture[T_MAP_CREATOR], w);
 	put_texture_on_img(&w->img[GAME_I], &w->texture[T_CREATOR_INTERFACE], w);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_CREATOR].ptr, 0, 0);
@@ -102,4 +145,5 @@ void		draw_map_creator(void *wolf)
 	mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, 0,
 							w->img[GAME].size.y);
 	draw_interface(w);
+	draw_grid(w, MAP_I);
 }
