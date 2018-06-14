@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/18 17:44:23 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/14 16:45:38 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ typedef enum	e_item
 
 typedef enum	e_texture
 {
-	T_VOID, T_STONE, T_WOOD, T_METAL, T_DOOR, T_HEAL, T_WEAPON,
+	T_VOID, T_STONE, T_WOOD, T_METAL, T_DOOR, T_ERASER, T_HEAL, T_WEAPON,
 	T_AMO, T_SPAWN, T_FLOOR, T_SKY, T_MAIN_MENU, T_GAME_OVER, T_GAME_WIN,
-	T_MAP_CREATOR, T_GAME_INTERFACE, T_MINI_MAP, T_FONT, NB_TEXTURE,
+	T_MAP_CREATOR, T_GAME_INTERFACE, T_CREATOR_INTERFACE, T_MINI_MAP, T_FONT, NB_TEXTURE,
 }				t_texture;
 
 /*
@@ -134,6 +134,7 @@ void				draw_line_img(t_img *img, t_coord *pts_a, t_coord *pts_b);
 t_coord				centerx_str(char *str, t_coord pt);
 void				string_to_img(char *str, t_coord pt, t_img *img, t_wolf *wolf);
 void				put_texture_on_img(t_img *dest, t_img *text, t_wolf *w);
+void				put_texture_on_img_at(t_img *dest, t_img *text, t_wolf *w, t_coord at);
 void				put_pixel_from_txt(t_coord pti, t_coord ptt, t_img *text, t_img *img);
 void				put_pixel_img(t_coord pt, int color, t_img *img);
 

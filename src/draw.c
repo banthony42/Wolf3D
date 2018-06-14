@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/17 19:17:42 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/14 16:44:31 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,46 @@ int			load_texture(t_wolf *w)
 	error = 0;
 	error = load_img("./texture/doom_font.xpm", &w->texture[T_FONT], w);
 	error = load_img("./texture/main_menu.xpm", &w->texture[T_MAIN_MENU], w);
+	error = load_img("./texture/stone.xpm", &w->texture[T_STONE], w);
+	error = load_img("./texture/wood.xpm", &w->texture[T_WOOD], w);
+	error = load_img("./texture/metal.xpm", &w->texture[T_METAL], w);
+	error = load_img("./texture/door.xpm", &w->texture[T_DOOR], w);
+	error = load_img("./texture/interface_creator.xpm", &w->texture[T_CREATOR_INTERFACE], w);
+	error = load_img("./texture/map_creator.xpm", &w->texture[T_MAP_CREATOR], w);
+	error = load_img("./texture/eraser_icon.xpm", &w->texture[T_ERASER], w);
 	if (error)
 		wolf_exit(ERR_TEXTURE, -1, w);
 	return (0);
+}
+
+/*
+**	at.x = position x sur l'image
+**	at.y = position y sur l'image
+**	at.color = Variable utilise ici pour la taille de la texture sur l'image (merci la norme ...)
+*/
+void		put_texture_on_img_at(t_img *dest, t_img *text, t_wolf *w, t_coord at)
+{
+	t_coord pt;
+	t_coord ptt;
+	t_coord pt_max;
+
+	pt_max.x = at.x + at.color;
+	pt_max.y = at.y + at.color;
+	pt.y = at.y;
+	if (!dest || !text || !w)
+		return ;
+	while (pt.y < pt_max.y)
+	{
+		pt.x = at.x;
+		while (pt.x < pt_max.x)
+		{
+			ptt.x = (text->size.x * (pt.x - at.x)) / at.color;
+			ptt.y = (text->size.y * (pt.y - at.y)) / at.color;
+			put_pixel_from_txt(pt, ptt, text, dest);
+			pt.x++;
+		}
+		pt.y++;
+	}
 }
 
 void		put_texture_on_img(t_img *dest, t_img *text, t_wolf *w)
