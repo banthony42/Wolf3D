@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:40:31 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/14 18:42:31 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/15 13:53:52 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void		draw_main_menu(void *wolf)
 	entry[1] = G_RUN;
 	entry[2] = G_MC;
 	entry[3] = G_EXIT;
-	put_texture_on_img(&w->img[MAIN_MENU], &w->texture[T_MAIN_MENU], w);
+	put_texture_on_img(&w->img[MAIN_MENU], &w->texture[T_MAIN_MENU]);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[w->current_page].ptr, 0, 0);
 	print_entry(&pt, w);
 	if (w->cursor)

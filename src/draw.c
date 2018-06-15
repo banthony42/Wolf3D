@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/14 19:02:20 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/15 13:54:24 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,29 +96,24 @@ int			load_texture(t_wolf *w)
 	return (0);
 }
 
-/*
-**	at.x = position x sur l'image
-**	at.y = position y sur l'image
-**	at.color = Variable utilise ici pour la taille de la texture sur l'image (merci la norme ...)
-*/
-void		put_texture_on_img_at(t_img *dest, t_img *text, t_wolf *w, t_coord at)
+void		put_texture_on_img_at(t_img *dest, t_img *text, t_coord at, t_coord text_size)
 {
 	t_coord pt;
 	t_coord ptt;
 	t_coord pt_max;
 
-	pt_max.x = at.x + at.color;
-	pt_max.y = at.y + at.color;
+	pt_max.x = at.x + text_size.x;
+	pt_max.y = at.y + text_size.y;
 	pt.y = at.y;
-	if (!dest || !text || !w)
+	if (!dest || !text)
 		return ;
 	while (pt.y < pt_max.y)
 	{
 		pt.x = at.x;
 		while (pt.x < pt_max.x)
 		{
-			ptt.x = (text->size.x * (pt.x - at.x)) / at.color;
-			ptt.y = (text->size.y * (pt.y - at.y)) / at.color;
+			ptt.x = (text->size.x * (pt.x - at.x)) / text_size.x;
+			ptt.y = (text->size.y * (pt.y - at.y)) / text_size.y;
 			put_pixel_from_txt(pt, ptt, text, dest);
 			pt.x++;
 		}
@@ -126,13 +121,13 @@ void		put_texture_on_img_at(t_img *dest, t_img *text, t_wolf *w, t_coord at)
 	}
 }
 
-void		put_texture_on_img(t_img *dest, t_img *text, t_wolf *w)
+void		put_texture_on_img(t_img *dest, t_img *text)
 {
 	t_coord pt;
 	t_coord ptt;
 
 	pt.y = 0;
-	if (!dest || !text || !w)
+	if (!dest || !text)
 		return ;
 	while (pt.y < dest->size.y)
 	{
@@ -195,45 +190,25 @@ void		draw_landmark(t_img *img)
 	}
 }
 
-void draw_box(t_coord size, int x, int y, t_wolf *w)
+void draw_box(t_coord size, t_coord start, int offset, t_img *img)
 {
 	t_coord i;
 	t_coord max;
 
-	i.x = x;
-	i.y = y;
-	max.x = x + size.x;
-	max.y = y + size.y;
+	start.x += offset;
+	start.y += offset;
+	i.x = start.x;
+	i.y = start.y;
+	max.x = start.x + size.x;
+	max.y = start.y + size.y;
 	while (i.y < max.y)
 	{
-		i.x = x;
+		i.x = start.x;
 		while (i.x < max.x)
 		{
-			if (i.x == x || i.y == y || i.x == max.x - 1 || i.y == max.y - 1)
-				put_pixel_img(i, 0xd4af37, &w->img[GAME_I]);
-			i.x++;
-		}
-		i.y++;
-	}
-}
-
-//TMP quick test
-void draw_box2(t_coord size, int x, int y, t_wolf *w)
-{
-	t_coord i;
-	t_coord max;
-
-	i.x = x;
-	i.y = y;
-	max.x = x + size.x;
-	max.y = y + size.y;
-	while (i.y < max.y)
-	{
-		i.x = x;
-		while (i.x < max.x)
-		{
-			if (i.x == x || i.y == y || i.x == max.x - 1 || i.y == max.y - 1)
-				put_pixel_img(i, 0xd4af37, &w->img[MAP_I]);
+			if (i.x == start.x || i.y == start.y
+				|| i.x == max.x - 1 || i.y == max.y - 1)
+				put_pixel_img(i, size.color, img);
 			i.x++;
 		}
 		i.y++;

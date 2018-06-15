@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/14 19:02:33 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/15 13:51:15 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,12 +130,12 @@ typedef struct		s_wolf
 	int				keypress[NB_KEYSTATE];
 }					t_wolf;
 
-void				draw_box(t_coord size, int x, int y, t_wolf *w);
+void				draw_box(t_coord size, t_coord start, int offset, t_img *img);
 void				draw_line_img(t_img *img, t_coord *pts_a, t_coord *pts_b);
 t_coord				centerx_str(char *str, t_coord pt);
 void				string_to_img(char *str, t_coord pt, t_img *img, t_wolf *wolf);
-void				put_texture_on_img(t_img *dest, t_img *text, t_wolf *w);
-void				put_texture_on_img_at(t_img *dest, t_img *text, t_wolf *w, t_coord at);
+void				put_texture_on_img(t_img *dest, t_img *text);
+void				put_texture_on_img_at(t_img *dest, t_img *text, t_coord at, t_coord text_size);
 void				put_pixel_from_txt(t_coord pti, t_coord ptt, t_img *text, t_img *img);
 void				put_pixel_img(t_coord pt, int color, t_img *img);
 
@@ -168,7 +168,6 @@ void				wolf_exit(char *str, int status, t_wolf *wolf);
 /*
 **	Fonctions temporaire
 */
-void				draw_box2(t_coord size, int x, int y, t_wolf *w);
 void				draw_landmark(t_img *img);
 void				fill_img(t_img *img, int color);
 

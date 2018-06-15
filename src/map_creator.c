@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/14 19:05:28 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/15 15:44:23 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,47 +43,50 @@ int			eventm_map_creator(int button, int x, int y, void *wolf)
 	t_wolf	*w;
 	t_coord pt;
 	t_coord start;
+	t_coord rest;
+	t_coord text_size;
 
 	if (!(w = (t_wolf*)wolf))
 		return (0);
 
-	start.x = (SCREEN_W - MAPI_W) / 2;
-	start.y = (SCREEN_H - MAPI_H) / 2;
-	/*
+	/* Borne de MAP_I sur la WIN
 	  MAP_I x = [ start.x , start.x + MAPI_W]
 	  MAP_I y = [ start.y , start.y + MAPI_H]
 	*/
-	pt.x = x - start.x;
-	pt.y = y - start.y;
-	pt.color = TEXT_SIZE;
-	put_texture_on_img_at(&w->img[MAP_I], &w->texture[T_STONE], w, pt);
+	text_size.x = TEXT_SIZE;
+	text_size.y = TEXT_SIZE;
+	rest.x = (w->img[MAP_I].size.x % text_size.x) / 2;
+	rest.y = (w->img[MAP_I].size.y % text_size.y) / 2;
+	start.x = ((SCREEN_W - MAPI_W) / 2) + rest.x;
+	start.y = ((SCREEN_H - MAPI_H) / 2) + rest.y;
+	pt.x = (((x - start.x) / text_size.x) * text_size.x) + rest.x;
+	pt.y = (((y - start.y) / text_size.y) * text_size.y) + rest.y;
+	put_texture_on_img_at(&w->img[MAP_I], &w->texture[T_STONE], pt, text_size);
 	ft_putendl("test");
 	(void)button;
 	return (0);
 }
 
-// Reecrire la fonction draw_box, t_coord pour le start, et choix de la couleur
-// y = 12 * TEXT_SIZE
-// x = 16 * TEXT_SIZE
-// Trouver le plus grand nombre de TEXT_SIZE dans MAP_I, a faire sur x et y
-// Diviser le reste par 2 et demarrer le tracage a cette valeur, a faire sur x et y
-// Boucler sur maxText.y
-// Boucler sur maxText.x
-// Dessiner un carre de taille TEXT_SIZE a chaque tour
 static void	draw_grid(t_wolf *w, t_page page)
 {
 	t_coord pt;
 	t_coord	box_size;
+	t_coord rest;
 
-	box_size.x = TEXT_SIZE + 2;
-	box_size.y = TEXT_SIZE + 2;
-	ft_bzero(&pt, sizeof(pt));
-	while (pt.y < w->img[page].size.y)
+	box_size.x = TEXT_SIZE ;
+	box_size.y = TEXT_SIZE ;
+	box_size.color = 0x2f2f2f;
+
+	rest.x = (w->img[page].size.x % box_size.x) / 2;
+	rest.y = (w->img[page].size.y % box_size.y) / 2;
+	pt.x = rest.x;
+	pt.y = rest.y;
+	while (pt.y < w->img[page].size.y - rest.y)
 	{
-		pt.x = 0;
-		while (pt.x < w->img[page].size.x)
+		pt.x = rest.x;
+		while (pt.x < w->img[page].size.x - rest.x)
 		{
-			draw_box2(box_size, pt.x - 1, pt.y - 1, w);
+			draw_box(box_size, pt, 0, &w->img[page]);
 			pt.x += box_size.x;
 		}
 		pt.y += box_size.y;
@@ -104,6 +107,7 @@ static void	put_interface_text(t_wolf *w)
 
 static void	draw_interface(t_wolf *w)
 {
+	t_coord text_size;
 	t_coord	pt;
 	t_coord	box_size;
 	int		i;
@@ -111,21 +115,23 @@ static void	draw_interface(t_wolf *w)
 	i = 0;
 	box_size.x = TEXT_SIZE + 2;
 	box_size.y = TEXT_SIZE + 2;
-	pt.color = TEXT_SIZE;
+	text_size.x = TEXT_SIZE;
+	text_size.y = TEXT_SIZE;
 	put_interface_text(w);
+	box_size.color = 0xd4af37;
 	pt.y = PERCENTAGE(50, w->img[GAME_I].size.y);
 	pt.x = (PERCENTAGE(50, w->img[GAME_I].size.x));
 	pt.x -= ((TEXT / 2) * (box_size.x + TEXT_P));
 	while (i < TEXT)
 	{
-		draw_box(box_size, pt.x - 1, pt.y - 1, w);
-		put_texture_on_img_at(&w->img[GAME_I], &w->texture[T_STONE + i], w, pt);
+		draw_box(box_size, pt, -1, &w->img[GAME_I]);
+		put_texture_on_img_at(&w->img[GAME_I], &w->texture[T_STONE + i], pt, text_size);
 		pt.x += box_size.x + TEXT_P;
 		i++;
 	}
 	box_size.x = (int)(ft_strlen(SAVE) * 32);
 	pt.x = PERCENTAGE(80, w->img[GAME_I].size.x);
-	draw_box(box_size, pt.x, pt.y, w);
+	draw_box(box_size, pt, 0, &w->img[GAME_I]);
 	pt.x += (box_size.x / 2) + 7;
 	pt.y += 2;
 	string_to_img(SAVE, centerx_str(SAVE, pt), &w->img[GAME_I], w);
@@ -137,8 +143,9 @@ void		draw_map_creator(void *wolf)
 
 	if (!(w = (t_wolf*)wolf))
 		return ;
-	put_texture_on_img(&w->img[MAP_CREATOR], &w->texture[T_MAP_CREATOR], w);
-	put_texture_on_img(&w->img[GAME_I], &w->texture[T_CREATOR_INTERFACE], w);
+//	fill_img(&w->img[MAP_I], 0x2f2f2f);
+	put_texture_on_img(&w->img[MAP_CREATOR], &w->texture[T_MAP_CREATOR]);
+	put_texture_on_img(&w->img[GAME_I], &w->texture[T_CREATOR_INTERFACE]);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_CREATOR].ptr, 0, 0);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr,
 							(SCREEN_W - MAPI_W) / 2, (SCREEN_H - MAPI_H) / 2);
