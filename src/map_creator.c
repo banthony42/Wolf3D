@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/15 15:44:23 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/15 17:32:39 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,14 @@ int			eventm_map_creator(int button, int x, int y, void *wolf)
 
 	if (!(w = (t_wolf*)wolf))
 		return (0);
-
-	/* Borne de MAP_I sur la WIN
-	  MAP_I x = [ start.x , start.x + MAPI_W]
-	  MAP_I y = [ start.y , start.y + MAPI_H]
-	*/
 	text_size.x = TEXT_SIZE;
 	text_size.y = TEXT_SIZE;
 	rest.x = (w->img[MAP_I].size.x % text_size.x) / 2;
 	rest.y = (w->img[MAP_I].size.y % text_size.y) / 2;
 	start.x = ((SCREEN_W - MAPI_W) / 2) + rest.x;
 	start.y = ((SCREEN_H - MAPI_H) / 2) + rest.y;
+	if (x < start.x || y < start.y || x > (start.x + MAPI_W - rest.x * 2) || y > (start.y + MAPI_H - rest.y * 2))
+		return (0);
 	pt.x = (((x - start.x) / text_size.x) * text_size.x) + rest.x;
 	pt.y = (((y - start.y) / text_size.y) * text_size.y) + rest.y;
 	put_texture_on_img_at(&w->img[MAP_I], &w->texture[T_STONE], pt, text_size);
@@ -143,7 +140,6 @@ void		draw_map_creator(void *wolf)
 
 	if (!(w = (t_wolf*)wolf))
 		return ;
-//	fill_img(&w->img[MAP_I], 0x2f2f2f);
 	put_texture_on_img(&w->img[MAP_CREATOR], &w->texture[T_MAP_CREATOR]);
 	put_texture_on_img(&w->img[GAME_I], &w->texture[T_CREATOR_INTERFACE]);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_CREATOR].ptr, 0, 0);
