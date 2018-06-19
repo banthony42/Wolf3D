@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/13 17:27:18 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/19 11:24:59 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,13 @@
 /*
 **	Parametre fenetre
 */
-# define WIN_W 1280
-# define WIN_H 960
+#ifdef __APPLE__
+	# define WIN_W 1280
+	# define WIN_H 960
+#else
+	# define WIN_W 800
+	# define WIN_H 600
+#endif
 # define WIN_NAME "Wolf3D"
 # define CENTERWIN_W(x) (WIN_W - x) / 2
 # define CENTERWIN_H(y) (WIN_H - y) / 2

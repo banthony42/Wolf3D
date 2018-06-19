@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/15 14:53:42 by banthony         ###   ########.fr       */
+/*   Updated: 2018/06/19 11:20:08 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,18 @@ static void	trace_map(t_wolf *w, t_coord i, char wall)
 static void	draw_map_overlay(t_wolf *w)
 {
 	t_coord i;
-	t_coord size;
+//	t_coord size;
 
 	ft_bzero(&i, sizeof(i));
 	fill_img(&w->img[MAP_I], MAP_OVERLAY);
 	draw_landmark(&w->img[MAP_I]);
-	size.y = (int)ft_tablen(w->map);
+//	size.y = (int)ft_tablen(w->map);
 	while (w->map[i.y])
 	{
 		i.x = 0;
 		while (w->map[i.y][i.x])
 		{
-			size.x = (int)ft_strlen(w->map[i.y]);
+//			size.x = (int)ft_strlen(w->map[i.y]);
 			if (w->map[i.y][i.x] > (T_VOID + '0'))
 			{
 				if (w->map[i.y][i.x] < (T_SPAWN + '0'))
