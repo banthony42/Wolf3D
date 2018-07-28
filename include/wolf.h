@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/07/28 19:20:34 by banthony         ###   ########.fr       */
+/*   Updated: 2018/07/28 20:30:54 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@
 
 # include <stdio.h>
 
-typedef enum	e_item
+/* Unused for now */
+typedef enum	e_items
 {
 	VOID, STONE, BRICK, WOOD, DOOR, HEAL, WEAPON, AMO, SPAWN, NB_ITEM,
-}				t_item;
+}				t_items;
 
 typedef enum	e_texture
 {
@@ -96,7 +97,7 @@ typedef struct		s_creator
 {
 	char			**map;
 	t_coord			m_size;
-	t_item			item;
+	t_texture		texture;
 }					t_creator;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/07/28 19:32:48 by banthony         ###   ########.fr       */
+/*   Updated: 2018/07/28 21:31:06 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	img_size(t_wolf *w)
 	w->map_crea.m_size.y = w->img[MAP_I].size.y / ITEM_SIZE;
 	printf("MapCreator malloc x: %d, y: %d\n", w->map_crea.m_size.x, w->map_crea.m_size.y);
 	w->map_crea.map = ft_newtab(w->map_crea.m_size.y, w->map_crea.m_size.x, (int)'0');
-	w->map_crea.item = STONE;
+	w->map_crea.texture = T_VOID;
 }
 
 void		init(t_wolf *wolf)
