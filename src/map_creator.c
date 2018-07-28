@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/15 17:32:39 by banthony         ###   ########.fr       */
+/*   Updated: 2018/07/28 19:34:36 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #define SAVE "save"
 #define TEXT 5
 #define TEXT_P 16
-#define TEXT_SIZE 48
 
 int			eventk_map_creator(int keyhook, void *wolf)
 {
@@ -44,22 +43,35 @@ int			eventm_map_creator(int button, int x, int y, void *wolf)
 	t_coord pt;
 	t_coord start;
 	t_coord rest;
-	t_coord text_size;
+	t_coord item_size;
 
 	if (!(w = (t_wolf*)wolf))
 		return (0);
-	text_size.x = TEXT_SIZE;
-	text_size.y = TEXT_SIZE;
-	rest.x = (w->img[MAP_I].size.x % text_size.x) / 2;
-	rest.y = (w->img[MAP_I].size.y % text_size.y) / 2;
+	item_size.x = ITEM_SIZE;
+	item_size.y = ITEM_SIZE;
+	rest.x = (w->img[MAP_I].size.x % item_size.x) / 2;
+	rest.y = (w->img[MAP_I].size.y % item_size.y) / 2;
 	start.x = ((SCREEN_W - MAPI_W) / 2) + rest.x;
 	start.y = ((SCREEN_H - MAPI_H) / 2) + rest.y;
 	if (x < start.x || y < start.y || x > (start.x + MAPI_W - rest.x * 2) || y > (start.y + MAPI_H - rest.y * 2))
 		return (0);
-	pt.x = (((x - start.x) / text_size.x) * text_size.x) + rest.x;
-	pt.y = (((y - start.y) / text_size.y) * text_size.y) + rest.y;
-	put_texture_on_img_at(&w->img[MAP_I], &w->texture[T_STONE], pt, text_size);
-	ft_putendl("test");
+	pt.x = (((x - start.x) / item_size.x) * item_size.x) + rest.x;
+	pt.y = (((y - start.y) / item_size.y) * item_size.y) + rest.y;
+
+	/* Affichage du numeros de case du clic */
+	ft_putstr("pt.x:");
+	ft_putnbrendl((pt.x - rest.x) / ITEM_SIZE);
+	ft_putstr("pt.y:");
+	ft_putnbrendl((pt.y - rest.y) / ITEM_SIZE);
+
+	w->map_crea.map[((pt.y - rest.y) / ITEM_SIZE)][((pt.x - rest.x) / ITEM_SIZE)] = (char)('0' + w->map_crea.item);
+
+	ft_putendl("Map Creator char** :");
+	ft_putendl("------------------");
+	ft_printtab(w->map_crea.map, ft_putstr, "\n");
+	ft_putendl("\n------------------");
+
+	put_texture_on_img_at(&w->img[MAP_I], &w->texture[T_STONE], pt, item_size);
 	(void)button;
 	return (0);
 }
@@ -70,8 +82,8 @@ static void	draw_grid(t_wolf *w, t_page page)
 	t_coord	box_size;
 	t_coord rest;
 
-	box_size.x = TEXT_SIZE ;
-	box_size.y = TEXT_SIZE ;
+	box_size.x = ITEM_SIZE ;
+	box_size.y = ITEM_SIZE ;
 	box_size.color = 0x2f2f2f;
 
 	rest.x = (w->img[page].size.x % box_size.x) / 2;
@@ -104,16 +116,16 @@ static void	put_interface_text(t_wolf *w)
 
 static void	draw_interface(t_wolf *w)
 {
-	t_coord text_size;
+	t_coord item_size;
 	t_coord	pt;
 	t_coord	box_size;
 	int		i;
 
 	i = 0;
-	box_size.x = TEXT_SIZE + 2;
-	box_size.y = TEXT_SIZE + 2;
-	text_size.x = TEXT_SIZE;
-	text_size.y = TEXT_SIZE;
+	box_size.x = ITEM_SIZE + 2;
+	box_size.y = ITEM_SIZE + 2;
+	item_size.x = ITEM_SIZE;
+	item_size.y = ITEM_SIZE;
 	put_interface_text(w);
 	box_size.color = 0xd4af37;
 	pt.y = PERCENTAGE(50, w->img[GAME_I].size.y);
@@ -122,7 +134,7 @@ static void	draw_interface(t_wolf *w)
 	while (i < TEXT)
 	{
 		draw_box(box_size, pt, -1, &w->img[GAME_I]);
-		put_texture_on_img_at(&w->img[GAME_I], &w->texture[T_STONE + i], pt, text_size);
+		put_texture_on_img_at(&w->img[GAME_I], &w->texture[T_STONE + i], pt, item_size);
 		pt.x += box_size.x + TEXT_P;
 		i++;
 	}
@@ -150,3 +162,13 @@ void		draw_map_creator(void *wolf)
 	draw_interface(w);
 	draw_grid(w, MAP_I);
 }
+
+
+
+
+
+
+
+
+
+

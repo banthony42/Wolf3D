@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/15 13:51:15 by banthony         ###   ########.fr       */
+/*   Updated: 2018/07/28 19:20:34 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ typedef struct		s_player
 typedef struct		s_creator
 {
 	char			**map;
+	t_coord			m_size;
+	t_item			item;
 }					t_creator;
 
 /*
@@ -126,7 +128,7 @@ typedef struct		s_wolf
 	t_page			current_page;
 	int				_pad3;
 	t_player		*player;
-	t_creator		map_creator;
+	t_creator		map_crea;
 	int				keypress[NB_KEYSTATE];
 }					t_wolf;
 

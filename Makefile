@@ -6,7 +6,7 @@
 #    By: banthony <banthony@students.42.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/04/18 14:05:33 by banthony         ###   ########.fr        #
+#    Updated: 2018/07/28 18:59:57 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -39,21 +39,24 @@ UNAME := $(shell uname)
 
 LIBFT = ./libft
 
+LIBFT_NAME = -L $(LIBFT) -lft
+LIBFT_NAME_SANIT = -L $(LIBFT) -lft_sanit
+
 ifeq ($(UNAME), Linux)
 MLX_LIB = ./minilibx_linux/
 HEAD_DIR = -I ./include -I $(LIBFT) -I $(MLX_LIB)
-LIB = -L $(LIBFT) -lft -L $(MLX_LIB) -lmlx -lXext -lX11 -lbsd
+LIB = -L $(MLX_LIB) -lmlx -lXext -lX11 -lbsd
 FLAGS = -Wall -Wextra -Werror
 endif
 
 ifeq ($(UNAME), Darwin)
 MLX_LIB = ./minilibx_macos/
 HEAD_DIR = -I ./include -I $(LIBFT)
-LIB = -L $(LIBFT) -lft -L $(MLX_LIB) -lmlx -framework OpenGL -framework Appkit
+LIB = -L $(MLX_LIB) -lmlx -framework OpenGL -framework Appkit
 FLAGS = -Wall -Wextra -Werror -Weverything
 endif
 
-DEBUG = -g
+DEBUG = -g3 -fsanitize=address
 
 TRASH = Makefile~		\
 		./src/*.c~		\
@@ -66,13 +69,13 @@ $(NAME): $(SRC) $(INCLUDE)
 	make -C $(LIBFT)
 	gcc $(FLAGS) $(HEAD_DIR) -c $(SRC)
 	mv $(OBJ) $(PATH_SRC)
-	gcc -o $(NAME) $(OBJ2) $(HEAD_DIR) $(LIB)
+	gcc $(FLAGS) $(OBJ2) $(HEAD_DIR) $(LIBFT_NAME) $(LIB)  -o $(NAME)
 
 debug: $(SRC) $(INCLUDE)
-	make debug -C $(LIBFT)
+	make -C $(LIBFT) sanit
 	gcc $(FLAGS) $(HEAD_DIR) -c $(SRC) $(DEBUG)
 	mv $(OBJ) $(PATH_SRC)
-	gcc -o $(NAME) $(OBJ2) $(HEAD_DIR) $(LIB) $(DEBUG)
+	gcc $(FLAGS) $(OBJ2) $(HEAD_DIR) $(LIBFT_NAME_SANIT) $(LIB) -o $(NAME) $(DEBUG)
 
 clean:
 	make clean -C $(LIBFT)

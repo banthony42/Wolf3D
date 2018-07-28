@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/19 11:24:59 by banthony         ###   ########.fr       */
+/*   Updated: 2018/07/28 18:06:29 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@
 # define MAP_MIN 3
 # define MAP_MAX 20
 # define BOX 50
+# define ITEM_SIZE 48
 
 /*
 **	Color
