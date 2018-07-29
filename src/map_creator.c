@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/07/28 22:29:27 by banthony         ###   ########.fr       */
+/*   Updated: 2018/07/29 17:30:04 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 #define TITLE "MAP CREATOR"
 #define INFO "Draw your map"
 #define SAVE "save"
+#define CUSTOM_MAP_NAME "./custom_map_"
+#define CUSTOM_MAP_EXT ".txt"
+#define MAP_CREA_MAX_MAP 10
 
 /*
 **	Nombre de texture dans la palette. (TEXT)
@@ -43,6 +46,39 @@ int			eventk_map_creator(int keyhook, void *wolf)
 	return (0);
 }
 
+static void save_map_into_file(t_wolf *w)
+{
+	char *path;
+	char *ext;
+	int i;
+	int fd;
+
+	i = 0;
+//	ext = ft_strnew(ft_strlen(CUSTOM_MAP_EXT) + 3);
+	ext = ft_strjoin("0", CUSTOM_MAP_EXT);
+	path = ft_strjoin(CUSTOM_MAP_NAME, ext);
+	while ((fd = open(path, O_CREAT | O_WRONLY | O_EXCL, 0777)) < 0 && i < MAP_CREA_MAX_MAP)
+	{
+		ft_strdel(&ext);
+		ft_strdel(&path);
+		ext = ft_itoa(i);
+		ft_strjoin_replace(&ext, CUSTOM_MAP_EXT);
+		path = ft_strjoin(CUSTOM_MAP_NAME, ext);
+		ft_putendl(path);
+		i++;
+	}
+	ft_strdel(&ext);
+	ft_strdel(&path);
+	if (fd < 0)
+	{
+		perror(strerror(errno));
+		return ;
+	}
+	i = -1;
+	while (++i < w->map_crea.m_size.y)
+		ft_putendl_fd(w->map_crea.map[i], fd);
+}
+
 static int	palette_choice(t_wolf *w, int x, int y)
 {
 	int i;
@@ -62,7 +98,7 @@ static int	palette_choice(t_wolf *w, int x, int y)
 	}
 	pt.x = PERCENTAGE(80, w->img[GAME_I].size.x);
 	if (x > pt.x && x < (pt.x + (int)(ft_strlen(SAVE) * 32)) && y > pt.y && y < (pt.y + ITEM_SIZE))
-		ft_putendl("save function to be called");
+		save_map_into_file(w);
 	return (0);
 }
 
@@ -94,10 +130,9 @@ int			eventm_map_creator(int button, int x, int y, void *wolf)
 		return (0);
 	pt.x = (((x - start.x) / ITEM_SIZE));
 	pt.y = (((y - start.y) / ITEM_SIZE));
-	/*Attention le calcul est trop limite sur les maximum de la map*/
-	/*on tape hors limite sur les derniers pixel, ca fait segfault sur le char ** map*/
-	printf("writ to map[%d][%d]\n", pt.x, pt.y);
-	w->map_crea.map[pt.y][pt.x] = (char)('0' + w->map_crea.texture);
+	printf("writ to map[%d][%d]\n", pt.x, pt.y);	// printf
+	if (pt.y >= 0 && pt.y < w->map_crea.m_size.y && pt.x >= 0 && pt.x < w->map_crea.m_size.x)
+		w->map_crea.map[pt.y][pt.x] = (char)('0' + w->map_crea.texture);
 	if (w->map_crea.texture == T_ERASER)
 		w->map_crea.map[pt.y][pt.x] = '0';
 	map_creator_info(pt, w);	// Affiche le debug du char**
