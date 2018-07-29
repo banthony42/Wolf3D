@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/07/29 17:06:49 by banthony         ###   ########.fr       */
+/*   Updated: 2018/07/29 19:32:40 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 **	Chaque ligne doit commencer et se terminer par un mur
 **	Les murs sont les 3 premieres textures de l'enum texture.
 */
-# define WALL "123"
+#define WALL "123"
 
 static size_t	line_is_valid(char *line, size_t y, size_t sizetab)
 {
@@ -25,7 +25,8 @@ static size_t	line_is_valid(char *line, size_t y, size_t sizetab)
 
 	i = 0;
 	len = 0;
-	if (!ft_strchr(WALL, line[0]) || !ft_strchr(WALL, (int)line[ft_strlen(line) - 1]))
+	if (!ft_strchr(WALL, line[0])
+		|| !ft_strchr(WALL, (int)line[ft_strlen(line) - 1]))
 		return (0);
 	while (line[i])
 	{
@@ -71,13 +72,6 @@ static void		usage(char *bin)
 	ft_putstr(bin);
 	ft_putendl(" [file.txt]");
 	ft_exit(NULL, -1);
-}
-
-void			wolf_exit(char *str, int status, t_wolf *wolf)
-{
-	if (wolf && wolf->map)
-		ft_freetab(wolf->map);
-	ft_exit(str, status);
 }
 
 static void		wolf_run(t_wolf wolf)

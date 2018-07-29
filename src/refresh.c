@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/07/29 14:39:15 by banthony         ###   ########.fr       */
+/*   Updated: 2018/07/29 19:10:41 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,10 @@ static void	img_size(t_wolf *w)
 	size.x = MAPI_W;
 	size.y = MAPI_H;
 	new_img(w, MAP_I, size);
-
-	/*Calcul de la taille de map necessaire pour le map_creator*/
 	w->map_crea.m_size.x = w->img[MAP_I].size.x / ITEM_SIZE;
 	w->map_crea.m_size.y = w->img[MAP_I].size.y / ITEM_SIZE;
-	printf("MapCreator malloc x: %d, y: %d\n", w->map_crea.m_size.x, w->map_crea.m_size.y);	//printf
-	w->map_crea.map = ft_newtab(w->map_crea.m_size.y, w->map_crea.m_size.x, (int)'0');
+	w->map_crea.map = ft_newtab(w->map_crea.m_size.y,
+									w->map_crea.m_size.x, (int)'0');
 	w->map_crea.texture = T_VOID;
 }
 
@@ -76,28 +74,28 @@ int			new_img(t_wolf *w, t_page page, t_coord size)
 }
 
 /*
-**	Contrairement aux event, pour l'instant il n'y a qu'une fonction
+**	Contrairement aux event et draw, pour l'instant il n'y a qu'une fonction
 **	pour le refresh et l'expose, pour chaque page.
 **	Si les if deviennent trop nombreux, un tableau de fonction sera utilise.
-**	La page GAME a besoin de la gestion de l'overlay de la map.
+**	Les pages GAME et MAP_CREATOR ont besoin de la gestion de l'affichage
+**	de la map ainsi que de l'interface.
 */
 
 void		expose(t_wolf *w)
 {
 	t_coord pt;
 
-	w->draw[w->current_page](w);	/* Dessine dans l'image	*/
-	mlx_put_image_to_window(w->mlx, w->win, w->img[w->current_page].ptr, 0, 0);	/* Affiche l'image */
+	w->draw[w->current_page](w);
+	mlx_put_image_to_window(w->mlx, w->win, w->img[w->current_page].ptr, 0, 0);
 	if (w->current_page == GAME)
 	{
-		if (w->keypress[KEY_TAB])	/* Affichage de la minimap sur un appui sur tab */
+		if (w->keypress[KEY_TAB])
 		{
 			pt.x = (SCREEN_W - MAPI_W) / 2;
 			pt.y = (SCREEN_H - MAPI_H) / 2;
 			mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr
 									, pt.x, pt.y);
 		}
-		/* Affichage de l'interface du jeu*/
 		mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, 0,
 								w->img[GAME].size.y);
 	}
@@ -105,17 +103,15 @@ void		expose(t_wolf *w)
 	{
 		pt.x = (SCREEN_W - MAPI_W) / 2;
 		pt.y = (SCREEN_H - MAPI_H) / 2;
-		/* Affichage de la zone de dessin de la map */
 		mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr
 									, pt.x, pt.y);
-		/* Affichage de l'interface map creator, (palette) */
 		mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, 0,
 								w->img[GAME].size.y);
 	}
 }
 
 /*
-**	La page GAME contient deux images.
+**	La page GAME et MAP_CREATOR contiennent deux images.
 */
 
 int			refresh(void *wptr)
@@ -129,16 +125,7 @@ int			refresh(void *wptr)
 	size = wolf->img[wolf->current_page].size;
 	mlx_destroy_image(wolf->mlx, wolf->img[wolf->current_page].ptr);
 	new_img(wolf, wolf->current_page, size);
-	if (wolf->current_page == GAME)
-	{
-		size = wolf->img[GAME_I].size;
-		mlx_destroy_image(wolf->mlx, wolf->img[GAME_I].ptr);
-		new_img(wolf, GAME_I, size);
-		size = wolf->img[MAP_I].size;
-		mlx_destroy_image(wolf->mlx, wolf->img[MAP_I].ptr);
-		new_img(wolf, MAP_I, size);
-	}
-	if (wolf->current_page == MAP_CREATOR)
+	if (wolf->current_page == GAME || wolf->current_page == MAP_CREATOR)
 	{
 		size = wolf->img[GAME_I].size;
 		mlx_destroy_image(wolf->mlx, wolf->img[GAME_I].ptr);

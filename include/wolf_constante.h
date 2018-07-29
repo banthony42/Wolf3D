@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/07/28 18:06:29 by banthony         ###   ########.fr       */
+/*   Updated: 2018/07/29 20:22:41 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@
 /*
 **	Parametre fenetre
 */
-#ifdef __APPLE__
-	# define WIN_W 1280
-	# define WIN_H 960
-#else
-	# define WIN_W 800
-	# define WIN_H 600
-#endif
+# ifdef __APPLE__
+#  define WIN_W 1280
+#  define WIN_H 960
+# else
+#  define WIN_W 800
+#  define WIN_H 600
+# endif
 # define WIN_NAME "Wolf3D"
 # define CENTERWIN_W(x) (WIN_W - x) / 2
 # define CENTERWIN_H(y) (WIN_H - y) / 2
@@ -73,6 +73,15 @@
 # define MAP_MAX 20
 # define BOX 50
 # define ITEM_SIZE 48
+
+/*
+**	Map Creator
+**	Nombre de texture dans la palette. (TEXT)
+**	Ecart en pixel, (pitch) entre chaque box de texture. (TEXT_P)
+*/
+
+# define TEXT 5
+# define TEXT_P 16
 
 /*
 **	Color

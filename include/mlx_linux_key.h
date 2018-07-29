@@ -6,12 +6,12 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 11:44:38 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/08 11:45:15 by banthony         ###   ########.fr       */
+/*   Updated: 2018/07/29 20:21:37 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef		MLX_LINUX_KEY_H
-# define	MLX_LINUX_KEY_H
+#ifndef MLX_LINUX_KEY_H
+# define MLX_LINUX_KEY_H
 
 # define MLX_KEY_ESCAPE         65307
 # define MLX_KEY_F1             65470

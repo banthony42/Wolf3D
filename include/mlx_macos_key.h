@@ -6,12 +6,12 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 11:37:49 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/08 11:40:58 by banthony         ###   ########.fr       */
+/*   Updated: 2018/07/29 20:21:54 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef		MLX_MACOS_KEY_H
-# define	MLX_MACOS_KEY_H
+#ifndef MLX_MACOS_KEY_H
+# define MLX_MACOS_KEY_H
 
 # define MLX_KEY_ESCAPE         53
 # define MLX_KEY_F1             122

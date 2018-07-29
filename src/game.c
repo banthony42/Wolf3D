@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/07/28 16:47:47 by banthony         ###   ########.fr       */
+/*   Updated: 2018/07/29 18:55:58 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,13 @@ int			eventm_game(int button, int x, int y, void *wolf)
 	return (0);
 }
 
-/*
-**	A retravailler
-*/
-static void	trace_map(t_wolf *w, t_coord i, char wall)
+static void	trace_map(t_wolf *w, t_coord i, int color)
 {
 	t_coord	n;
 	t_coord	pt;
-	int		color;
 	t_coord	start;
 	int		pitch;
 
-	ft_bzero(&n, sizeof(n));
-	color = 0xe1ffe1;
-	if (wall == T_WOOD + '0')
-		color = BROWN;
-	if (wall == T_METAL + '0')
-		color = DARK_GREY;
 	if (w->map_size.x > w->map_size.y)
 		pitch = PERCENTAGE(90, MAPI_W) / MAP_MAX;
 	else
@@ -58,18 +48,17 @@ static void	trace_map(t_wolf *w, t_coord i, char wall)
 	start.x = CENTERMAPI_W(w->map_size.x * pitch);
 	start.y = CENTERMAPI_H(w->map_size.y * pitch);
 	pt.y = start.y + (i.y * pitch);
-	while (n.y <= pitch)
+	n.y = -1;
+	while (++n.y <= pitch)
 	{
 		pt.x = (start.x) + (i.x * pitch);
-		n.x = 0;
-		while (n.x <= pitch)
+		n.x = -1;
+		while (++n.x <= pitch)
 		{
 			if (!n.x || !n.y || n.x == pitch || n.y == pitch)
 				put_pixel_img(pt, color, &w->img[MAP_I]);
-			n.x++;
 			pt.x++;
 		}
-		n.y++;
 		pt.y++;
 	}
 }
@@ -77,26 +66,28 @@ static void	trace_map(t_wolf *w, t_coord i, char wall)
 static void	draw_map_overlay(t_wolf *w)
 {
 	t_coord i;
-//	t_coord size;
 
-	ft_bzero(&i, sizeof(i));
 	fill_img(&w->img[MAP_I], MAP_OVERLAY);
 	draw_landmark(&w->img[MAP_I]);
-//	size.y = (int)ft_tablen(w->map);
-	while (w->map[i.y])
+	i.y = -1;
+	while (w->map[++i.y])
 	{
-		i.x = 0;
-		while (w->map[i.y][i.x])
+		i.x = -1;
+		while (w->map[i.y][++i.x])
 		{
-//			size.x = (int)ft_strlen(w->map[i.y]);
 			if (w->map[i.y][i.x] > (T_VOID + '0'))
 			{
 				if (w->map[i.y][i.x] < (T_SPAWN + '0'))
-					trace_map(w, i, w->map[i.y][i.x]);
+				{
+					if (w->map[i.y][i.x] == T_WOOD + '0')
+						trace_map(w, i, BROWN);
+					else if (w->map[i.y][i.x] == T_METAL + '0')
+						trace_map(w, i, DARK_GREY);
+					else
+						trace_map(w, i, 0xe1ffe1);
+				}
 			}
-			i.x++;
 		}
-		i.y++;
 	}
 }
 

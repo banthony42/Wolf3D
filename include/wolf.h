@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/07/29 16:10:42 by banthony         ###   ########.fr       */
+/*   Updated: 2018/07/29 20:46:03 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define WOLF_H
 
 # ifdef __linux__
-# include "mlx_linux_key.h"
+#  include "mlx_linux_key.h"
 # elif __APPLE__
-# include "mlx_macos_key.h"
+#  include "mlx_macos_key.h"
 # endif
 
 # include "mlx.h"
@@ -29,7 +29,9 @@
 
 # include <stdio.h>
 
-/* Unused for now */
+/*
+**	Unused for now
+*/
 typedef enum	e_items
 {
 	VOID, STONE, BRICK, WOOD, DOOR, HEAL, WEAPON, AMO, SPAWN, NB_ITEM,
@@ -39,12 +41,14 @@ typedef enum	e_texture
 {
 	T_VOID, T_STONE, T_WOOD, T_METAL, T_DOOR, T_ERASER, T_HEAL, T_WEAPON,
 	T_AMO, T_SPAWN, T_FLOOR, T_SKY, T_MAIN_MENU, T_GAME_OVER, T_GAME_WIN,
-	T_MAP_CREATOR, T_GAME_INTERFACE, T_CREATOR_INTERFACE, T_MINI_MAP, T_FONT, NB_TEXTURE,
+	T_MAP_CREATOR, T_GAME_INTERFACE, T_CREATOR_INTERFACE, T_MINI_MAP, T_FONT,
+	NB_TEXTURE,
 }				t_texture;
 
 /*
-** Definition des etats du jeux.
-** Menu principal, Ecran du jeu, Ecran de fin de jeu (win/loose), creation de map
+**	Definition des etats du jeux.
+**	Menu principal, Ecran du jeu, Ecran de fin de jeu (win/loose),
+**	creation de map
 */
 typedef enum	e_page
 {
@@ -56,7 +60,15 @@ typedef enum	e_keystate
 	KEY_VOID, KEY_TAB, NB_KEYSTATE,
 }				t_keystate;
 
-typedef struct		t_coord
+/*
+**	Entrees du menu principale.
+*/
+typedef enum	e_menu
+{
+	TITLE, RUN, MAP_CREA, EXIT, NB_MENU_ENTRY,
+}				t_menu;
+
+typedef struct		s_coord
 {
 	int				x;
 	int				y;
@@ -73,14 +85,14 @@ typedef struct		s_img
 {
 	void			*ptr;
 	t_coord			size;
-	int				_pad1;
+	int				pad1;
 	char			*data;
 	int				width;
 	int				bpp;
 	int				endian;
 	unsigned int	max_size;
 	unsigned int	octet;
-	int				_pad2;
+	int				pad2;
 }					t_img;
 
 /*
@@ -128,19 +140,40 @@ typedef struct		s_wolf
 	t_coord			map_size;
 	int				cursor;
 	t_page			current_page;
-	int				_pad3;
+	int				pad3;
 	t_player		*player;
 	t_creator		map_crea;
 	int				keypress[NB_KEYSTATE];
 }					t_wolf;
 
-void				draw_box(t_coord size, t_coord start, int offset, t_img *img);
-void				draw_line_img(t_img *img, t_coord *pts_a, t_coord *pts_b);
+void				draw_palette(t_wolf *w);
+
+void				draw_text_button(char *str, t_wolf *w, t_page page,
+											t_coord pt);
+
+void				draw_map(t_wolf *w);
+void				draw_grid(t_wolf *w, t_page page);
+
+void				draw_box(t_coord size, t_coord start, int offset,
+											t_img *img);
+
+void				draw_line_img(t_img *img, t_coord *pts_a,
+											t_coord *pts_b);
+
 t_coord				centerx_str(char *str, t_coord pt);
-void				string_to_img(char *str, t_coord pt, t_img *img, t_wolf *wolf);
+
+void				string_to_img(char *str, t_coord pt, t_img *img,
+											t_wolf *wolf);
+
+void				fill_img(t_img *img, int color);
 void				put_texture_on_img(t_img *dest, t_img *text);
-void				put_texture_on_img_at(t_img *dest, t_img *text, t_coord at, t_coord text_size);
-void				put_pixel_from_txt(t_coord pti, t_coord ptt, t_img *text, t_img *img);
+
+void				put_texture_on_img_at(t_img *dest, t_img *text, t_coord at,
+											t_coord text_size);
+
+void				put_pixel_from_txt(t_coord pti, t_coord ptt, t_img *text,
+											t_img *img);
+
 void				put_pixel_img(t_coord pt, int color, t_img *img);
 
 int					eventk_menu(int keyhook, void *wolf);
@@ -164,15 +197,16 @@ int					mousehook(int button, int x, int y, t_wolf *wolf);
 int					keyhook(int keycode, t_wolf *wolf);
 int					new_img(t_wolf *wolf, t_page page, t_coord size);
 void				expose(t_wolf *wolf);
-int					load_texture(t_wolf *wolf);
 int					refresh(void *wptr);
 void				init(t_wolf *wolf);
+
+void				save_map_into_file(t_wolf *w);
+int					load_texture(t_wolf *wolf);
 void				wolf_exit(char *str, int status, t_wolf *wolf);
 
 /*
 **	Fonctions temporaire
 */
 void				draw_landmark(t_img *img);
-void				fill_img(t_img *img, int color);
 
 #endif
