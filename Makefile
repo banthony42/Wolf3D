@@ -6,7 +6,7 @@
 #    By: banthony <banthony@students.42.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/07/28 18:59:57 by banthony         ###   ########.fr        #
+#    Updated: 2018/07/29 18:32:53 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -84,5 +84,6 @@ clean:
 fclean: clean
 	make fclean -C $(LIBFT)
 	rm -f $(NAME)
+	rm ./custom_map*
 
 re: fclean all

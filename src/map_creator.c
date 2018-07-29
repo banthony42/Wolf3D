@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/07/29 17:30:04 by banthony         ###   ########.fr       */
+/*   Updated: 2018/07/29 18:31:19 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 #define TITLE "MAP CREATOR"
 #define INFO "Draw your map"
 #define SAVE "save"
-#define CUSTOM_MAP_NAME "./custom_map_"
-#define CUSTOM_MAP_EXT ".txt"
-#define MAP_CREA_MAX_MAP 10
+#define CUSTOM_MAP_NAME "./custom_map_0.txt"
+#define MAP_CREA_MAX_MAP '9' + 1
 
 /*
 **	Nombre de texture dans la palette. (TEXT)
@@ -46,37 +45,31 @@ int			eventk_map_creator(int keyhook, void *wolf)
 	return (0);
 }
 
+
 static void save_map_into_file(t_wolf *w)
 {
-	char *path;
-	char *ext;
-	int i;
-	int fd;
+	char	*tmp;
+	char	*path;
+	char	c;
+	int		fd;
 
-	i = 0;
-//	ext = ft_strnew(ft_strlen(CUSTOM_MAP_EXT) + 3);
-	ext = ft_strjoin("0", CUSTOM_MAP_EXT);
-	path = ft_strjoin(CUSTOM_MAP_NAME, ext);
-	while ((fd = open(path, O_CREAT | O_WRONLY | O_EXCL, 0777)) < 0 && i < MAP_CREA_MAX_MAP)
+	c = '0' - 1;
+	path = ft_strdup(CUSTOM_MAP_NAME);
+	while ((fd = open(path, O_CREAT | O_WRONLY | O_EXCL, 0700)) < 0 && ++c < MAP_CREA_MAX_MAP)
 	{
-		ft_strdel(&ext);
-		ft_strdel(&path);
-		ext = ft_itoa(i);
-		ft_strjoin_replace(&ext, CUSTOM_MAP_EXT);
-		path = ft_strjoin(CUSTOM_MAP_NAME, ext);
-		ft_putendl(path);
-		i++;
+		if ((tmp = ft_strrchr(path, '_')) && ft_strlen(tmp) > 1)
+			ft_strncpy(tmp + 1, &c, 1);
 	}
-	ft_strdel(&ext);
+	ft_putendl(path);
 	ft_strdel(&path);
 	if (fd < 0)
 	{
 		perror(strerror(errno));
 		return ;
 	}
-	i = -1;
-	while (++i < w->map_crea.m_size.y)
-		ft_putendl_fd(w->map_crea.map[i], fd);
+	c = -1;
+	while ((int)++c < w->map_crea.m_size.y)
+		ft_putendl_fd(w->map_crea.map[(int)c], fd);
 }
 
 static int	palette_choice(t_wolf *w, int x, int y)
