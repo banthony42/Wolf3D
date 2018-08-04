@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/04 19:32:07 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/04 21:58:50 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 **	Remplit le pixel de coordonees pt, et de l'image *img, avec color.
 */
 
-void		put_pixel_img(t_coord pt, int color, t_img *img)
+void		put_pixel_img(t_coord pt, unsigned int color, t_img *img)
 {
 	unsigned int pos;
 
@@ -25,7 +25,7 @@ void		put_pixel_img(t_coord pt, int color, t_img *img)
 		return ;
 	if (pos > (unsigned)(img->width * WIN_W))
 		return ;
-	ft_memcpy(img->data + pos, &color, (unsigned)img->octet);
+	ft_memcpy(img->data + pos, &color, (unsigned int)img->octet);
 }
 
 /*
@@ -47,7 +47,7 @@ void		put_pixel_from_txt(t_coord pti, t_coord ptt, t_img *txt, t_img *img)
 			+ ((unsigned int)ptt.x * txt->octet);
 	if (pos > (unsigned)(img->width * WIN_W))
 		return ;
-	ft_memcpy(img->data + pos, txt->data + pos_txt, (size_t)img->octet);
+	ft_memcpy(img->data + pos, txt->data + pos_txt, (unsigned int)img->octet);
 }
 
 void		put_texture_on_img_at(t_img *dest, t_img *text,
@@ -102,7 +102,7 @@ void		put_texture_on_img(t_img *dest, t_img *text)
 **	Remplit l'image avec la couleur en parametre
 */
 
-void		fill_img(t_img *img, int color)
+void		fill_img(t_img *img, unsigned int color)
 {
 	t_coord pt;
 

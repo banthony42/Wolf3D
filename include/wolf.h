@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/04 15:43:30 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/04 21:54:55 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <math.h>
 
 # include <stdio.h>
 
@@ -72,13 +73,20 @@ typedef struct		s_coord
 {
 	int				x;
 	int				y;
-	int				color;
+	unsigned int	color;
 }					t_coord;
+
+typedef struct		s_vector
+{
+	float			x;
+	float			y;
+	float			dir;
+}					t_vector;
 
 typedef struct		s_pixel
 {
 	t_coord			pos;
-	int				color;
+	unsigned int	color;
 }					t_pixel;
 
 typedef struct		s_img
@@ -151,7 +159,7 @@ void				draw_palette(t_wolf *w);
 void				draw_text_button(char *str, t_wolf *w, t_page page,
 											t_coord pt);
 
-void				draw_map(t_wolf *w);
+void				draw_map(t_wolf *w, char **map, t_coord map_size);
 void				draw_grid(t_wolf *w, t_page page);
 
 void				draw_box(t_coord size, t_coord start, int offset,
@@ -165,7 +173,7 @@ t_coord				centerx_str(char *str, t_coord pt);
 void				string_to_img(char *str, t_coord pt, t_img *img,
 											t_wolf *wolf);
 
-void				fill_img(t_img *img, int color);
+void				fill_img(t_img *img, unsigned int color);
 void				put_texture_on_img(t_img *dest, t_img *text);
 
 void				put_texture_on_img_at(t_img *dest, t_img *text, t_coord at,
@@ -174,7 +182,7 @@ void				put_texture_on_img_at(t_img *dest, t_img *text, t_coord at,
 void				put_pixel_from_txt(t_coord pti, t_coord ptt, t_img *text,
 											t_img *img);
 
-void				put_pixel_img(t_coord pt, int color, t_img *img);
+void				put_pixel_img(t_coord pt, unsigned int color, t_img *img);
 
 int					eventk_menu(int keyhook, void *wolf);
 int					eventk_game(int keyhook, void *wolf);
@@ -203,6 +211,7 @@ void				init(t_wolf *wolf);
 void				save_map_into_file(t_wolf *w);
 int					load_texture(t_wolf *wolf);
 void				wolf_exit(char *str, int status, t_wolf *wolf);
+float				map_scaler(t_coord map_size, t_coord img_size);
 
 /*
 **	Fonctions temporaire

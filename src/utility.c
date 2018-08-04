@@ -6,14 +6,11 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 18:57:47 by banthony          #+#    #+#             */
-/*   Updated: 2018/07/29 19:51:44 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/04 22:05:58 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-#define CUSTOM_MAP_NAME "./custom_map_0.txt"
-#define MAP_CREA_MAX_MAP '9' + 1
 
 void		save_map_into_file(t_wolf *w)
 {
@@ -95,6 +92,28 @@ int			load_texture(t_wolf *w)
 	if (error)
 		wolf_exit(ERR_TEXTURE, -1, w);
 	return (0);
+}
+
+float		map_scaler(t_coord map_size, t_coord img_size)
+{
+	t_vector	scale;
+	float		final_scale;
+
+	if (map_size.x == (img_size.x / ITEM_SIZE))
+		return (1.0f);
+	if (map_size.y == (img_size.y / ITEM_SIZE))
+		return (1.0f);
+	scale.x = ((float)((map_size.x + 1) * ITEM_SIZE) / (float)img_size.x);
+	scale.y = ((float)((map_size.y + 1) * ITEM_SIZE) / (float)img_size.y);
+	if (scale.x > scale.y)
+		final_scale = scale.x;
+	else
+		final_scale = scale.y;
+	if (final_scale > ITEM_SIZE)
+		final_scale = ITEM_SIZE;
+	if (final_scale < 0.5f)
+		return (1.0f);
+	return (final_scale);
 }
 
 /*

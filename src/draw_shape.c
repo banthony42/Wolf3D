@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 19:13:48 by banthony          #+#    #+#             */
-/*   Updated: 2018/07/29 20:03:07 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/04 21:53:48 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,31 +78,37 @@ void	draw_text_button(char *str, t_wolf *w, t_page page, t_coord pt)
 	string_to_img(str, centerx_str(str, pt), &w->img[page], w);
 }
 
-void	draw_map(t_wolf *w)
+/*
+**	Affiche la map en utilisant les textures.
+**	Une echelle de dessin (taille des carre) est cacule
+**	en fonction de la taille de l'img et de la map,
+**	via la fonction map_scaler()
+*/
+
+void	draw_map(t_wolf *w, char **map, t_coord map_size)
 {
-	t_coord		pt;
+	t_coord		p;
 	t_coord		i;
 	t_coord		rest;
 	t_texture	text;
-	t_coord		item_size;
+	t_coord		it;
 
 	if (!w)
 		return ;
-	item_size.x = ITEM_SIZE;
-	item_size.y = ITEM_SIZE;
-	rest.x = (w->img[MAP_I].size.x % item_size.x) / 2;
-	rest.y = (w->img[MAP_I].size.y % item_size.y) / 2;
+	it.x = (int)(roundf(ITEM_SIZE / map_scaler(map_size, w->img[MAP_I].size)));
+	it.y = it.x;
+	rest.x = (w->img[MAP_I].size.x - (it.x * map_size.x)) / 2;
+	rest.y = (w->img[MAP_I].size.y - (it.y * map_size.y)) / 2;
 	i.y = -1;
-	while (++i.y < w->map_crea.m_size.y)
+	while (map[++i.y])
 	{
 		i.x = -1;
-		pt.y = (i.y * item_size.y) + rest.y;
-		while (++i.x < w->map_crea.m_size.x)
+		p.y = (i.y * it.y) + rest.y;
+		while (map[i.y][++i.x])
 		{
-			pt.x = (i.x * item_size.x) + rest.x;
-			if ((text = (t_texture)(w->map_crea.map[i.y][i.x] - '0')))
-				put_texture_on_img_at(&w->img[MAP_I], &w->texture[text],
-										pt, item_size);
+			p.x = (i.x * it.x) + rest.x;
+			if ((text = (t_texture)(map[i.y][i.x] - '0')))
+				put_texture_on_img_at(&w->img[MAP_I], &w->texture[text], p, it);
 		}
 	}
 }

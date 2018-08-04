@@ -6,15 +6,11 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/04 15:48:45 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/04 22:00:59 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-#define TITLE "MAP CREATOR"
-#define INFO "Draw your map"
-#define SAVE "save" // a deplacer dans .h
 
 int			eventk_map_creator(int keyhook, void *wolf)
 {
@@ -54,7 +50,7 @@ static int	palette_choice(t_wolf *w, int x, int y)
 		pt.x += ITEM_SIZE + 2 + TEXT_P;
 	}
 	pt.x = PERCENTAGE(80, w->img[GAME_I].size.x);
-	if (x > pt.x && x < (pt.x + (int)(ft_strlen(SAVE) * 32))
+	if (x > pt.x && x < (pt.x + (int)(ft_strlen(MC_SAVE) * 32))
 		&& y > pt.y && y < (pt.y + ITEM_SIZE))
 		save_map_into_file(w);
 	return (0);
@@ -94,10 +90,10 @@ static void	put_interface_text(t_wolf *w)
 
 	pt.x = PERCENTAGE(50, w->img[MAP_CREATOR].size.x);
 	pt.y = PERCENTAGE(2, w->img[MAP_CREATOR].size.y);
-	string_to_img(TITLE, centerx_str(TITLE, pt), &w->img[MAP_CREATOR], w);
+	string_to_img(MC_TITLE, centerx_str(MC_TITLE, pt), &w->img[MAP_CREATOR], w);
 	pt.x = PERCENTAGE(50, w->img[GAME_I].size.x);
 	pt.y = PERCENTAGE(5, w->img[GAME_I].size.y);
-	string_to_img(INFO, centerx_str(INFO, pt), &w->img[GAME_I], w);
+	string_to_img(MC_INFO, centerx_str(MC_INFO, pt), &w->img[GAME_I], w);
 }
 
 void		draw_map_creator(void *wolf)
@@ -116,7 +112,7 @@ void		draw_map_creator(void *wolf)
 	draw_palette(w);
 	pt.x = (PERCENTAGE(80, w->img[GAME_I].size.x));
 	pt.y = PERCENTAGE(50, w->img[GAME_I].size.y);
-	draw_text_button(SAVE, w, GAME_I, pt);
+	draw_text_button(MC_SAVE, w, GAME_I, pt);
 	draw_grid(w, MAP_I);
-	draw_map(w);
+	draw_map(w, w->map_crea.map, w->map_crea.m_size);
 }

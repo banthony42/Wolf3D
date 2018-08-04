@@ -6,49 +6,11 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 13:54:12 by banthony          #+#    #+#             */
-/*   Updated: 2018/06/14 17:47:48 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/04 22:02:43 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-/*
-**	Nombre de caractere par ligne dans la texture
-*/
-#define NB_C 18
-
-/*
-**	Les caracteres sont dans des cases de 32 x 48 pixel.
-**	Afin de ne pas copier les contour de la case, nous recuperons
-**	un rectangle legerement plus petit definit ci dessous.
-**	La premiere case commence au pixel 34 en x et 34 en y.
-*/
-#define FRAME_X 32
-#define FRAME_Y 48
-#define BOX_X FRAME_X - 2
-#define BOX_Y FRAME_Y - 2
-#define START_XY 34
-
-/*
-**	Le tableau de caractere correspond a l'ordre d'un tableau ascii.
-**	Cela permet de retrouver a quel ligne et quel rang le caractere voulu
-**	se situe. Il suffira ensuite de calculer les coordonnes en pixel reel.
-*/
-#define GET_Y(c) ((c - ' ') / NB_C)
-#define GET_X(c) ((c - ' ') % NB_C)
-
-/*
-**	Calcul de la position reel du caractere en pixel.
-*/
-#define GET_POS_X(c) (START_XY + (FRAME_X * GET_X(c)) )
-#define GET_POS_Y(c) (START_XY + (FRAME_Y * GET_Y(c)) )
-
-/*
-**	Caractere a gerer differement pour l'espacement
-**	lors de l'affichage d'une chaine de caractere.
-**	(Caracteres qui rentre dans une case de 16 x 48 pixel).
-*/
-#define TINY_CHAR ".,1l!':;]Iij|["
 
 /*
 **	Le caractere '6' est manquant dans la texture doom_font.xpm

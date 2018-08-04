@@ -6,16 +6,11 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:40:31 by banthony          #+#    #+#             */
-/*   Updated: 2018/07/29 20:59:50 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/04 22:04:36 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-#define G_NAME "WOLF 3-D"
-#define G_RUN "Game"
-#define G_MC "Map Creator"
-#define G_EXIT "Exit"
 
 int			eventk_menu(int keyhook, void *wolf)
 {
