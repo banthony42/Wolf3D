@@ -6,11 +6,13 @@
 #    By: banthony <banthony@students.42.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/07/29 19:19:35 by banthony         ###   ########.fr        #
+#    Updated: 2018/08/04 22:16:10 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 NAME = wolf3D
+
+OBJ_PATH = ./obj/
 
 PATH_SRC = ./src/
 
@@ -35,7 +37,7 @@ SRC = $(SRC_FILE:%c=$(PATH_SRC)%c)
 INCLUDE = $(HEADER_FILE:%h=$(PATH_HEAD)%h)
 
 OBJ = $(SRC_FILE:.c=.o)
-OBJ2 = $(OBJ:%.o=$(PATH_SRC)%.o)
+OBJ2 = $(OBJ:%.o=$(OBJ_PATH)%.o)
 
 UNAME := $(shell uname)
 
@@ -63,6 +65,7 @@ DEBUG = -g3 -fsanitize=address
 TRASH = Makefile~		\
 		./src/*.c~		\
 		./include/*.h~	\
+		./map/*.txt~	\
 
 all: $(NAME)
 
@@ -70,22 +73,24 @@ $(NAME): $(SRC) $(INCLUDE)
 	make -C $(MLX_LIB)
 	make -C $(LIBFT)
 	gcc $(FLAGS) $(HEAD_DIR) -c $(SRC)
-	mv $(OBJ) $(PATH_SRC)
+	mkdir -p $(OBJ_PATH)
+	mv $(OBJ) $(OBJ_PATH)
 	gcc $(FLAGS) $(OBJ2) $(HEAD_DIR) $(LIBFT_NAME) $(LIB)  -o $(NAME)
 
 debug: $(SRC) $(INCLUDE)
 	make -C $(LIBFT) sanit
 	gcc $(FLAGS) $(HEAD_DIR) -c $(SRC) $(DEBUG)
-	mv $(OBJ) $(PATH_SRC)
+	mkdir -p $(OBJ_PATH)
+	mv $(OBJ) $(OBJ_PATH)
 	gcc $(FLAGS) $(OBJ2) $(HEAD_DIR) $(LIBFT_NAME_SANIT) $(LIB) -o $(NAME) $(DEBUG)
 
 clean:
 	make clean -C $(LIBFT)
-	rm -f $(OBJ2) $(TRASH)
+	rm -rf $(OBJ_PATH) $(TRASH)
 
 fclean: clean
 	make fclean -C $(LIBFT)
 	rm -f $(NAME)
-	rm ./custom_map*
+	-rm ./custom_map*
 
 re: fclean all
