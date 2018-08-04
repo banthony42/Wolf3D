@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 18:57:47 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/04 22:05:58 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/04 22:31:27 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,11 @@ void		save_map_into_file(t_wolf *w)
 
 void		wolf_exit(char *str, int status, t_wolf *wolf)
 {
-	if (wolf && wolf->map)
+	if (wolf)
+	{
 		ft_freetab(wolf->map);
+		ft_freetab(wolf->map_crea.map);
+	}
 	ft_exit(str, status);
 }
 
@@ -73,6 +76,12 @@ static int	load_img(char *path, t_img *i, t_wolf *wolf)
 	return (0);
 }
 
+/*
+**	A revoir
+**	Creer un tableau statique dans un header contenant tout les path
+**	Boucler sur ce tableau pour charger les texture
+**	Arreter a la moindre erreur
+*/
 int			load_texture(t_wolf *w)
 {
 	int error;
