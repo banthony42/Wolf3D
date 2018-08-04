@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/07/29 20:46:03 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/04 15:43:30 by grdalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ typedef struct		s_wolf
 	int				cursor;
 	t_page			current_page;
 	int				pad3;
-	t_player		*player;
+	t_player		*player; // A definir (camera, var joueur)
 	t_creator		map_crea;
 	int				keypress[NB_KEYSTATE];
 }					t_wolf;

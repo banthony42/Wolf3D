@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_creator.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/07/29 20:03:17 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/04 15:48:45 by grdalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #define TITLE "MAP CREATOR"
 #define INFO "Draw your map"
-#define SAVE "save"
+#define SAVE "save" // a deplacer dans .h
 
 int			eventk_map_creator(int keyhook, void *wolf)
 {
