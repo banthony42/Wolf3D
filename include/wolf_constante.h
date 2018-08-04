@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/04 22:06:17 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/04 22:37:17 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@
 /*
 **	Menu Principal
 */
-#define G_NAME "WOLF 3-D"
-#define G_RUN "Game"
-#define G_MC "Map Creator"
-#define G_EXIT "Exit"
+# define G_NAME "WOLF 3-D"
+# define G_RUN "Game"
+# define G_MC "Map Creator"
+# define G_EXIT "Exit"
 
 /*
 **	Map Creator
@@ -116,7 +116,7 @@
 **
 **	Nombre de caractere par ligne dans la texture
 */
-#define NB_C 18
+# define NB_C 18
 
 /*
 **	Les caracteres sont dans des cases de 32 x 48 pixel.
@@ -124,31 +124,31 @@
 **	un rectangle legerement plus petit definit ci dessous.
 **	La premiere case commence au pixel 34 en x et 34 en y.
 */
-#define FRAME_X 32
-#define FRAME_Y 48
-#define BOX_X FRAME_X - 2
-#define BOX_Y FRAME_Y - 2
-#define START_XY 34
+# define FRAME_X 32
+# define FRAME_Y 48
+# define BOX_X FRAME_X - 2
+# define BOX_Y FRAME_Y - 2
+# define START_XY 34
 
 /*
 **	Le tableau de caractere correspond a l'ordre d'un tableau ascii.
 **	Cela permet de retrouver a quel ligne et quel rang le caractere voulu
 **	se situe. Il suffira ensuite de calculer les coordonnes en pixel reel.
 */
-#define GET_Y(c) ((c - ' ') / NB_C)
-#define GET_X(c) ((c - ' ') % NB_C)
+# define GET_Y(c) ((c - ' ') / NB_C)
+# define GET_X(c) ((c - ' ') % NB_C)
 
 /*
 **	Calcul de la position reel du caractere en pixel.
 */
-#define GET_POS_X(c) (START_XY + (FRAME_X * GET_X(c)) )
-#define GET_POS_Y(c) (START_XY + (FRAME_Y * GET_Y(c)) )
+# define GET_POS_X(c) (START_XY + (FRAME_X * GET_X(c)) )
+# define GET_POS_Y(c) (START_XY + (FRAME_Y * GET_Y(c)) )
 
 /*
 **	Caractere a gerer differement pour l'espacement
 **	lors de l'affichage d'une chaine de caractere.
 **	(Caracteres qui rentre dans une case de 16 x 48 pixel).
 */
-#define TINY_CHAR ".,1l!':;]Iij|["
+# define TINY_CHAR ".,1l!':;]Iij|["
 
 #endif

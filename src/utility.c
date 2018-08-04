@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 18:57:47 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/04 22:31:27 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/04 22:38:42 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static int	load_img(char *path, t_img *i, t_wolf *wolf)
 **	Boucler sur ce tableau pour charger les texture
 **	Arreter a la moindre erreur
 */
+
 int			load_texture(t_wolf *w)
 {
 	int error;
