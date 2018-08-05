@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/05 16:18:45 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 19:38:20 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ static void	img_size(t_wolf *w)
 	w->map_crea.map = ft_newtab(w->map_crea.m_size.y,
 									w->map_crea.m_size.x, (int)'0');
 	w->map_crea.texture = T_VOID;
+	w->player.pos.angle = 90;
+	w->player.fov = FOV;// fiel of view, angle de vue
+	w->player.pos.x = WIN_W / 2;
+	w->player.pos.y = WIN_H / 2;
+	w->player.spd_move = 400.0;
+	w->player.spd_angle = 200.0;
 }
 
 void		init(t_wolf *wolf)

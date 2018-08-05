@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 17:17:38 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/18 16:15:57 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 20:09:17 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,18 @@ int	keypress(int keycode, void *w)
 		return (0);
 	if (keycode == MLX_KEY_TAB)
 		wolf->keypress[KEY_TAB] = 1;
+	else if (keycode == MLX_KEY_W)
+		wolf->keypress[KEY_W] = 1;
+	else if (keycode == MLX_KEY_D)
+		wolf->keypress[KEY_D] = 1;
+	else if (keycode == MLX_KEY_LEFT)
+		wolf->keypress[KEY_LEFT] = 1;
+	else if (keycode == MLX_KEY_A)
+		wolf->keypress[KEY_A] = 1;
+	else if (keycode == MLX_KEY_S)
+		wolf->keypress[KEY_S] = 1;
+	else if (keycode == MLX_KEY_RIGHT)
+		wolf->keypress[KEY_RIGHT] = 1;
 	keyhook(keycode, wolf);
 	return (1);
 }
@@ -48,5 +60,17 @@ int	keyrelease(int keycode, void *w)
 		return (0);
 	if (keycode == MLX_KEY_TAB)
 		wolf->keypress[KEY_TAB] = 0;
+	else if (keycode == MLX_KEY_W)
+		wolf->keypress[KEY_W] = 0;
+	else if (keycode == MLX_KEY_D)
+		wolf->keypress[KEY_D] = 0;
+	else if (keycode == MLX_KEY_LEFT)
+		wolf->keypress[KEY_LEFT] = 0;
+	else if (keycode == MLX_KEY_A)
+		wolf->keypress[KEY_A] = 0;
+	else if (keycode == MLX_KEY_S)
+		wolf->keypress[KEY_S] = 0;
+	else if (keycode == MLX_KEY_RIGHT)
+		wolf->keypress[KEY_RIGHT] = 0;
 	return (1);
 }

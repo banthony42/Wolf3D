@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/05 16:10:39 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 19:41:35 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,7 @@
 */
 # define MAP_MIN 3
 # define MAP_MAX 500
-# define FOV 60
-# define BLOC_SIZE 64
+# define FOV 66
 
 /*
 **	Menu Principal
@@ -102,6 +101,8 @@
 */
 # define MAP_OVERLAY 0x2f1f1f1f
 # define RED 0xff0000
+# define GREEN 0x00ff00
+# define BLUE 0x0000ff
 # define DARK_RED 0xdf0000
 # define DARK_GREY 0x939393
 # define BROWN 0xcd661d

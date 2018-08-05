@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 19:13:48 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/05 15:57:37 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 16:32:43 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	draw_map(t_wolf *w, char **map, t_coord map_size)
 
 	if (!w)
 		return ;
-	it.x = (int)(roundf(ITEM_SIZE / map_scaler(map_size, w->img[MAP_I].size)));
+	it.x = (int)(round(ITEM_SIZE / map_scaler(map_size, w->img[MAP_I].size)));
 	it.y = it.x;
 	rest.x = (w->img[MAP_I].size.x - (it.x * map_size.x)) / 2;
 	rest.y = (w->img[MAP_I].size.y - (it.y * map_size.y)) / 2;

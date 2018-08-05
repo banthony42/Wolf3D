@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/04 19:18:52 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 16:46:45 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ static size_t	tab_is_valid(char **tab, t_wolf *wolf)
 	}
 	ft_printtab(tab, ft_putstr, "\n");
 	ft_putstr("\nMap OK!\n");
+	ft_putnbr(wolf->map_size.x);
+	ft_putstr(" x ");
+	ft_putnbrendl(wolf->map_size.y);
 	return (len);
 }
 

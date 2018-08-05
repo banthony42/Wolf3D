@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 18:57:47 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/04 22:38:42 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 16:32:14 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,25 +104,25 @@ int			load_texture(t_wolf *w)
 	return (0);
 }
 
-float		map_scaler(t_coord map_size, t_coord img_size)
+double		map_scaler(t_coord map_size, t_coord img_size)
 {
 	t_vector	scale;
-	float		final_scale;
+	double		final_scale;
 
 	if (map_size.x == (img_size.x / ITEM_SIZE))
-		return (1.0f);
+		return (1.0);
 	if (map_size.y == (img_size.y / ITEM_SIZE))
-		return (1.0f);
-	scale.x = ((float)((map_size.x + 1) * ITEM_SIZE) / (float)img_size.x);
-	scale.y = ((float)((map_size.y + 1) * ITEM_SIZE) / (float)img_size.y);
+		return (1.0);
+	scale.x = ((double)((map_size.x + 1) * ITEM_SIZE) / (double)img_size.x);
+	scale.y = ((double)((map_size.y + 1) * ITEM_SIZE) / (double)img_size.y);
 	if (scale.x > scale.y)
 		final_scale = scale.x;
 	else
 		final_scale = scale.y;
 	if (final_scale > ITEM_SIZE)
 		final_scale = ITEM_SIZE;
-	if (final_scale < 0.5f)
-		return (1.0f);
+	if (final_scale < 0.5)
+		return (1.0);
 	return (final_scale);
 }
 

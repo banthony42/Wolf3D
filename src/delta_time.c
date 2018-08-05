@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:46:03 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/05 15:14:52 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 18:47:45 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	update_time(void *delta_time_struct)
 	ts->elapsed = (ts->present_time.tv_sec - ts->old_time.tv_sec) * 1000.0;
 	ts->elapsed += (ts->present_time.tv_usec - ts->old_time.tv_usec) / 1000.0;
 	ts->delta = ts->elapsed / 1000;
+	ts->fps = 1 / ts->delta;
 }
 
 /*
@@ -62,6 +63,6 @@ void	print_delta_time(void *delta_time_struct)
 	ts = NULL;
 	if (!(ts = (t_delta_time*)delta_time_struct))
 		return ;
-	printf("elapsed: %f ms - delta: %f\n", ts->elapsed, ts->delta);
+	printf("elapsed: %f ms - delta: %f - fps: %d\n", ts->elapsed, ts->delta, (int)ts->fps);
 	// /!\ printf - recoder un putnbrf()
 }

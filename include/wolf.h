@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/05 15:57:05 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 19:53:08 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef enum	e_page
 
 typedef enum	e_keystate
 {
-	KEY_VOID, KEY_TAB, NB_KEYSTATE,
+	KEY_VOID, KEY_TAB, KEY_W, KEY_A, KEY_S, KEY_D, KEY_LEFT, KEY_RIGHT, NB_KEYSTATE,
 }				t_keystate;
 
 /*
@@ -79,9 +79,9 @@ typedef struct		s_coord
 
 typedef struct		s_vector
 {
-	float			x;
-	float			y;
-	float			dir;
+	double			x;
+	double			y;
+	double			angle;
 }					t_vector;
 
 typedef struct		s_pixel
@@ -113,9 +113,9 @@ typedef struct		s_img
 typedef struct		s_player
 {
 	t_vector		pos;
-	float			fov;
-	float			spd_move;
-	float			spd_angle;
+	double			fov;
+	double			spd_move;
+	double			spd_angle;
 }					t_player;
 
 /*
@@ -220,7 +220,7 @@ void				init(t_wolf *wolf);
 void				save_map_into_file(t_wolf *w);
 int					load_texture(t_wolf *wolf);
 void				wolf_exit(char *str, int status, t_wolf *wolf);
-float				map_scaler(t_coord map_size, t_coord img_size);
+double				map_scaler(t_coord map_size, t_coord img_size);
 
 /*
 **	Fonctions temporaire
