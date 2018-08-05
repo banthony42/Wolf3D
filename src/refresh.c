@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/05 15:14:04 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 16:18:45 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static void	img_size(t_wolf *w)
 	size.x = WIN_W;
 	size.y = WIN_H;
 	new_img(w, MAIN_MENU, size);
-	size.x = SCREEN_W;
-	size.y = SCREEN_H;
 	new_img(w, GAME, size);
+	size.x = MC_SCREEN_W;
+	size.y = MC_SCREEN_H;
 	new_img(w, MAP_CREATOR, size);
 	size.x = INTRF_W;
 	size.y = INTRF_H;
@@ -78,8 +78,8 @@ int			new_img(t_wolf *w, t_page page, t_coord size)
 **	Contrairement aux event et draw, pour l'instant il n'y a qu'une fonction
 **	pour le refresh et l'expose, pour chaque page.
 **	Si les if deviennent trop nombreux, un tableau de fonction sera utilise.
-**	Les pages GAME et MAP_CREATOR ont besoin de la gestion de l'affichage
-**	de la map ainsi que de l'interface.
+**	Les pages GAME et MAP_CREATOR ont besoin respectivement de la gestion
+**	de la map et map + interface.
 */
 
 void		expose(t_wolf *w)
@@ -92,22 +92,20 @@ void		expose(t_wolf *w)
 	{
 		if (w->keypress[KEY_TAB])
 		{
-			pt.x = (SCREEN_W - MAPI_W) / 2;
-			pt.y = (SCREEN_H - MAPI_H) / 2;
+			pt.x = (WIN_W - MAPI_W) / 2;
+			pt.y = (WIN_H - MAPI_H) / 2;
 			mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr
 									, pt.x, pt.y);
 		}
-		mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, 0,
-								w->img[GAME].size.y);
 	}
 	else if (w->current_page == MAP_CREATOR)
 	{
-		pt.x = (SCREEN_W - MAPI_W) / 2;
-		pt.y = (SCREEN_H - MAPI_H) / 2;
+		pt.x = (MC_SCREEN_W - MAPI_W) / 2;
+		pt.y = (MC_SCREEN_H - MAPI_H) / 2;
 		mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr
 									, pt.x, pt.y);
 		mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, 0,
-								w->img[GAME].size.y);
+								w->img[MAP_CREATOR].size.y);
 	}
 }
 
@@ -128,11 +126,17 @@ int			refresh(void *wptr)
 	size = wolf->img[wolf->current_page].size;
 	mlx_destroy_image(wolf->mlx, wolf->img[wolf->current_page].ptr);
 	new_img(wolf, wolf->current_page, size);
-	if (wolf->current_page == GAME || wolf->current_page == MAP_CREATOR)
+	if (wolf->current_page == MAP_CREATOR)
 	{
 		size = wolf->img[GAME_I].size;
 		mlx_destroy_image(wolf->mlx, wolf->img[GAME_I].ptr);
 		new_img(wolf, GAME_I, size);
+		size = wolf->img[MAP_I].size;
+		mlx_destroy_image(wolf->mlx, wolf->img[MAP_I].ptr);
+		new_img(wolf, MAP_I, size);
+	}
+	if (wolf->current_page == GAME)
+	{
 		size = wolf->img[MAP_I].size;
 		mlx_destroy_image(wolf->mlx, wolf->img[MAP_I].ptr);
 		new_img(wolf, MAP_I, size);

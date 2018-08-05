@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/04 21:57:41 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 16:22:10 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,9 @@ void		draw_game(void *wolf)
 	fill_img(&w->img[GAME_I], 0x2f2f2f);
 	fill_img(&w->img[MAP_I], MAP_OVERLAY);
 	draw_map(w, w->map, w->map_size);
+	draw_grid(w, GAME, BLOC_SIZE);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[GAME].ptr, 0, 0);
-	pt.x = 0;
-	pt.y = w->img[GAME].size.y;
-	mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, pt.x, pt.y);
 	pt.x = 100;
 	pt.y = 100;
 	string_to_img("Game Work in progress ...", pt, &w->img[GAME], w);
-	pt.x = 16;
-	pt.y = 32;
-	string_to_img("Interface Work in progress ...", pt, &w->img[GAME_I], w);
 }

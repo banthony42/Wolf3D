@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/04 22:00:59 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 16:14:22 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	palette_choice(t_wolf *w, int x, int y)
 	pt.y = PERCENTAGE(50, w->img[GAME_I].size.y);
 	pt.x = (PERCENTAGE(50, w->img[GAME_I].size.x));
 	pt.x -= ((TEXT / 2) * ((ITEM_SIZE + 2) + TEXT_P));
-	y -= w->img[GAME].size.y;
+	y -= w->img[MAP_CREATOR].size.y;
 	while (i < TEXT)
 	{
 		if (x > pt.x && x < (pt.x + ITEM_SIZE)
@@ -65,12 +65,12 @@ int			eventm_map_creator(int button, int x, int y, void *wolf)
 
 	if (!(w = (t_wolf*)wolf) && button >= 0)
 		return (0);
-	if (y > w->img[GAME].size.y)
+	if (y > w->img[MAP_CREATOR].size.y)
 		return (palette_choice(w, x, y));
 	rest.x = (w->img[MAP_I].size.x % ITEM_SIZE) / 2;
 	rest.y = (w->img[MAP_I].size.y % ITEM_SIZE) / 2;
-	start.x = ((SCREEN_W - MAPI_W) / 2) + rest.x;
-	start.y = ((SCREEN_H - MAPI_H) / 2) + rest.y;
+	start.x = ((MC_SCREEN_W - MAPI_W) / 2) + rest.x;
+	start.y = ((MC_SCREEN_H - MAPI_H) / 2) + rest.y;
 	if (x < start.x || y < start.y || x > (start.x + MAPI_W - rest.x * 2)
 		|| y > (start.y + MAPI_H - rest.y * 2))
 		return (0);
@@ -107,12 +107,12 @@ void		draw_map_creator(void *wolf)
 	put_texture_on_img(&w->img[GAME_I], &w->texture[T_CREATOR_INTERFACE]);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[w->current_page].ptr, 0, 0);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, 0,
-							w->img[GAME].size.y);
+							w->img[MAP_CREATOR].size.y);
 	put_interface_text(w);
 	draw_palette(w);
 	pt.x = (PERCENTAGE(80, w->img[GAME_I].size.x));
 	pt.y = PERCENTAGE(50, w->img[GAME_I].size.y);
 	draw_text_button(MC_SAVE, w, GAME_I, pt);
-	draw_grid(w, MAP_I);
+	draw_grid(w, MAP_I, ITEM_SIZE);
 	draw_map(w, w->map_crea.map, w->map_crea.m_size);
 }

@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/04 22:37:17 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 16:10:39 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define PERCENTAGE(p, x) ((p * x) / 100)
 
 /*
-**	Parametre fenetre
+**	Parametre fenetre & ecran du jeu
 */
 # ifdef __APPLE__
 #  define WIN_W 1280
@@ -51,18 +51,18 @@
 # define CENTERINTRF_H(y) (INTRF_H - y) / 2
 
 /*
-**	Parametre ecran du jeu
+**	Parametre ecran map creator
 */
-# define SCREEN_W WIN_W
-# define SCREEN_H WIN_H - INTRF_H
-# define CENTERSCR_W(x) (SCREEN_W - x) / 2
-# define CENTERSCR_H(y) (SCREEN_H - y) / 2
+# define MC_SCREEN_W WIN_W
+# define MC_SCREEN_H WIN_H - INTRF_H
+# define CENTERSCR_W(x) (MC_SCREEN_W - x) / 2
+# define CENTERSCR_H(y) (MC_SCREEN_H - y) / 2
 
 /*
 ** Parametre Interface map, overlay on game screen
 */
-# define MAPI_W PERCENTAGE(70, SCREEN_W)
-# define MAPI_H PERCENTAGE(70, SCREEN_H)
+# define MAPI_W PERCENTAGE(70, MC_SCREEN_W)
+# define MAPI_H PERCENTAGE(70, MC_SCREEN_H)
 # define CENTERMAPI_W(x) (MAPI_W - x) / 2
 # define CENTERMAPI_H(y) (MAPI_H - y) / 2
 
@@ -71,8 +71,8 @@
 */
 # define MAP_MIN 3
 # define MAP_MAX 500
-# define BOX 50
-# define ITEM_SIZE 48
+# define FOV 60
+# define BLOC_SIZE 64
 
 /*
 **	Menu Principal
@@ -86,6 +86,7 @@
 **	Map Creator
 **	Nombre de texture dans la palette. (TEXT)
 **	Ecart en pixel, (pitch) entre chaque box de texture. (TEXT_P)
+**	ITEM_SIZE: taille en pixel d'un carre pour representer une texture
 */
 # define MC_TITLE "MAP CREATOR"
 # define MC_INFO "Draw your map"
@@ -94,11 +95,13 @@
 # define TEXT_P 16
 # define CUSTOM_MAP_NAME "./custom_map_0.txt"
 # define MAP_CREA_MAX_MAP '9' + 1
+# define ITEM_SIZE 48
 
 /*
 **	Color
 */
 # define MAP_OVERLAY 0x2f1f1f1f
+# define RED 0xff0000
 # define DARK_RED 0xdf0000
 # define DARK_GREY 0x939393
 # define BROWN 0xcd661d

@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 19:13:48 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/04 21:53:48 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 15:57:37 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,14 +113,14 @@ void	draw_map(t_wolf *w, char **map, t_coord map_size)
 	}
 }
 
-void	draw_grid(t_wolf *w, t_page page)
+void	draw_grid(t_wolf *w, t_page page, int square)
 {
 	t_coord pt;
 	t_coord	box;
 	t_coord rest;
 
-	box.x = ITEM_SIZE;
-	box.y = ITEM_SIZE;
+	box.x = square;
+	box.y = square;
 	box.color = 0x2f2f2f;
 	rest.x = (w->img[page].size.x % box.x) / 2;
 	rest.y = (w->img[page].size.y % box.y) / 2;

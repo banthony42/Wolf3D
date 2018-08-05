@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/05 15:17:09 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 15:57:05 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,10 @@ typedef struct		s_img
 */
 typedef struct		s_player
 {
-	t_coord			pos;
+	t_vector		pos;
+	float			fov;
+	float			spd_move;
+	float			spd_angle;
 }					t_player;
 
 /*
@@ -154,7 +157,7 @@ typedef struct		s_wolf
 	int				cursor;
 	t_page			current_page;
 	int				pad3;
-	t_player		*player; // A definir (camera, var joueur)
+	t_player		player; // A definir (camera, var joueur)
 	t_creator		map_crea;
 	int				keypress[NB_KEYSTATE];
 	t_delta_time	time;
@@ -166,7 +169,7 @@ void				draw_text_button(char *str, t_wolf *w, t_page page,
 											t_coord pt);
 
 void				draw_map(t_wolf *w, char **map, t_coord map_size);
-void				draw_grid(t_wolf *w, t_page page);
+void				draw_grid(t_wolf *w, t_page page, int square);
 
 void				draw_box(t_coord size, t_coord start, int offset,
 											t_img *img);
