@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/04 21:54:55 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 15:17:09 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "mlx.h"
 # include "libft.h"
 # include "wolf_constante.h"
+# include "delta_time.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -89,6 +90,9 @@ typedef struct		s_pixel
 	unsigned int	color;
 }					t_pixel;
 
+/*
+**	img.size = taille de la texture lors d'un chargement d'un fichier xpm
+*/
 typedef struct		s_img
 {
 	void			*ptr;
@@ -133,7 +137,8 @@ typedef int			(*t_event_k)(int keyhook, void *wolf);
 typedef int			(*t_event_m)(int button, int x, int y, void *wolf);
 
 /*
-**	img.size = taille de la texture lors d'un chargement d'un fichier xpm
+**	La structure delta_time est totalement independante du code projet.
+**	Son implementation est definit dans delta_time.c/.h
 */
 typedef struct		s_wolf
 {
@@ -152,6 +157,7 @@ typedef struct		s_wolf
 	t_player		*player; // A definir (camera, var joueur)
 	t_creator		map_crea;
 	int				keypress[NB_KEYSTATE];
+	t_delta_time	time;
 }					t_wolf;
 
 void				draw_palette(t_wolf *w);

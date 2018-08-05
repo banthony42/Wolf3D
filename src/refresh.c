@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/07/29 19:10:41 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/05 15:14:04 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void		init(t_wolf *wolf)
 	wolf->event_mouse[GAME_END] = eventm_game_end;
 	wolf->event_mouse[MAP_CREATOR] = eventm_map_creator;
 	wolf->current_page = MAIN_MENU;
+	init_time_struct(&wolf->time);
 	wolf->cursor = 1;
 	img_size(wolf);
 	if (!(load_texture(wolf)))
@@ -122,6 +123,8 @@ int			refresh(void *wptr)
 	wolf = NULL;
 	if (!(wolf = (t_wolf*)wptr))
 		return (0);
+	wolf->time.update(&wolf->time);
+	wolf->time.print(&wolf->time);
 	size = wolf->img[wolf->current_page].size;
 	mlx_destroy_image(wolf->mlx, wolf->img[wolf->current_page].ptr);
 	new_img(wolf, wolf->current_page, size);
