@@ -6,11 +6,16 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/05 20:10:38 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/07 19:58:22 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
+
+/*
+**	Necessaire pour usiliser cos, car la fonction de la libMath
+**	utilise des radians.
+*/
 
 static double	to_radian(double degree)
 {
@@ -77,35 +82,90 @@ int			eventm_game(int button, int x, int y, void *wolf)
 	return (0);
 }
 
+/*
+  	DDA Algorithm
+
+  si |x2-x1| >= |y2-y1| alors
+    longueur := |x2-x1|
+	sinon
+	  longueur := |y2-y1|
+	  fin si
+	  dx := (x2-x1) / longueur
+	  dy := (y2-y1) / longueur
+	  x := x1 + 0.5
+	  y := y1 + 0.5
+	  i := 1
+	  tant que i ≤ longueur faire
+	    setPixel (E (x), E (y))
+		  x := x + dx
+		    y := y + dy
+			  i := i + 1
+			  fin tant que
+*/
+
+static void intersect(t_wolf *w, t_coord a, t_coord b)
+{
+	int	delta;
+	int i;
+	t_vector step;
+	t_vector pt_d;
+	t_coord pt;
+
+	if ((b.x - a.x) >= (b.y - a.y))
+		delta = abs(b.x - a.x);
+	else
+		delta = abs(b.y - a.y);
+	if (!delta)
+		return ;
+	step.x = ((double)b.x - (double)a.x) / (double)delta;
+	step.y = ((double)b.y - (double)a.y) / (double)delta;
+	pt_d.x = a.x;// + 0.5;
+	pt_d.y = a.y;// + 0.5;
+	i = -1;
+	while (++i < delta)
+	{
+		pt.x = (int)pt_d.x;
+		pt.y = (int)pt_d.y;
+		if (!(pt.x % 64) || !(pt.y %64))
+			put_pixel_img(pt, GREEN, &w->img[GAME]);
+		else
+			put_pixel_img(pt, RED, &w->img[GAME]);
+		pt_d.x += step.x;
+		pt_d.y += step.y;
+	}
+}
+
 static void raycast(t_wolf *w)
 {
 	t_coord start;
 	t_coord end;
-	double lenght;
+	double length;
 	int bloc_size;
 	int i;
 	double incr;
 
 	bloc_size = 64;
-	draw_landmark(&w->img[GAME]);
-	lenght = (double)(-8 * bloc_size);
+	draw_grid(w, GAME, 64);
+	length = (double)(8 * bloc_size);
 	incr = ((double)FOV / (double)WIN_W);
-	start.color = GREEN;
-	end.color = GREEN;
+	start.color = BLUE;
+	end.color = BLUE;
 	i = -1;
 	start.x = (int)(w->player.pos.x);
 	start.y = (int)(w->player.pos.y);
 	// FOV tracing
 	while (++i < WIN_W)
 	{
-		end.x = (int)(w->player.pos.x + (lenght * d_cos((w->player.pos.angle + FOV / 2) - (i * incr))));
-		end.y = (int)(w->player.pos.y + (lenght * d_sin((w->player.pos.angle + FOV / 2) - (i * incr))));
-		draw_line_img(&w->img[GAME], &start, &end);
+		end.x = (int)(w->player.pos.x - (length * d_cos((w->player.pos.angle + FOV / 2) - (i * incr))));
+		end.y = (int)(w->player.pos.y - (length * d_sin((w->player.pos.angle + FOV / 2) - (i * incr))));
+		printf("angle cam:%f - pt: %d x %d\n", w->player.pos.angle, end.x, end.y);
+//		draw_line_img(&w->img[GAME], &start, &end);
+		intersect(w, start, end);
 	}
 	// CAM direction tracing
 	start.color = BLUE;
-	end.x = (int)(w->player.pos.x + (-200.0 * d_cos(w->player.pos.angle)));
-	end.y = (int)(w->player.pos.y + (-200.0 * d_sin(w->player.pos.angle)));
+	end.x = (int)(w->player.pos.x - (200.0 * d_cos(w->player.pos.angle)));
+	end.y = (int)(w->player.pos.y - (200.0 * d_sin(w->player.pos.angle)));
 	draw_line_img(&w->img[GAME], &start, &end);
 }
 
