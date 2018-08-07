@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/05 19:41:35 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/07 17:26:04 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@
 **	Nombre de texture dans la palette. (TEXT)
 **	Ecart en pixel, (pitch) entre chaque box de texture. (TEXT_P)
 **	ITEM_SIZE: taille en pixel d'un carre pour representer une texture
+**	/!\ pas encore proportionel a la taille fenetre ...
 */
 # define MC_TITLE "MAP CREATOR"
 # define MC_INFO "Draw your map"
