@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/09 17:31:17 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 19:27:14 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ void		put_pixel_img(t_coord pt, unsigned int color, t_img *img)
 		return ;
 	ft_memcpy(img->data + pos, &color, (unsigned int)img->octet);
 }
+
+/*
+**	Trace de ligne utilisant l'algoithme DDA
+**	Digital Differencial Analyzer
+*/
 
 void		trace(t_img *img, t_coord a, t_coord b, unsigned int color)
 {
