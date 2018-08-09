@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/04 21:58:50 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 15:27:53 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void		put_pixel_img(t_coord pt, unsigned int color, t_img *img)
 {
 	unsigned int pos;
 
-	pos = (unsigned int)(pt.y * img->width) + ((unsigned int)pt.x * img->octet);
 	if (pt.y >= WIN_H || pt.y < 0 || pt.x >= WIN_W || pt.x < 0)
 		return ;
+	pos = (unsigned int)(pt.y * img->width) + ((unsigned int)pt.x * img->octet);
 	if (pos > (unsigned)(img->width * WIN_W))
 		return ;
 	ft_memcpy(img->data + pos, &color, (unsigned int)img->octet);

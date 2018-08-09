@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:46:03 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/07 18:30:52 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 16:52:19 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 **	(un ou plusieurs 0 entre la virgule et le prochain chiffre)
 */
 
+# if 0
 static void    affdouble(double data)
 {
 	if (data < 0)
@@ -36,7 +37,7 @@ static void    affdouble(double data)
 	ft_putchar('.');
 	ft_putnbr((int)((data + 0.00000005 - (double)((int)data)) * 1000000));
 }
-
+# endif
 void	init_time_struct(t_delta_time *ts)
 {
 	if (!ts)
@@ -82,11 +83,11 @@ void	print_delta_time(void *delta_time_struct)
 	if (!(ts = (t_delta_time*)delta_time_struct))
 		return ;
 	printf("elapsed: %f ms - delta: %f - fps: %d\n", ts->elapsed, ts->delta, (int)ts->fps);
-	ft_putstr("elapsed: ");
-	affdouble(ts->elapsed);
-	ft_putstr(" ms\n");// - delta: ");
-/*	affdouble(ts->delta);
-	ft_putstr(" - fps:");
-	ft_putnbrendl((int)ts->fps);*/
-	// /!\ printf - recoder un putnbrf()
+//	ft_putstr("elapsed: ");
+//	affdouble(ts->elapsed);
+//	ft_putstr(" ms\n");// - delta: ");
+//	affdouble(ts->delta);
+//	ft_putstr(" - fps:");
+//	ft_putnbrendl((int)ts->fps);
+// /!\ printf - recoder un putnbrf()
 }

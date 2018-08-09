@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/05 19:53:08 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 17:18:21 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,26 +96,33 @@ typedef struct		s_pixel
 typedef struct		s_img
 {
 	void			*ptr;
-	t_coord			size;
-	int				pad1;
 	char			*data;
+	t_coord			size;
 	int				width;
 	int				bpp;
 	int				endian;
+	unsigned int	data_size;
 	unsigned int	max_size;
 	unsigned int	octet;
-	int				pad2;
+	char			padding[4];
 }					t_img;
 
 /*
-**	Variables et gestion du joueur
+**	Variables pour le Raycast et eventuellement gestion du joueur
+**	ray_dir est une look up table contentant la direction des rayons
+**	pour chaque pixel en largeur. Les valeurs seront toujours identique,
+**	elles sont donc calculees une seule fois au debut du programmes,
+**	et stockees dans un tableau.
 */
 typedef struct		s_player
 {
 	t_vector		pos;
-	double			fov;
-	double			spd_move;
-	double			spd_angle;
+	double			ray_dir[WIN_W];
+	const double	length;
+	const double	fov;
+	const double	fov_half;
+	const double	spd_move;
+	const double	spd_angle;
 }					t_player;
 
 /*
@@ -147,20 +154,20 @@ typedef struct		s_wolf
 {
 	void			*mlx;
 	void			*win;
+	char			**map;
 	t_img			img[NB_IMG];
 	t_img			texture[NB_TEXTURE];
 	t_draw			draw[NB_PAGE];
 	t_event_k		event_key[NB_PAGE];
 	t_event_m		event_mouse[NB_PAGE];
-	char			**map;
 	t_coord			map_size;
-	int				cursor;
 	t_page			current_page;
-	int				pad3;
 	t_player		player; // A definir (camera, var joueur)
 	t_creator		map_crea;
-	int				keypress[NB_KEYSTATE];
 	t_delta_time	time;
+	int				keypress[NB_KEYSTATE];
+	int				cursor;
+	char			padding[4];
 }					t_wolf;
 
 void				draw_palette(t_wolf *w);

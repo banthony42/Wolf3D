@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/07 17:26:04 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 16:45:43 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,16 @@
 /*
 **	Parametre ecran map creator
 */
-# define MC_SCREEN_W WIN_W
-# define MC_SCREEN_H WIN_H - INTRF_H
-# define CENTERSCR_W(x) (MC_SCREEN_W - x) / 2
-# define CENTERSCR_H(y) (MC_SCREEN_H - y) / 2
+# define MAP_CRT_W WIN_W
+# define MAP_CRT_H WIN_H - INTRF_H
+# define CENTERSCR_W(x) (MAP_CRT_W - x) / 2
+# define CENTERSCR_H(y) (MAP_CRT_H - y) / 2
 
 /*
 ** Parametre Interface map, overlay on game screen
 */
-# define MAPI_W PERCENTAGE(70, MC_SCREEN_W)
-# define MAPI_H PERCENTAGE(70, MC_SCREEN_H)
+# define MAPI_W PERCENTAGE(70, MAP_CRT_W)
+# define MAPI_H PERCENTAGE(70, MAP_CRT_H)
 # define CENTERMAPI_W(x) (MAPI_W - x) / 2
 # define CENTERMAPI_H(y) (MAPI_H - y) / 2
 
@@ -100,6 +100,7 @@
 /*
 **	Color
 */
+# define CLR 0x00000000
 # define MAP_OVERLAY 0x2f1f1f1f
 # define RED 0xff0000
 # define GREEN 0x00ff00

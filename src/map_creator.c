@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_creator.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/05 16:14:22 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 17:19:53 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ int			eventm_map_creator(int button, int x, int y, void *wolf)
 		return (palette_choice(w, x, y));
 	rest.x = (w->img[MAP_I].size.x % ITEM_SIZE) / 2;
 	rest.y = (w->img[MAP_I].size.y % ITEM_SIZE) / 2;
-	start.x = ((MC_SCREEN_W - MAPI_W) / 2) + rest.x;
-	start.y = ((MC_SCREEN_H - MAPI_H) / 2) + rest.y;
+	start.x = ((MAP_CRT_W - MAPI_W) / 2) + rest.x;
+	start.y = ((MAP_CRT_H - MAPI_H) / 2) + rest.y;
 	if (x < start.x || y < start.y || x > (start.x + MAPI_W - rest.x * 2)
 		|| y > (start.y + MAPI_H - rest.y * 2))
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/07 19:58:22 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 14:53:25 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,27 +82,6 @@ int			eventm_game(int button, int x, int y, void *wolf)
 	return (0);
 }
 
-/*
-  	DDA Algorithm
-
-  si |x2-x1| >= |y2-y1| alors
-    longueur := |x2-x1|
-	sinon
-	  longueur := |y2-y1|
-	  fin si
-	  dx := (x2-x1) / longueur
-	  dy := (y2-y1) / longueur
-	  x := x1 + 0.5
-	  y := y1 + 0.5
-	  i := 1
-	  tant que i ≤ longueur faire
-	    setPixel (E (x), E (y))
-		  x := x + dx
-		    y := y + dy
-			  i := i + 1
-			  fin tant que
-*/
-
 static void intersect(t_wolf *w, t_coord a, t_coord b)
 {
 	int	delta;
@@ -111,16 +90,14 @@ static void intersect(t_wolf *w, t_coord a, t_coord b)
 	t_vector pt_d;
 	t_coord pt;
 
-	if ((b.x - a.x) >= (b.y - a.y))
+	if (abs(b.x - a.x) >= abs(b.y - a.y))
 		delta = abs(b.x - a.x);
 	else
 		delta = abs(b.y - a.y);
-	if (!delta)
-		return ;
 	step.x = ((double)b.x - (double)a.x) / (double)delta;
 	step.y = ((double)b.y - (double)a.y) / (double)delta;
-	pt_d.x = a.x;// + 0.5;
-	pt_d.y = a.y;// + 0.5;
+	pt_d.x = a.x + 0.5;
+	pt_d.y = a.y + 0.5;
 	i = -1;
 	while (++i < delta)
 	{
@@ -139,15 +116,9 @@ static void raycast(t_wolf *w)
 {
 	t_coord start;
 	t_coord end;
-	double length;
-	int bloc_size;
 	int i;
-	double incr;
 
-	bloc_size = 64;
 	draw_grid(w, GAME, 64);
-	length = (double)(8 * bloc_size);
-	incr = ((double)FOV / (double)WIN_W);
 	start.color = BLUE;
 	end.color = BLUE;
 	i = -1;
@@ -156,13 +127,12 @@ static void raycast(t_wolf *w)
 	// FOV tracing
 	while (++i < WIN_W)
 	{
-		end.x = (int)(w->player.pos.x - (length * d_cos((w->player.pos.angle + FOV / 2) - (i * incr))));
-		end.y = (int)(w->player.pos.y - (length * d_sin((w->player.pos.angle + FOV / 2) - (i * incr))));
-		printf("angle cam:%f - pt: %d x %d\n", w->player.pos.angle, end.x, end.y);
-//		draw_line_img(&w->img[GAME], &start, &end);
+		end.x = (int)(w->player.pos.x - (w->player.length *
+								 d_cos((w->player.pos.angle + w->player.fov_half) - w->player.ray_dir[i])));
+		end.y = (int)(w->player.pos.y - (w->player.length *
+								 d_sin((w->player.pos.angle + w->player.fov_half) - w->player.ray_dir[i])));
 		intersect(w, start, end);
 	}
-	// CAM direction tracing
 	start.color = BLUE;
 	end.x = (int)(w->player.pos.x - (200.0 * d_cos(w->player.pos.angle)));
 	end.y = (int)(w->player.pos.y - (200.0 * d_sin(w->player.pos.angle)));
