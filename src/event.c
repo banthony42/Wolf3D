@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 17:17:38 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/05 20:09:17 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 18:35:46 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	keypress(int keycode, void *w)
 	else if (keycode == MLX_KEY_RIGHT)
 		wolf->keypress[KEY_RIGHT] = 1;
 	keyhook(keycode, wolf);
+	refresh(w);
 	return (1);
 }
 
@@ -72,5 +73,6 @@ int	keyrelease(int keycode, void *w)
 		wolf->keypress[KEY_S] = 0;
 	else if (keycode == MLX_KEY_RIGHT)
 		wolf->keypress[KEY_RIGHT] = 0;
+	refresh(w);
 	return (1);
 }

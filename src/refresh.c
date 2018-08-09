@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/09 16:52:47 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 18:39:16 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	init_img(t_wolf *w)
 	w->map_crea.m_size.y = w->img[MAP_I].size.y / ITEM_SIZE;
 	w->map_crea.map = ft_newtab(w->map_crea.m_size.y,
 									w->map_crea.m_size.x, (int)'0');
-	w->map_crea.texture = T_VOID;
+	w->map_crea.texture = T_NULL;
 	init_raycast(w);
 }
 

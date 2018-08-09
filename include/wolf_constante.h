@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/09 16:45:43 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 18:27:27 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,13 @@
 # define MAPI_H PERCENTAGE(70, MAP_CRT_H)
 # define CENTERMAPI_W(x) (MAPI_W - x) / 2
 # define CENTERMAPI_H(y) (MAPI_H - y) / 2
+
+/*
+**	Parsing
+**	Chaque ligne doit commencer et se terminer par un mur
+**	Les murs sont les 3 premieres textures de l'enum texture.
+*/
+# define WALL "123"
 
 /*
 ** Wolf3D

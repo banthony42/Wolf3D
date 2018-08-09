@@ -6,17 +6,11 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/05 16:46:45 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 17:43:50 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-/*
-**	Chaque ligne doit commencer et se terminer par un mur
-**	Les murs sont les 3 premieres textures de l'enum texture.
-*/
-#define WALL "123"
 
 static size_t	line_is_valid(char *line, size_t y, size_t sizetab)
 {

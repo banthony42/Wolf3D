@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/09 17:18:21 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 19:13:46 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@
 */
 typedef enum	e_items
 {
-	VOID, STONE, BRICK, WOOD, DOOR, HEAL, WEAPON, AMO, SPAWN, NB_ITEM,
+	I_NULL, STONE, BRICK, WOOD, DOOR, HEAL, WEAPON, AMO, SPAWN, NB_ITEM,
 }				t_items;
 
 typedef enum	e_texture
 {
-	T_VOID, T_STONE, T_WOOD, T_METAL, T_DOOR, T_ERASER, T_HEAL, T_WEAPON,
+	T_NULL, T_STONE, T_WOOD, T_METAL, T_DOOR, T_ERASER, T_HEAL, T_WEAPON,
 	T_AMO, T_SPAWN, T_FLOOR, T_SKY, T_MAIN_MENU, T_GAME_OVER, T_GAME_WIN,
 	T_MAP_CREATOR, T_GAME_INTERFACE, T_CREATOR_INTERFACE, T_MINI_MAP, T_FONT,
 	NB_TEXTURE,
@@ -59,7 +59,9 @@ typedef enum	e_page
 
 typedef enum	e_keystate
 {
-	KEY_VOID, KEY_TAB, KEY_W, KEY_A, KEY_S, KEY_D, KEY_LEFT, KEY_RIGHT, NB_KEYSTATE,
+	KEY_NULL, KEY_TAB, KEY_W, KEY_A, KEY_S, KEY_D,
+	KEY_LEFT, KEY_RIGHT,
+	NB_KEYSTATE,
 }				t_keystate;
 
 /*
@@ -108,6 +110,17 @@ typedef struct		s_img
 }					t_img;
 
 /*
+** Definit les fonctions qui dessine les pages
+*/
+typedef void		(*t_draw)(void *wolf);
+
+/*
+** Definit les fonctions qui gere les event de chaque pages
+*/
+typedef int			(*t_event_k)(int keyhook, void *wolf);
+typedef int			(*t_event_m)(int button, int x, int y, void *wolf);
+
+/*
 **	Variables pour le Raycast et eventuellement gestion du joueur
 **	ray_dir est une look up table contentant la direction des rayons
 **	pour chaque pixel en largeur. Les valeurs seront toujours identique,
@@ -136,17 +149,6 @@ typedef struct		s_creator
 }					t_creator;
 
 /*
-** Definit les fonctions qui dessine les pages
-*/
-typedef void		(*t_draw)(void *wolf);
-
-/*
-** Definit les fonctions qui gere les event de chaque pages
-*/
-typedef int			(*t_event_k)(int keyhook, void *wolf);
-typedef int			(*t_event_m)(int button, int x, int y, void *wolf);
-
-/*
 **	La structure delta_time est totalement independante du code projet.
 **	Son implementation est definit dans delta_time.c/.h
 */
@@ -170,6 +172,14 @@ typedef struct		s_wolf
 	char			padding[4];
 }					t_wolf;
 
+double				d_cos(double degree);
+double				d_sin(double degree);
+void				move_right(t_wolf *w);
+void				move_left(t_wolf *w);
+void				move_back(t_wolf *w);
+void				move_forward(t_wolf *w);
+
+void				trace(t_img *img, t_coord a, t_coord b, unsigned int color);
 void				draw_palette(t_wolf *w);
 
 void				draw_text_button(char *str, t_wolf *w, t_page page,

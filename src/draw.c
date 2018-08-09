@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/09 15:27:53 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 17:31:17 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,33 @@ void		put_pixel_img(t_coord pt, unsigned int color, t_img *img)
 	if (pos > (unsigned)(img->width * WIN_W))
 		return ;
 	ft_memcpy(img->data + pos, &color, (unsigned int)img->octet);
+}
+
+void		trace(t_img *img, t_coord a, t_coord b, unsigned int color)
+{
+	int	delta;
+	int i;
+	t_vector step;
+	t_vector pt_d;
+	t_coord pt;
+
+	if (abs(b.x - a.x) >= abs(b.y - a.y))
+		delta = abs(b.x - a.x);
+	else
+		delta = abs(b.y - a.y);
+	step.x = ((double)b.x - (double)a.x) / (double)delta;
+	step.y = ((double)b.y - (double)a.y) / (double)delta;
+	pt_d.x = a.x + 0.5;
+	pt_d.y = a.y + 0.5;
+	i = -1;
+	while (++i < delta)
+	{
+		pt.x = (int)pt_d.x;
+		pt.y = (int)pt_d.y;
+		put_pixel_img(pt, color, img);
+		pt_d.x += step.x;
+		pt_d.y += step.y;
+	}
 }
 
 /*
