@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/09 18:39:16 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 23:51:29 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 /*
 **	Initialisation des variables constantes utile au raycast
+**	spawn sur la case (2, 2) pour l'instant
 */
 static void init_raycast(t_wolf *w)
 {
@@ -24,9 +25,12 @@ static void init_raycast(t_wolf *w)
 	i = -1;
 	incr = (double)FOV / (double)WIN_W;
 	while (++i < WIN_W)
-		raydir[i] = i * incr;
-	w->player = (t_player) {{WIN_W / 2, WIN_H/2, 90}, {0}, 8 * 64, FOV, FOV / 2, 400, 200};
+		raydir[i] = (double)i * incr;
+	w->player = (t_player) {{6.5 * BLOC_SIZE, 11.5 * BLOC_SIZE, 90},
+							{0}, WIN_H / 2, ((double)(WIN_W / 2) / tan(to_radian(FOV / 2))),
+							100 * BLOC_SIZE, FOV, FOV / 2, 300, 100};
 	ft_memcpy(&w->player.ray_dir, &raydir, sizeof(raydir));
+	printf("screenDist:%f\n", w->player.screenDist);
 }
 
 static void	init_img(t_wolf *w)

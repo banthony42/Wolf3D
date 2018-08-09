@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/06 18:00:24 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/09 19:17:30 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 23:40:03 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	move_right(t_wolf *w)
 	t_vector pt;
 
 	pt = w->player.pos;
-	pt.x -= d_cos(w->player.pos.angle + 90) * w->player.spd_move * w->time.delta;
-	pt.y -= d_sin(w->player.pos.angle + 90) * w->player.spd_move * w->time.delta;
+	pt.x += d_cos(w->player.pos.angle + 90) * w->player.spd_move * w->time.delta;
+	pt.y += d_sin(w->player.pos.angle + 90) * w->player.spd_move * w->time.delta;
 	if (((int)pt.x / 64) > w->map_size.x || ((int)pt.y / 64) > w->map_size.y)
 		return;
 	if (((int)pt.x / 64) < 0 || ((int)pt.y / 64) < 0)
@@ -33,8 +33,8 @@ void	move_left(t_wolf *w)
 	t_vector pt;
 
 	pt = w->player.pos;
-	pt.x += d_cos(w->player.pos.angle + 90) * w->player.spd_move * w->time.delta;
-	pt.y += d_sin(w->player.pos.angle + 90) * w->player.spd_move * w->time.delta;
+	pt.x -= d_cos(w->player.pos.angle + 90) * w->player.spd_move * w->time.delta;
+	pt.y -= d_sin(w->player.pos.angle + 90) * w->player.spd_move * w->time.delta;
 	if (((int)pt.x / 64) > w->map_size.x || ((int)pt.y / 64) > w->map_size.y)
 		return;
 	if (((int)pt.x / 64) < 0 || ((int)pt.y / 64) < 0)

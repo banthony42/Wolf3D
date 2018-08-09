@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/09 19:13:46 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/09 22:14:48 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,17 +110,6 @@ typedef struct		s_img
 }					t_img;
 
 /*
-** Definit les fonctions qui dessine les pages
-*/
-typedef void		(*t_draw)(void *wolf);
-
-/*
-** Definit les fonctions qui gere les event de chaque pages
-*/
-typedef int			(*t_event_k)(int keyhook, void *wolf);
-typedef int			(*t_event_m)(int button, int x, int y, void *wolf);
-
-/*
 **	Variables pour le Raycast et eventuellement gestion du joueur
 **	ray_dir est une look up table contentant la direction des rayons
 **	pour chaque pixel en largeur. Les valeurs seront toujours identique,
@@ -131,7 +120,9 @@ typedef struct		s_player
 {
 	t_vector		pos;
 	double			ray_dir[WIN_W];
-	const double	length;
+	double			heightView;
+	double			screenDist;
+	const double	lengthView;
 	const double	fov;
 	const double	fov_half;
 	const double	spd_move;
@@ -147,6 +138,17 @@ typedef struct		s_creator
 	t_coord			m_size;
 	t_texture		texture;
 }					t_creator;
+
+/*
+** Definit les fonctions qui dessine les pages
+*/
+typedef void		(*t_draw)(void *wolf);
+
+/*
+** Definit les fonctions qui gere les event de chaque pages
+*/
+typedef int			(*t_event_k)(int keyhook, void *wolf);
+typedef int			(*t_event_m)(int button, int x, int y, void *wolf);
 
 /*
 **	La structure delta_time est totalement independante du code projet.
@@ -172,6 +174,7 @@ typedef struct		s_wolf
 	char			padding[4];
 }					t_wolf;
 
+double				to_radian(double degree);
 double				d_cos(double degree);
 double				d_sin(double degree);
 void				move_right(t_wolf *w);

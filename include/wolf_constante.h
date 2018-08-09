@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/09 18:27:27 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/10 00:27:45 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 **	Parametre fenetre & ecran du jeu
 */
 # ifdef __APPLE__
-#  define WIN_W 1280
-#  define WIN_H 960
+#  define WIN_W 1024
+#  define WIN_H 768
 # else
 #  define WIN_W 800
 #  define WIN_H 600
@@ -78,7 +78,8 @@
 */
 # define MAP_MIN 3
 # define MAP_MAX 500
-# define FOV 66
+# define FOV 60
+# define BLOC_SIZE 64
 
 /*
 **	Menu Principal
