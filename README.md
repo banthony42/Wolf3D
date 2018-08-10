@@ -4,7 +4,7 @@ Inspired by the world-famous 90's game of similar naming (which was the first FP
 
 Work in progress
 
-# Install and Run
+# Install and Run (MacOS & Linux only)
 git clone https://github.com/banthony42/Wolf3D.git</br>
 </br>
 cd Wolf3D</br>
