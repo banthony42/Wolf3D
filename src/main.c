@@ -71,11 +71,21 @@ static void		usage(char *bin)
 	ft_exit(NULL, -1);
 }
 
+static int ft_clos(void *wolf)
+{
+	t_wolf *w;
+
+	if (!(w = (t_wolf *)wolf))
+		return(0);
+	wolf_exit ("fermeture croix", 0, w);
+	return(0);
+}
 static void		wolf_run(t_wolf wolf)
 {
 	init(&wolf);
 	mlx_mouse_hook(wolf.win, mousehook, &wolf);
 	mlx_loop_hook(wolf.mlx, refresh, &wolf);
+	mlx_hook(wolf.win, 17, 1L << 17, ft_clos, &wolf);
 	mlx_hook(wolf.win, KEY_PRESS, KEY_PRESS_MASK, keypress, &wolf);
 	mlx_hook(wolf.win, KEY_RELEASE, KEY_RELEASE_MASK, keyrelease, &wolf);
 	mlx_loop(wolf.mlx);
