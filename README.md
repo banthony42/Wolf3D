@@ -4,10 +4,10 @@ Inspired by the world-famous 90's game of similar naming (which was the first FP
 
 Work in progress
 
-from:
-banthony
-grdalmas
-jlobjois consultant en mathématique
+from:</br>
+banthony</br>
+grdalmas</br>
+jlobjois consultant en mathématique</br>
 
 # Install and Run (MacOS & Linux only)
 git clone https://github.com/banthony42/Wolf3D.git</br>
