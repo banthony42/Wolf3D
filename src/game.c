@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/10 14:07:52 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/10 16:48:57 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static t_texture find_intersection(t_wolf *w, t_vector a, t_vector b, t_vector *
 	return (0);
 }
 
-static void	renderer(t_wolf *w, double hWallHalf, int ray_x, t_texture text_index)
+static void	renderer(t_wolf *w, double hWallHalf, int ray_x, t_texture text_index, t_vector hitPoint)
 {
 	t_coord column_start;
 	t_coord column_end;
@@ -89,7 +89,7 @@ static void	renderer(t_wolf *w, double hWallHalf, int ray_x, t_texture text_inde
 	column_start.y = (int)(w->player.heightView - hWallHalf);
 	column_end.x = ray_x;
 	column_end.y = (int)(w->player.heightView + hWallHalf);
-	trace_texture(&w->img[GAME], column_start, column_end, &w->texture[text_index]);
+	trace_texture(&w->img[GAME], column_start, column_end, &w->texture[text_index], hitPoint);
 	// SKY
 	column_end.y = 0;
 	trace_color(&w->img[GAME], column_start, column_end, BLUE);
@@ -134,7 +134,7 @@ static void raycast(t_wolf *w)
 				* sqrt(((hitPoint.y - w->player.pos.y) * (hitPoint.y - w->player.pos.y))
 					  + ((hitPoint.x - w->player.pos.x) * (hitPoint.x - w->player.pos.x)));
 			hWall = (BLOC_SIZE / distHit) * w->player.screenDist;
-			renderer(w, hWall / 2, i, objectHit);
+			renderer(w, hWall / 2, i, objectHit, hitPoint);
 		}
 	}
 }

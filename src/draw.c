@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/10 14:31:31 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/10 16:49:39 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void		trace_color(t_img *img, t_coord a, t_coord b, unsigned int color)
 	}
 }
 
-void		trace_texture(t_img *img, t_coord a, t_coord b, t_img *txt)
+void		trace_texture(t_img *img, t_coord a, t_coord b, t_img *txt, t_vector hitPoint)
 {
 	int	delta;
 	int i;
@@ -82,8 +82,8 @@ void		trace_texture(t_img *img, t_coord a, t_coord b, t_img *txt)
 	{
 		pt.x = (int)pt_d.x;
 		pt.y = (int)pt_d.y;
-		ptt.x = pt.x * txt->size.x / img->size.x;
-		ptt.y = pt.y * txt->size.y / img->size.y;
+		ptt.x = (int)(fmod(hitPoint.x, BLOC_SIZE) * txt->size.x);
+		ptt.y = (int)(fmod(pt.y, delta) * txt->size.y);
 		put_pixel_from_txt(pt, ptt, txt, img);
 		pt_d.x += step.x;
 		pt_d.y += step.y;
