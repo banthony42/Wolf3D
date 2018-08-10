@@ -130,8 +130,8 @@ static void raycast(t_wolf *w)
 		if ((find_intersection(w, w->player.pos, end, &hitPoint)))
 		{
 			distHit = d_cos(w->player.fov_half + w->player.ray_dir[i])
-				* sqrt((fabs(hitPoint.y - w->player.pos.y) * fabs(hitPoint.y - w->player.pos.y))
-					  + (fabs(hitPoint.x - w->player.pos.x) * fabs(hitPoint.x - w->player.pos.x)));
+				* sqrt(((hitPoint.y - w->player.pos.y) * (hitPoint.y - w->player.pos.y))
+					  + ((hitPoint.x - w->player.pos.x) * (hitPoint.x - w->player.pos.x)));
 			hWall = (BLOC_SIZE / distHit) * w->player.screenDist;
 			renderer(w, hWall / 2, i);
 		}
