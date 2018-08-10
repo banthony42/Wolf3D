@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/09 19:11:32 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/09 22:14:56 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/10 12:04:17 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 **	utilise des radians.
 */
 
-double	to_radian(double degree)
+static double	to_radian(double degree)
 {
 	return (M_PI / 180 * degree);
 }
@@ -30,4 +30,9 @@ double	d_cos(double degree)
 double	d_sin(double degree)
 {
 	return (sin(to_radian(degree)));
+}
+
+double	d_tan(double degree)
+{
+	return (tan(to_radian(degree)));
 }

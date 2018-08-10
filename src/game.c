@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/10 11:41:34 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/10 12:00:34 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,18 +86,17 @@ static void	renderer(t_wolf *w, double hWallHalf, int ray_x)
 
 	// WALL
 	column_start.x = ray_x;
-	column_start.y = (int)(w->player.heightView - (int)hWallHalf);
+	column_start.y = (int)(w->player.heightView - hWallHalf);
 	column_end.x = ray_x;
-	column_end.y = (int)(w->player.heightView + (int)hWallHalf);
+	column_end.y = (int)(w->player.heightView + hWallHalf);
 	trace(&w->img[GAME], column_start, column_end, RED);
-	// FLOOR
-	column_start.y = (int)(w->player.heightView + (int)hWallHalf);
-	column_end.y = WIN_H;
-	trace(&w->img[GAME], column_start, column_end, 0x1f1f1f);
 	// SKY
-	column_start.y = (int)(w->player.heightView - (int)hWallHalf);
 	column_end.y = 0;
 	trace(&w->img[GAME], column_start, column_end, BLUE);
+	// FLOOR
+	column_start.y = (int)(w->player.heightView + hWallHalf);
+	column_end.y = WIN_H;
+	trace(&w->img[GAME], column_start, column_end, 0x1f1f1f);
 }
 
 /*

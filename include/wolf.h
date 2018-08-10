@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/09 22:14:48 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/10 12:04:13 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ typedef struct		s_wolf
 	char			padding[4];
 }					t_wolf;
 
-double				to_radian(double degree);
+double				d_tan(double degree);
 double				d_cos(double degree);
 double				d_sin(double degree);
 void				move_right(t_wolf *w);

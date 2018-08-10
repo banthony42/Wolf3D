@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/10 11:22:04 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/10 12:03:00 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void init_raycast(t_wolf *w)
 	while (++i < WIN_W)
 		raydir[i] = (double)i * incr;
 	w->player = (t_player) {{6.5 * BLOC_SIZE, 11.5 * BLOC_SIZE, 120},
-							{0}, WIN_H / 2, ((double)(WIN_W / 2) / tan(to_radian(FOV / 2))),
+							{0}, WIN_H / 2, ((double)WIN_W / 2) / d_tan(FOV / 2),
 							100 * BLOC_SIZE, FOV, -FOV / 2, 300, 100};
 	ft_memcpy(&w->player.ray_dir, &raydir, sizeof(raydir));
 	printf("screenDist:%f\n", w->player.screenDist);
