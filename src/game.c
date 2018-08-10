@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/10 12:07:38 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/10 14:07:52 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int			eventm_game(int button, int x, int y, void *wolf)
 	return (0);
 }
 
-static int find_intersection(t_wolf *w, t_vector a, t_vector b, t_vector *hitPoint)
+static t_texture find_intersection(t_wolf *w, t_vector a, t_vector b, t_vector *hitPoint)
 {
 	double	delta;
 	int i;
@@ -70,7 +70,7 @@ static int find_intersection(t_wolf *w, t_vector a, t_vector b, t_vector *hitPoi
 			if (w->map[map_point.y][map_point.x] > '0' && w->map[map_point.y][map_point.x] < '0' + T_DOOR)
 			{
 				*hitPoint = pt_d;
-				return (1);	// intersection trouve
+				return ((t_texture)(w->map[map_point.y][map_point.x] - '0'));	// intersection trouve
 			}
 		}
 		pt_d.x += step.x;
@@ -79,7 +79,7 @@ static int find_intersection(t_wolf *w, t_vector a, t_vector b, t_vector *hitPoi
 	return (0);
 }
 
-static void	renderer(t_wolf *w, double hWallHalf, int ray_x)
+static void	renderer(t_wolf *w, double hWallHalf, int ray_x, t_texture text_index)
 {
 	t_coord column_start;
 	t_coord column_end;
@@ -89,14 +89,14 @@ static void	renderer(t_wolf *w, double hWallHalf, int ray_x)
 	column_start.y = (int)(w->player.heightView - hWallHalf);
 	column_end.x = ray_x;
 	column_end.y = (int)(w->player.heightView + hWallHalf);
-	trace(&w->img[GAME], column_start, column_end, RED);
+	trace_texture(&w->img[GAME], column_start, column_end, &w->texture[text_index]);
 	// SKY
 	column_end.y = 0;
-	trace(&w->img[GAME], column_start, column_end, BLUE);
+	trace_color(&w->img[GAME], column_start, column_end, BLUE);
 	// FLOOR
 	column_start.y = (int)(w->player.heightView + hWallHalf);
 	column_end.y = WIN_H;
-	trace(&w->img[GAME], column_start, column_end, 0x1f1f1f);
+	trace_color(&w->img[GAME], column_start, column_end, 0x1f1f1f);
 }
 
 /*
@@ -118,22 +118,23 @@ static void raycast(t_wolf *w)
 	double distHit;
 	double hWall;
 	int i;
+	t_texture objectHit;
 
 	i = -1;
 	hWall = 0;
 	while (++i < WIN_W)
 	{
-		end.x = (w->player.pos.x - (w->player.screenDist *
+		end.x = (w->player.pos.x - (w->player.lengthView *
 				d_cos(w->player.pos.angle + w->player.fov_half + w->player.ray_dir[i])));
-		end.y = (w->player.pos.y - (w->player.screenDist *
+		end.y = (w->player.pos.y - (w->player.lengthView *
 				d_sin(w->player.pos.angle + w->player.fov_half + w->player.ray_dir[i])));
-		if ((find_intersection(w, w->player.pos, end, &hitPoint)))
+		if ((objectHit = find_intersection(w, w->player.pos, end, &hitPoint)))
 		{
 			distHit = d_cos(w->player.fov_half + w->player.ray_dir[i])
 				* sqrt((fabs(hitPoint.y - w->player.pos.y) * fabs(hitPoint.y - w->player.pos.y))
 					  + (fabs(hitPoint.x - w->player.pos.x) * fabs(hitPoint.x - w->player.pos.x)));
 			hWall = (BLOC_SIZE / distHit) * w->player.screenDist;
-			renderer(w, hWall / 2, i);
+			renderer(w, hWall / 2, i, objectHit);
 		}
 	}
 }

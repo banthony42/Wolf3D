@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/10 11:01:21 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/10 14:31:31 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void		put_pixel_img(t_coord pt, unsigned int color, t_img *img)
 {
 	unsigned int pos;
 
-	if (pt.y >= WIN_H || pt.y < 0 || pt.x >= WIN_W || pt.x < 0)
+	if (pt.y > WIN_H || pt.y < 0 || pt.x > WIN_W || pt.x < 0)
 		return ;
 	pos = (unsigned int)(pt.y * img->width) + ((unsigned int)pt.x * img->octet);
 	if (pos > (unsigned)(img->width * WIN_W))
@@ -33,7 +33,7 @@ void		put_pixel_img(t_coord pt, unsigned int color, t_img *img)
 **	Digital Differencial Analyzer
 */
 
-void		trace(t_img *img, t_coord a, t_coord b, unsigned int color)
+void		trace_color(t_img *img, t_coord a, t_coord b, unsigned int color)
 {
 	int	delta;
 	int i;
@@ -55,6 +55,36 @@ void		trace(t_img *img, t_coord a, t_coord b, unsigned int color)
 		pt.x = (int)pt_d.x;
 		pt.y = (int)pt_d.y;
 		put_pixel_img(pt, color, img);
+		pt_d.x += step.x;
+		pt_d.y += step.y;
+	}
+}
+
+void		trace_texture(t_img *img, t_coord a, t_coord b, t_img *txt)
+{
+	int	delta;
+	int i;
+	t_vector step;
+	t_vector pt_d;
+	t_coord pt;
+	t_coord ptt;
+
+	if (abs(b.x - a.x) >= abs(b.y - a.y))
+		delta = abs(b.x - a.x);
+	else
+		delta = abs(b.y - a.y);
+	step.x = ((double)b.x - (double)a.x) / (double)delta;
+	step.y = ((double)b.y - (double)a.y) / (double)delta;
+	pt_d.x = a.x;
+	pt_d.y = a.y;
+	i = -1;
+	while (++i < delta)
+	{
+		pt.x = (int)pt_d.x;
+		pt.y = (int)pt_d.y;
+		ptt.x = pt.x * txt->size.x / img->size.x;
+		ptt.y = pt.y * txt->size.y / img->size.y;
+		put_pixel_from_txt(pt, ptt, txt, img);
 		pt_d.x += step.x;
 		pt_d.y += step.y;
 	}

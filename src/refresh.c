@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/10 12:03:00 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/10 14:11:30 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void init_raycast(t_wolf *w)
 	int		i;
 
 	i = -1;
-	incr = (double)FOV / (double)WIN_W;
+	incr = (double)FOV / (double)WIN_W; //check cast
 	while (++i < WIN_W)
 		raydir[i] = (double)i * incr;
 	w->player = (t_player) {{6.5 * BLOC_SIZE, 11.5 * BLOC_SIZE, 120},
