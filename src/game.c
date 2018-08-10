@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/10 12:00:34 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/10 12:07:38 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,12 @@ static void	renderer(t_wolf *w, double hWallHalf, int ray_x)
 **	NOTE:
 **	Pour trouver l'orientation du mur, se baser sur la direction du rayon ?
 **	Chute de fps enorme quand tout proche d'un mur
-**	Monde inverse par rapport a la mini map
 **	Revoir les calculs pour les optimiser pour les perfs
+**	Detection des collision dans movements.c a revoir
+**
+**	Calcul de la distance projete sur l'axe vertical (delta y)
+**	dist = cos(angle:Vertical/Hypotenuse) x longueurHypotenuse
+**	longueurHypotenuse calc avec pythagore
 */
 
 static void raycast(t_wolf *w)
@@ -117,7 +121,6 @@ static void raycast(t_wolf *w)
 
 	i = -1;
 	hWall = 0;
-	// FOV tracing
 	while (++i < WIN_W)
 	{
 		end.x = (w->player.pos.x - (w->player.screenDist *
@@ -126,9 +129,6 @@ static void raycast(t_wolf *w)
 				d_sin(w->player.pos.angle + w->player.fov_half + w->player.ray_dir[i])));
 		if ((find_intersection(w, w->player.pos, end, &hitPoint)))
 		{
-			// Calcul de la distance projete sur l'axe vertical (delta y)
-			// dist = cos(angle:Vertical/Hypotenuse) x longueurHypotenuse
-			// longueurHypotenuse calc avec pythagore
 			distHit = d_cos(w->player.fov_half + w->player.ray_dir[i])
 				* sqrt((fabs(hitPoint.y - w->player.pos.y) * fabs(hitPoint.y - w->player.pos.y))
 					  + (fabs(hitPoint.x - w->player.pos.x) * fabs(hitPoint.x - w->player.pos.x)));
