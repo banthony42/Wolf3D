@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/10 00:25:37 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/10 11:41:34 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int			eventk_game(int keyhook, void *wolf)
 	if (keyhook == MLX_KEY_ESCAPE)
 		w->current_page = MAIN_MENU;
 	if (w->keypress[KEY_RIGHT])
-		w->player.pos.angle -= w->player.spd_angle * w->time.delta;	// reset l'angle
-	if (w->keypress[KEY_LEFT])
 		w->player.pos.angle += w->player.spd_angle * w->time.delta;	// reset l'angle
+	if (w->keypress[KEY_LEFT])
+		w->player.pos.angle -= w->player.spd_angle * w->time.delta;	// reset l'angle
 	if (w->keypress[KEY_W])
 		move_forward(w);
 	if (w->keypress[KEY_S])
@@ -52,6 +52,7 @@ static int find_intersection(t_wolf *w, t_vector a, t_vector b, t_vector *hitPoi
 	int i;
 	t_vector step;
 	t_vector pt_d;
+	t_coord map_point;
 
 	delta = fabs(b.y - a.y);
 	if (fabs(b.x - a.x) >= delta)
@@ -62,20 +63,41 @@ static int find_intersection(t_wolf *w, t_vector a, t_vector b, t_vector *hitPoi
 	i = -1;
 	while (++i < delta)
 	{
-		if ((pt_d.x / BLOC_SIZE) < w->map_size.x && (pt_d.y / BLOC_SIZE) < w->map_size.y)
+		map_point.x = ((int)pt_d.x / BLOC_SIZE);
+		map_point.y = ((int)pt_d.y / BLOC_SIZE);
+		if (map_point.x < w->map_size.x && map_point.y < w->map_size.y)
 		{
-			if (w->map[(int)(pt_d.y) / BLOC_SIZE][(int)pt_d.x / BLOC_SIZE] > '0')
+			if (w->map[map_point.y][map_point.x] > '0' && w->map[map_point.y][map_point.x] < '0' + T_DOOR)
 			{
 				*hitPoint = pt_d;
 				return (1);	// intersection trouve
 			}
 		}
-		// Affichage FOV
-//		put_pixel_img((t_coord){(int)pt_d.x, (int)pt_d.y, CLR}, BLUE, &w->img[GAME]);
 		pt_d.x += step.x;
 		pt_d.y += step.y;
 	}
 	return (0);
+}
+
+static void	renderer(t_wolf *w, double hWallHalf, int ray_x)
+{
+	t_coord column_start;
+	t_coord column_end;
+
+	// WALL
+	column_start.x = ray_x;
+	column_start.y = (int)(w->player.heightView - (int)hWallHalf);
+	column_end.x = ray_x;
+	column_end.y = (int)(w->player.heightView + (int)hWallHalf);
+	trace(&w->img[GAME], column_start, column_end, RED);
+	// FLOOR
+	column_start.y = (int)(w->player.heightView + (int)hWallHalf);
+	column_end.y = WIN_H;
+	trace(&w->img[GAME], column_start, column_end, 0x1f1f1f);
+	// SKY
+	column_start.y = (int)(w->player.heightView - (int)hWallHalf);
+	column_end.y = 0;
+	trace(&w->img[GAME], column_start, column_end, BLUE);
 }
 
 /*
@@ -100,30 +122,19 @@ static void raycast(t_wolf *w)
 	while (++i < WIN_W)
 	{
 		end.x = (w->player.pos.x - (w->player.screenDist *
-				d_cos((w->player.pos.angle + w->player.fov_half) - w->player.ray_dir[i])));
+				d_cos(w->player.pos.angle + w->player.fov_half + w->player.ray_dir[i])));
 		end.y = (w->player.pos.y - (w->player.screenDist *
-				d_sin((w->player.pos.angle + w->player.fov_half) - w->player.ray_dir[i])));
+				d_sin(w->player.pos.angle + w->player.fov_half + w->player.ray_dir[i])));
 		if ((find_intersection(w, w->player.pos, end, &hitPoint)))
 		{
 			// Calcul de la distance projete sur l'axe vertical (delta y)
 			// dist = cos(angle:Vertical/Hypotenuse) x longueurHypotenuse
 			// longueurHypotenuse calc avec pythagore
-			distHit = d_cos(w->player.fov_half - w->player.ray_dir[i])
+			distHit = d_cos(w->player.fov_half + w->player.ray_dir[i])
 				* sqrt((fabs(hitPoint.y - w->player.pos.y) * fabs(hitPoint.y - w->player.pos.y))
 					  + (fabs(hitPoint.x - w->player.pos.x) * fabs(hitPoint.x - w->player.pos.x)));
-			hWall = BLOC_SIZE / distHit * w->player.screenDist;
-			// WALL
-			trace(&w->img[GAME],
-			  (t_coord){i, (int)(w->player.heightView - (hWall / 2)), CLR},
-			  (t_coord){i, (int)(w->player.heightView + (hWall / 2)), CLR}, RED);
-			// FLOOR
-			trace(&w->img[GAME],
-			  (t_coord){i, (int)(w->player.heightView + (hWall / 2)), CLR},
-				  (t_coord){i, WIN_H, CLR}, 0x1f1f1f);
-			// SKY
-			trace(&w->img[GAME],
-			  (t_coord){i, (int)(w->player.heightView - (hWall / 2)), CLR},
-			  (t_coord){i, 0, CLR}, BLUE);
+			hWall = (BLOC_SIZE / distHit) * w->player.screenDist;
+			renderer(w, hWall / 2, i);
 		}
 	}
 }
@@ -131,12 +142,8 @@ static void raycast(t_wolf *w)
 void		draw_game(void *wolf)
 {
 	t_wolf	*w;
-
 	if (!(w = (t_wolf*)wolf))
 		return ;
-	fill_img(&w->img[MAP_I], MAP_OVERLAY);
-	draw_map(w, w->map, w->map_size);
-	put_pixel_img((t_coord){(int)(w->player.pos.x / BLOC_SIZE) * 48, (int)(w->player.pos.y / BLOC_SIZE) * 48, CLR}, GREEN, &w->img[MAP_I]);
 	raycast(w);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[GAME].ptr, 0, 0);
 }

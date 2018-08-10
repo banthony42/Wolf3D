@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/09 23:51:29 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/10 11:22:04 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static void init_raycast(t_wolf *w)
 	incr = (double)FOV / (double)WIN_W;
 	while (++i < WIN_W)
 		raydir[i] = (double)i * incr;
-	w->player = (t_player) {{6.5 * BLOC_SIZE, 11.5 * BLOC_SIZE, 90},
+	w->player = (t_player) {{6.5 * BLOC_SIZE, 11.5 * BLOC_SIZE, 120},
 							{0}, WIN_H / 2, ((double)(WIN_W / 2) / tan(to_radian(FOV / 2))),
-							100 * BLOC_SIZE, FOV, FOV / 2, 300, 100};
+							100 * BLOC_SIZE, FOV, -FOV / 2, 300, 100};
 	ft_memcpy(&w->player.ray_dir, &raydir, sizeof(raydir));
 	printf("screenDist:%f\n", w->player.screenDist);
 }
@@ -105,6 +105,7 @@ void		expose(t_wolf *w)
 	{
 		if (w->keypress[KEY_TAB])
 		{
+			draw_map(w, w->map, w->map_size);
 			pt = (t_coord){(WIN_W - MAPI_W) / 2, (WIN_H - MAPI_H) / 2, CLR};
 			mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr
 									, pt.x, pt.y);
@@ -112,7 +113,8 @@ void		expose(t_wolf *w)
 	}
 	else if (w->current_page == MAP_CREATOR)
 	{
-		pt = (t_coord){(MAP_CRT_W - MAPI_W) / 2, (MAP_CRT_H - MAPI_H) / 2, CLR};
+		pt.x = (MAP_CRT_W - MAPI_W) / 2;
+		pt.y = (MAP_CRT_H - MAPI_H) / 2;
 		mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr
 									, pt.x, pt.y);
 		mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, 0,

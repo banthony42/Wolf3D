@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/09 19:27:14 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/10 11:01:21 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void		trace(t_img *img, t_coord a, t_coord b, unsigned int color)
 		delta = abs(b.y - a.y);
 	step.x = ((double)b.x - (double)a.x) / (double)delta;
 	step.y = ((double)b.y - (double)a.y) / (double)delta;
-	pt_d.x = a.x + 0.5;
-	pt_d.y = a.y + 0.5;
+	pt_d.x = a.x;
+	pt_d.y = a.y;
 	i = -1;
 	while (++i < delta)
 	{
