@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/10 16:49:39 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/13 20:08:40 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void		put_pixel_img(t_coord pt, unsigned int color, t_img *img)
 	pos = (unsigned int)(pt.y * img->width) + ((unsigned int)pt.x * img->octet);
 	if (pos > (unsigned)(img->width * WIN_W))
 		return ;
-	ft_memcpy(img->data + pos, &color, (unsigned int)img->octet);
+	*(unsigned int*)(void*)(img->data + pos) = color;
 }
 
 /*
@@ -45,8 +45,10 @@ void		trace_color(t_img *img, t_coord a, t_coord b, unsigned int color)
 		delta = abs(b.x - a.x);
 	else
 		delta = abs(b.y - a.y);
-	step.x = ((double)b.x - (double)a.x) / (double)delta;
-	step.y = ((double)b.y - (double)a.y) / (double)delta;
+	if (!delta)
+		return ;
+	step.x = (double)((b.x - a.x) / delta);
+	step.y = (double)((b.y - a.y) / delta);
 	pt_d.x = a.x;
 	pt_d.y = a.y;
 	i = -1;
@@ -60,7 +62,7 @@ void		trace_color(t_img *img, t_coord a, t_coord b, unsigned int color)
 	}
 }
 
-void		trace_texture(t_img *img, t_coord a, t_coord b, t_img *txt, t_vector hitPoint)
+void		trace_texture(t_img *img, t_coord a, t_coord b, t_img *txt, double distWall, double hWall)
 {
 	int	delta;
 	int i;
@@ -73,8 +75,10 @@ void		trace_texture(t_img *img, t_coord a, t_coord b, t_img *txt, t_vector hitPo
 		delta = abs(b.x - a.x);
 	else
 		delta = abs(b.y - a.y);
-	step.x = ((double)b.x - (double)a.x) / (double)delta;
-	step.y = ((double)b.y - (double)a.y) / (double)delta;
+	if (!delta)
+		return ;
+	step.x = (double)((b.x - a.x) / (double)delta);
+	step.y = (double)((b.y - a.y) / (double)delta);
 	pt_d.x = a.x;
 	pt_d.y = a.y;
 	i = -1;
@@ -82,8 +86,8 @@ void		trace_texture(t_img *img, t_coord a, t_coord b, t_img *txt, t_vector hitPo
 	{
 		pt.x = (int)pt_d.x;
 		pt.y = (int)pt_d.y;
-		ptt.x = (int)(fmod(hitPoint.x, BLOC_SIZE) * txt->size.x);
-		ptt.y = (int)(fmod(pt.y, delta) * txt->size.y);
+		ptt.x = (int)(txt->size.x * (fmod(distWall, BLOC_SIZE) / BLOC_SIZE));
+		ptt.y = (int)(txt->size.y * (i/ hWall));
 		put_pixel_from_txt(pt, ptt, txt, img);
 		pt_d.x += step.x;
 		pt_d.y += step.y;
@@ -99,9 +103,9 @@ void		put_pixel_from_txt(t_coord pti, t_coord ptt, t_img *txt, t_img *img)
 	unsigned int pos;
 	unsigned int pos_txt;
 
-	if (ptt.x > txt->size.x || ptt.y > txt->size.y || ptt.x < 0 || ptt.y < 0)
+	if (pti.y > img->size.y || pti.y < 0 || pti.x > img->size.x || pti.x < 0)
 		return ;
-	if (pti.y >= img->size.y || pti.y < 0 || pti.x >= img->size.x || pti.x < 0)
+	if (ptt.x > txt->size.x || ptt.y > txt->size.y || ptt.x < 0 || ptt.y < 0)
 		return ;
 	pos = (unsigned int)(pti.y * img->width)
 			+ ((unsigned int)pti.x * img->octet);
@@ -109,7 +113,7 @@ void		put_pixel_from_txt(t_coord pti, t_coord ptt, t_img *txt, t_img *img)
 			+ ((unsigned int)ptt.x * txt->octet);
 	if (pos > (unsigned)(img->width * WIN_W))
 		return ;
-	ft_memcpy(img->data + pos, txt->data + pos_txt, (unsigned int)img->octet);
+	*(unsigned int*)(void*)(img->data + pos) = *(unsigned int*)(void*)(txt->data + pos_txt);
 }
 
 void		put_texture_on_img_at(t_img *dest, t_img *text,

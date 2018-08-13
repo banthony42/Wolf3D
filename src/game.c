@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/10 16:48:57 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/13 20:20:45 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,10 @@ static t_texture find_intersection(t_wolf *w, t_vector a, t_vector b, t_vector *
 	delta = fabs(b.y - a.y);
 	if (fabs(b.x - a.x) >= delta)
 		delta = fabs(b.x - a.x);
-	step.x = ((double)b.x - (double)a.x) / (double)delta;
-	step.y = ((double)b.y - (double)a.y) / (double)delta;
-	pt_d = (t_vector){a.x + 0.5, a.y + 0.5, 0};
+	step.x = (double)((b.x - a.x) / (double)delta);
+	step.y = (double)((b.y - a.y) / (double)delta);
+	pt_d.x = a.x;
+	pt_d.y = a.y;
 	i = -1;
 	while (++i < delta)
 	{
@@ -69,6 +70,11 @@ static t_texture find_intersection(t_wolf *w, t_vector a, t_vector b, t_vector *
 		{
 			if (w->map[map_point.y][map_point.x] > '0' && w->map[map_point.y][map_point.x] < '0' + T_DOOR)
 			{
+				// Arrondit de la coordonne sur laquelle on tape l'obstacle
+				if (fmod(pt_d.x, BLOC_SIZE) < fmod(pt_d.y, BLOC_SIZE))
+					pt_d.y = (int)(pt_d.y + 1);
+				else
+					pt_d.x = (int)(pt_d.x + 1);
 				*hitPoint = pt_d;
 				return ((t_texture)(w->map[map_point.y][map_point.x] - '0'));	// intersection trouve
 			}
@@ -79,17 +85,25 @@ static t_texture find_intersection(t_wolf *w, t_vector a, t_vector b, t_vector *
 	return (0);
 }
 
-static void	renderer(t_wolf *w, double hWallHalf, int ray_x, t_texture text_index, t_vector hitPoint)
+static void	renderer(t_wolf *w, double hWallHalf, int ray_x, t_texture text_index, t_vector hitPoint, double hWall)
 {
 	t_coord column_start;
 	t_coord column_end;
+	double distWall;
 
 	// WALL
 	column_start.x = ray_x;
-	column_start.y = (int)(w->player.heightView - hWallHalf);
+	if ((column_start.y = (int)(w->player.heightView - hWallHalf)) < 0)
+		;
 	column_end.x = ray_x;
-	column_end.y = (int)(w->player.heightView + hWallHalf);
-	trace_texture(&w->img[GAME], column_start, column_end, &w->texture[text_index], hitPoint);
+	if ((column_end.y = (int)(w->player.heightView + hWallHalf)) > WIN_H)
+		;
+//	printf("start.y: %d - end.y: %d\n", column_start.y, column_end.y);
+	//TEXTURE (necessaire pour savoir quel axe utiliser pour trouver la bonne colonne de texture)
+	distWall = hitPoint.y;
+	if (((int)(hitPoint.y) % BLOC_SIZE) == 0)
+		distWall = hitPoint.x;
+	trace_texture(&w->img[GAME], column_start, column_end, &w->texture[text_index], distWall, hWall);
 	// SKY
 	column_end.y = 0;
 	trace_color(&w->img[GAME], column_start, column_end, BLUE);
@@ -102,7 +116,8 @@ static void	renderer(t_wolf *w, double hWallHalf, int ray_x, t_texture text_inde
 /*
 **	NOTE:
 **	Pour trouver l'orientation du mur, se baser sur la direction du rayon ?
-**	Chute de fps enorme quand tout proche d'un mur
+**	Chute de fps enorme quand tout proche d'un mur = hauteur du mur plus grand que hauteur fenetre,
+**	donc bcp de tour de boucle sont inutile quand on es proche d'un mur
 **	Revoir les calculs pour les optimiser pour les perfs
 **	Detection des collision dans movements.c a revoir
 **
@@ -134,7 +149,7 @@ static void raycast(t_wolf *w)
 				* sqrt(((hitPoint.y - w->player.pos.y) * (hitPoint.y - w->player.pos.y))
 					  + ((hitPoint.x - w->player.pos.x) * (hitPoint.x - w->player.pos.x)));
 			hWall = (BLOC_SIZE / distHit) * w->player.screenDist;
-			renderer(w, hWall / 2, i, objectHit, hitPoint);
+			renderer(w, hWall / 2, i, objectHit, hitPoint, hWall);
 		}
 	}
 }

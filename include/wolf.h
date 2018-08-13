@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/10 16:38:35 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/13 16:23:37 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ typedef struct		s_img
 	int				width;
 	int				bpp;
 	int				endian;
-	unsigned int	data_size;
-	unsigned int	max_size;
+	unsigned int	data_size;	// check si utilise
+	unsigned int	max_size;	// check si utilise
 	unsigned int	octet;
 	char			padding[4];
 }					t_img;
@@ -183,7 +183,7 @@ void				move_back(t_wolf *w);
 void				move_forward(t_wolf *w);
 
 void				trace_color(t_img *img, t_coord a, t_coord b, unsigned int color);
-void				trace_texture(t_img *img, t_coord a, t_coord b, t_img *txt, t_vector hitPoint);
+void				trace_texture(t_img *img, t_coord a, t_coord b, t_img *txt, double distWall, double hWall);
 void				draw_palette(t_wolf *w);
 
 void				draw_text_button(char *str, t_wolf *w, t_page page,
