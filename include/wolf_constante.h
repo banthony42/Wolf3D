@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/10 00:27:45 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/14 14:26:04 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@
 # define ERR_QUIT "User exit"
 
 /*
-** MACRO CALCUL
+** Calcul d'un pourcentage p sur la valeur x
 */
 # define PERCENTAGE(p, x) ((p * x) / 100)
 
 /*
-**	Parametre fenetre & ecran du jeu
+**	Taille fenetre & ecran du jeu
 */
 # ifdef __APPLE__
 #  define WIN_W 1024
@@ -43,7 +43,7 @@
 # define CENTERWIN_H(y) (WIN_H - y) / 2
 
 /*
-** Parametre Interface Joueur
+** Taille Interface Joueur
 */
 # define INTRF_W WIN_W
 # define INTRF_H PERCENTAGE(17, WIN_H)
@@ -51,7 +51,7 @@
 # define CENTERINTRF_H(y) (INTRF_H - y) / 2
 
 /*
-**	Parametre ecran map creator
+**	Taille ecran map creator
 */
 # define MAP_CRT_W WIN_W
 # define MAP_CRT_H WIN_H - INTRF_H
@@ -59,7 +59,7 @@
 # define CENTERSCR_H(y) (MAP_CRT_H - y) / 2
 
 /*
-** Parametre Interface map, overlay on game screen
+**	Taille Interface map - Overlay mini map et Ecran de dessin du map creator.
 */
 # define MAPI_W PERCENTAGE(70, MAP_CRT_W)
 # define MAPI_H PERCENTAGE(70, MAP_CRT_H)
@@ -68,13 +68,16 @@
 
 /*
 **	Parsing
-**	Chaque ligne doit commencer et se terminer par un mur
-**	Les murs sont les 3 premieres textures de l'enum texture.
+**	WALL:	Definit les caracteres etant des murs
 */
 # define WALL "123"
 
 /*
-** Wolf3D
+**	Wolf3D
+**	MAP_MIN:	Taille minimum d'une map
+**	MAP_MAX:	Taille maximum d'une map
+**	FOV:		Angle de vue de la cameras, champ de vision.
+**	BLOC_SIZE:	Taille d'un mur, ou d'un cube dans le monde
 */
 # define MAP_MIN 3
 # define MAP_MAX 500
@@ -91,10 +94,13 @@
 
 /*
 **	Map Creator
-**	Nombre de texture dans la palette. (TEXT)
-**	Ecart en pixel, (pitch) entre chaque box de texture. (TEXT_P)
-**	ITEM_SIZE: taille en pixel d'un carre pour representer une texture
-**	/!\ pas encore proportionel a la taille fenetre ...
+**	TEXT:				Nombre de texture dans la palette.
+**	TEXT_P:				Ecart en pixel, (le pas) entre chaque box de texture.
+**	ITEM_SIZE:			Taille en pixel d'un carre pour representer une texture
+**						/!\ pas encore proportionel a la taille fenetre ...
+**	CUSTOM_MAP_NAME:	Nom du fichier lors d'une save.
+**	MAP_CREA_MAX_MAP:	Nombre de map maximum & Utile aussi pour l'increment
+**						du chiffre dans le nom du fichier.
 */
 # define MC_TITLE "MAP CREATOR"
 # define MC_INFO "Draw your map"
@@ -106,7 +112,7 @@
 # define ITEM_SIZE 48
 
 /*
-**	Color
+**	Couleur
 */
 # define CLR 0x00000000
 # define MAP_OVERLAY 0x2f1f1f1f
