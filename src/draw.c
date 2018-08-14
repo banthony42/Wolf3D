@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/14 12:47:55 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/14 14:51:38 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,75 +26,6 @@ void		put_pixel_img(t_coord pt, unsigned int color, t_img *img)
 	if (pos > (unsigned)(img->width * WIN_W))
 		return ;
 	*(unsigned int*)(void*)(img->data + pos) = color;
-}
-
-/*
-**	Trace de ligne utilisant l'algoithme DDA
-**	Digital Differencial Analyzer
-*/
-
-void		trace_color(t_img *img, t_coord a, t_coord b, unsigned int color)
-{
-	int	delta;
-	int i;
-	t_vector step;
-	t_vector pt_d;
-	t_coord pt;
-
-	if (abs(b.x - a.x) >= abs(b.y - a.y))
-		delta = abs(b.x - a.x);
-	else
-		delta = abs(b.y - a.y);
-	if (!delta)
-		return ;
-	step.x = (double)((b.x - a.x) / delta);
-	step.y = (double)((b.y - a.y) / delta);
-	pt_d.x = a.x;
-	pt_d.y = a.y;
-	i = -1;
-	while (++i < delta)
-	{
-		pt.x = (int)pt_d.x;
-		pt.y = (int)pt_d.y;
-		put_pixel_img(pt, color, img);
-		pt_d.x += step.x;
-		pt_d.y += step.y;
-	}
-}
-
-void		trace_texture(t_img *img, t_coord a, t_coord b, t_img *txt, double distWall, double hWall)
-{
-	int	delta;
-	int i;
-	t_vector step;
-	t_vector pt_d;
-	t_coord pt;
-	t_coord ptt;
-
-	if (abs(b.x - a.x) >= abs(b.y - a.y))
-		delta = abs(b.x - a.x);
-	else
-		delta = abs(b.y - a.y);
-	if (!delta)
-		return ;
-	step.x = (double)((b.x - a.x) / (double)delta);
-	step.y = (double)((b.y - a.y) / (double)delta);
-	pt_d.x = a.x;
-	pt_d.y = a.y;
-	i = -1;
-	while (++i < delta)
-	{
-		pt.x = (int)pt_d.x;
-		pt.y = (int)pt_d.y;
-		if (pt.x > 0 && pt.x < WIN_W && pt.y > 0 && pt.y < WIN_H)
-		{
-			ptt.x = (int)(txt->size.x * (fmod(distWall, BLOC_SIZE) / BLOC_SIZE));
-			ptt.y = (int)(txt->size.y * (i/ hWall));
-			put_pixel_from_txt(pt, ptt, txt, img);
-		}
-		pt_d.x += step.x;
-		pt_d.y += step.y;
-	}
 }
 
 /*

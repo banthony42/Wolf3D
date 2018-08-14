@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/14 13:35:46 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/14 14:53:10 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,120 +46,11 @@ int			eventm_game(int button, int x, int y, void *wolf)
 	return (0);
 }
 
-static t_texture find_intersection(t_wolf *w, t_vector a, t_vector b, t_vector *hitPoint)
-{
-	double	delta;
-	int i;
-	t_vector step;
-	t_vector pt_d;
-	t_coord map_point;
-
-	delta = fabs(b.y - a.y);
-	if (fabs(b.x - a.x) >= delta)
-		delta = fabs(b.x - a.x);
-	step.x = (double)((b.x - a.x) / (double)delta);
-	step.y = (double)((b.y - a.y) / (double)delta);
-	pt_d.x = a.x;
-	pt_d.y = a.y;
-	i = -1;
-	while (++i < delta)
-	{
-		map_point.x = ((int)pt_d.x / BLOC_SIZE);
-		map_point.y = ((int)pt_d.y / BLOC_SIZE);
-		if (map_point.x < w->map_size.x && map_point.y < w->map_size.y)
-		{
-			if (w->map[map_point.y][map_point.x] > '0' && w->map[map_point.y][map_point.x] < '0' + T_DOOR)
-			{
-				// Arrondit de la coordonne sur laquelle on tape l'obstacle
-				if (fmod(pt_d.x, BLOC_SIZE) < fmod(pt_d.y, BLOC_SIZE))
-					pt_d.y = (int)(pt_d.y + 1);
-				else
-					pt_d.x = (int)(pt_d.x + 1);
-				*hitPoint = pt_d;
-				return ((t_texture)(w->map[map_point.y][map_point.x] - '0'));	// intersection trouve
-			}
-		}
-		pt_d.x += step.x;
-		pt_d.y += step.y;
-	}
-	return (0);
-}
-
-static void	renderer(t_wolf *w, int ray_x, t_texture text_index, t_vector hitPoint, double hWall)
-{
-	t_coord column_start;
-	t_coord column_end;
-	double distWall;
-	double hWallHalf = hWall / 2;
-
-	// WALL
-	column_start.x = ray_x;
-	if ((column_start.y = (int)(w->cam.heightView - hWallHalf)) < 0)
-		;
-	column_end.x = ray_x;
-	if ((column_end.y = (int)(w->cam.heightView + hWallHalf)) > WIN_H)
-		;
-//	printf("start.y: %d - end.y: %d\n", column_start.y, column_end.y);
-	//TEXTURE (necessaire pour savoir quel axe utiliser pour trouver la bonne colonne de texture)
-	distWall = hitPoint.y;
-	if (((int)(hitPoint.y) % BLOC_SIZE) == 0)
-		distWall = hitPoint.x;
-	trace_texture(&w->img[GAME], column_start, column_end, &w->texture[text_index], distWall, hWall);
-	// SKY
-	column_end.y = 0;
-	trace_color(&w->img[GAME], column_start, column_end, BLUE);
-	// FLOOR
-	column_start.y = (int)(w->cam.heightView + hWallHalf);
-	column_end.y = WIN_H;
-	trace_color(&w->img[GAME], column_start, column_end, 0x1f1f1f);
-}
-
-/*
-**	NOTE:
-**	Pour trouver l'orientation du mur, se baser sur la direction du rayon ?
-**	Chute de fps enorme quand tout proche d'un mur = hauteur du mur plus grand que hauteur fenetre,
-**	donc bcp de tour de boucle sont inutile quand on es proche d'un mur
-**	Revoir les calculs pour les optimiser pour les perfs
-**	Detection des collision dans movements.c a revoir
-**
-**	Calcul de la distance projete sur l'axe vertical (delta y)
-**	dist = cos(angle:Vertical/Hypotenuse) x longueurHypotenuse
-**	longueurHypotenuse calc avec pythagore
-*/
-
-static void raycast(t_wolf *w)
-{
-	t_vector end;
-	t_vector hitPoint;
-	double distHit;
-	double hWall;
-	int i;
-	t_texture objectHit;
-
-	i = -1;
-	hWall = 0;
-	while (++i < WIN_W)
-	{
-		end.x = (w->cam.pos.x - (w->cam.lengthView *
-				d_cos(w->cam.pos.angle + w->cam.fov_half + w->cam.ray_dir[i])));
-		end.y = (w->cam.pos.y - (w->cam.lengthView *
-				d_sin(w->cam.pos.angle + w->cam.fov_half + w->cam.ray_dir[i])));
-		if ((objectHit = find_intersection(w, w->cam.pos, end, &hitPoint)))
-		{
-			distHit = d_cos(w->cam.fov_half + w->cam.ray_dir[i])
-				* sqrt(((hitPoint.y - w->cam.pos.y) * (hitPoint.y - w->cam.pos.y))
-					  + ((hitPoint.x - w->cam.pos.x) * (hitPoint.x - w->cam.pos.x)));
-			hWall = (BLOC_SIZE / distHit) * w->cam.screenDist;
-			renderer(w, i, objectHit, hitPoint, hWall);
-		}
-	}
-}
-
 void		draw_game(void *wolf)
 {
 	t_wolf	*w;
 	if (!(w = (t_wolf*)wolf))
 		return ;
-	raycast(w);
+	raycast_1(w);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[GAME].ptr, 0, 0);
 }

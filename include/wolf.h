@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/14 14:10:53 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/14 16:25:18 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,19 +111,6 @@ typedef struct		s_vector
 }					t_vector;
 
 /*
-**	Definit les valeurs utiles lors d'un lancer de rayon fructueux.
-**	object_hit:	Valeur de l'enum de la texture touche par le rayon
-**	hit_point:	Point ou le rayon a touche l'objet
-**	dist_hit:	Distance parcouru par le rayon
-*/
-typedef struct		s_hit_info
-{
-	t_texture		object_hit;
-	t_vector		hit_point;
-	double			dist_hit;
-}					t_hit_info;
-
-/*
 **	Definit un ensemble de variable utile a la gestion d'image de la mlx.
 **	ptr:	Pointeur renvoye par mlx_new_image()
 **	data:	Buffer de l'image renvoyer par mlx_get_data_addr()
@@ -144,6 +131,22 @@ typedef struct		s_img
 	unsigned int	octet;
 	char			padding[4];
 }					t_img;
+
+/*
+**	Definit les valeurs utiles lors d'un lancer de rayon fructueux.
+**	object:	Valeur de l'enum de la texture touche par le rayon
+**	point:	Point ou le rayon a touche l'objet
+**	dist:	Distance parcouru par le rayon
+**	side:	Info sur quel face de l'objet a ete touche (point.x ou point.y)
+*/
+typedef struct		s_hit_info
+{
+	t_vector		point;
+	double			dist;
+	double			side;
+	t_img			object;
+	char			padding[8];
+}					t_hit_info;
 
 /*
 **	Definit les variable de la camera
@@ -241,6 +244,8 @@ typedef struct		s_wolf
 	char			padding[4];
 }					t_wolf;
 
+void				raycast_1(t_wolf *w);
+
 double				d_tan(double degree);
 double				d_cos(double degree);
 double				d_sin(double degree);
@@ -249,8 +254,6 @@ void				move_left(t_wolf *w);
 void				move_back(t_wolf *w);
 void				move_forward(t_wolf *w);
 
-void				trace_color(t_img *img, t_coord a, t_coord b, unsigned int color);
-void				trace_texture(t_img *img, t_coord a, t_coord b, t_img *txt, double distWall, double hWall);
 void				draw_palette(t_wolf *w);
 
 void				draw_text_button(char *str, t_wolf *w, t_page page,

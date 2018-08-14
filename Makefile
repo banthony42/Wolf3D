@@ -6,7 +6,7 @@
 #    By: banthony <banthony@students.42.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/08/10 11:40:49 by banthony         ###   ########.fr        #
+#    Updated: 2018/08/14 14:52:04 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -34,6 +34,7 @@ SRC_FILE += draw_shape.c
 SRC_FILE += delta_time.c
 SRC_FILE += movements.c
 SRC_FILE += my_math.c
+SRC_FILE += raycast_algo1.c
 
 SRC = $(SRC_FILE:%c=$(PATH_SRC)%c)
 INCLUDE = $(HEADER_FILE:%h=$(PATH_HEAD)%h)

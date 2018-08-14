@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/14 14:26:04 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/14 16:16:12 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@
 # define GREEN 0x00ff00
 # define BLUE 0x0000ff
 # define DARK_RED 0xdf0000
-# define DARK_GREY 0x939393
+# define DARK_GREY 0x1f1f1f
 # define BROWN 0xcd661d
 
 /*

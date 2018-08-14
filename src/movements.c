@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/06 18:00:24 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/14 13:36:19 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/14 17:23:59 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static int		check_collision(t_vector pt, t_wolf *w)
 {
 	t_coord map;
 
-	map.x = (int)(pt.x) / BLOC_SIZE;
-	map.y = (int)(pt.y) / BLOC_SIZE;
+	map.x = (int)(pt.x / BLOC_SIZE);
+	map.y = (int)(pt.y / BLOC_SIZE);
 	if (map.x > w->map_size.x || map.y > w->map_size.y)
 		return (1);
 	if (map.x < 0 || map.y < 0)
