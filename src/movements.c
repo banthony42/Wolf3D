@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/06 18:00:24 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/13 19:55:36 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/14 13:36:19 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,50 +31,50 @@ void	move_right(t_wolf *w)
 {
 	t_vector pt;
 
-	pt = w->player.pos;
-	pt.x -= d_cos(w->player.pos.angle + 90) * w->player.spd_move * w->time.delta;
+	pt = w->cam.pos;
+	pt.x -= d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
 	if (!(check_collision(pt, w)))
-		w->player.pos = pt;
-	pt.y -= d_sin(w->player.pos.angle + 90) * w->player.spd_move * w->time.delta;
+		w->cam.pos = pt;
+	pt.y -= d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
 	if (!(check_collision(pt, w)))
-		w->player.pos = pt;
+		w->cam.pos = pt;
 }
 
 void	move_left(t_wolf *w)
 {
 	t_vector pt;
 
-	pt = w->player.pos;
-	pt.x += d_cos(w->player.pos.angle + 90) * w->player.spd_move * w->time.delta;
+	pt = w->cam.pos;
+	pt.x += d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
 	if (!(check_collision(pt, w)))
-		w->player.pos = pt;
-	pt.y += d_sin(w->player.pos.angle + 90) * w->player.spd_move * w->time.delta;
+		w->cam.pos = pt;
+	pt.y += d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
 	if (!(check_collision(pt, w)))
-		w->player.pos = pt;
+		w->cam.pos = pt;
 }
 
 void	move_back(t_wolf *w)
 {
 	t_vector pt;
 
-	pt = w->player.pos;
-	pt.x += d_cos(w->player.pos.angle) * w->player.spd_move * w->time.delta;
+	pt = w->cam.pos;
+	pt.x += d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
 	if (!(check_collision(pt, w)))
-		w->player.pos = pt;
-	pt.y += d_sin(w->player.pos.angle) * w->player.spd_move * w->time.delta;
+		w->cam.pos = pt;
+	pt.y += d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
 	if (!(check_collision(pt, w)))
-		w->player.pos = pt;
+		w->cam.pos = pt;
 }
 
 void	move_forward(t_wolf *w)
 {
 	t_vector pt;
 
-	pt = w->player.pos;
-	pt.x -= d_cos(w->player.pos.angle) * w->player.spd_move * w->time.delta;
+	pt = w->cam.pos;
+	pt.x -= d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
 	if (!(check_collision(pt, w)))
-		w->player.pos = pt;
-	pt.y -= d_sin(w->player.pos.angle) * w->player.spd_move * w->time.delta;
+		w->cam.pos = pt;
+	pt.y -= d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
 	if (!(check_collision(pt, w)))
-		w->player.pos = pt;
+		w->cam.pos = pt;
 }

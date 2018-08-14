@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/13 16:23:37 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/14 14:10:53 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,11 @@
 # include <stdio.h>
 
 /*
-**	Unused for now
+**	Enumeration des textures
+**	Cela permet de creer un tableau d'image de taille NB_TEXTURE,
+**	contenant chaque textures. On peut ainsi acceder a notre texture
+**	dans le code plus simplement: tab[NOM_DE_LA_TEXTURE]
 */
-typedef enum	e_items
-{
-	I_NULL, STONE, BRICK, WOOD, DOOR, HEAL, WEAPON, AMO, SPAWN, NB_ITEM,
-}				t_items;
-
 typedef enum	e_texture
 {
 	T_NULL, T_STONE, T_WOOD, T_METAL, T_DOOR, T_ERASER, T_HEAL, T_WEAPON,
@@ -48,15 +46,32 @@ typedef enum	e_texture
 }				t_texture;
 
 /*
-**	Definition des etats du jeux.
+**	Enumeration des etats du jeux.
 **	Menu principal, Ecran du jeu, Ecran de fin de jeu (win/loose),
-**	creation de map
+**	et Creation de map.
+**	Un etat de jeux corresspond a une page / une scene.
+**	Chaque page doit avoir sa propre fonction de dessin,
+**	de gestion d'evenement et sa propre image.
+**	Grace a l'enum on va pouvoir faire un tableau de pointeur sur fonction.
+**	L'index de ce tableau correspondra a une valeur de l'enum.
+**	Cela nous permet d'ecrire dans le code:
+**	draw_ptr_func[PAGE]() qui dessinera la page correspondante.
+**	event_ptr_func[PAGE]() qui gerera les event de la page correspondante.
+**	image[PAGE] qui nous permet d'acceder a l'image de la page correspondante.
+**	GAME_I et MAP_I sont des exceptions et sont de simple image.
+**	Elles sont utilise dans les page GAME et MAP_CREATOR
 */
 typedef enum	e_page
 {
 	MAIN_MENU, GAME, MAP_CREATOR, GAME_END, NB_PAGE, GAME_I, MAP_I, NB_IMG,
 }				t_page;
 
+/*
+**	Enumeration des touches qui peuvent etre presse ensemble
+**	Exemple: Avancer + decalage droit (W + D)
+**	Utile aussi pour sauvegarder l'etat de la touche
+**	pour agir en consequence dans l'expose.
+*/
 typedef enum	e_keystate
 {
 	KEY_NULL, KEY_TAB, KEY_W, KEY_A, KEY_S, KEY_D,
@@ -65,13 +80,19 @@ typedef enum	e_keystate
 }				t_keystate;
 
 /*
-**	Entrees du menu principale.
+**	Enumeration des entrees du menu principal
+**	Cela permet de sauvegarder une variable cursor sur une valeur de l'enum
+**	pour afficher le curseur de selection a l'ecran, au bon endroit.
 */
 typedef enum	e_menu
 {
 	TITLE, RUN, MAP_CREA, EXIT, NB_MENU_ENTRY,
 }				t_menu;
 
+/*
+**	Definit un pixel.
+**	Utilise aussi pour definir une taille. (exemple: image)
+*/
 typedef struct		s_coord
 {
 	int				x;
@@ -79,6 +100,9 @@ typedef struct		s_coord
 	unsigned int	color;
 }					t_coord;
 
+/*
+**	Definit un vecteur ou un point dans l'espace.
+*/
 typedef struct		s_vector
 {
 	double			x;
@@ -86,14 +110,28 @@ typedef struct		s_vector
 	double			angle;
 }					t_vector;
 
-typedef struct		s_pixel
+/*
+**	Definit les valeurs utiles lors d'un lancer de rayon fructueux.
+**	object_hit:	Valeur de l'enum de la texture touche par le rayon
+**	hit_point:	Point ou le rayon a touche l'objet
+**	dist_hit:	Distance parcouru par le rayon
+*/
+typedef struct		s_hit_info
 {
-	t_coord			pos;
-	unsigned int	color;
-}					t_pixel;
+	t_texture		object_hit;
+	t_vector		hit_point;
+	double			dist_hit;
+}					t_hit_info;
 
 /*
-**	img.size = taille de la texture lors d'un chargement d'un fichier xpm
+**	Definit un ensemble de variable utile a la gestion d'image de la mlx.
+**	ptr:	Pointeur renvoye par mlx_new_image()
+**	data:	Buffer de l'image renvoyer par mlx_get_data_addr()
+**	size:	Taille de l'image
+**	width:	Largeur de l'image
+**	bpp:	Nombre de bit utilise pour un pixel
+**	endian:	Definit le sens d'encodage
+**	octet:	Nombre d'octet pour un pixel
 */
 typedef struct		s_img
 {
@@ -103,20 +141,26 @@ typedef struct		s_img
 	int				width;
 	int				bpp;
 	int				endian;
-	unsigned int	data_size;	// check si utilise
-	unsigned int	max_size;	// check si utilise
 	unsigned int	octet;
 	char			padding[4];
 }					t_img;
 
 /*
-**	Variables pour le Raycast et eventuellement gestion du joueur
-**	ray_dir est une look up table contentant la direction des rayons
-**	pour chaque pixel en largeur. Les valeurs seront toujours identique,
-**	elles sont donc calculees une seule fois au debut du programmes,
-**	et stockees dans un tableau.
+**	Definit les variable de la camera
+**	pos:		Position de la camera dans le monde
+**	ray_dir:	Look up table contentant l'angle de direction des rayons.
+**				Le numeros d'index correspond a une colonne sur l'ecran.
+**				Les valeurs ne change pas donc, cette table est calcule
+**				une fois dans l'init pour eviter des calculs inutile.
+**	heightView:	Hauteur de la camera dans le monde
+**	screenDist:	Distance de l'ecran par rapport a la camera
+**	lengthView:	Distance de vision max
+**	fov:		Field Of View, angle definissant le champs de vision de la camera
+**	fov_half:	fov / 2, calcule dans l'init
+**	spd_move:	Vitesse de deplacement de la camera dans le monde
+**	spd_angle:	Vitesse de rotation de la camera dans le monde
 */
-typedef struct		s_player
+typedef struct		s_cam
 {
 	t_vector		pos;
 	double			ray_dir[WIN_W];
@@ -127,10 +171,13 @@ typedef struct		s_player
 	const double	fov_half;
 	const double	spd_move;	// surement non const
 	const double	spd_angle;	// surement non const
-}					t_player;
+}					t_cam;
 
 /*
-**	Variables et gestion de la creation de map
+**	Definit les variables pour la creation de map
+**	map:		Tableau contenant la map cree par l'utilisateur
+**	m_size:		Taille de la variable map
+**	texture:	Texture selectionnee par l'utilisateur pour dessiner
 */
 typedef struct		s_creator
 {
@@ -140,19 +187,39 @@ typedef struct		s_creator
 }					t_creator;
 
 /*
-** Definit les fonctions qui dessine les pages
+**	Definit les fonctions utile a chaque pages:
+**	t_draw fonction qui dessine.
+**	t_event_k fonction qui gere les evenements claviers.
+**	t_event_m fonctions qui gere les evenements souris.
 */
 typedef void		(*t_draw)(void *wolf);
-
-/*
-** Definit les fonctions qui gere les event de chaque pages
-*/
 typedef int			(*t_event_k)(int keyhook, void *wolf);
 typedef int			(*t_event_m)(int button, int x, int y, void *wolf);
 
 /*
-**	La structure delta_time est totalement independante du code projet.
-**	Son implementation est definit dans delta_time.c/.h
+**	Structure principale du jeu
+**	mlx:			Pointeur recu lors d'un mlx_init()
+**	win:			Pointeur de la fenetre du jeu recu lors d'un mlx_new_window()
+**	map:			Map du jeu envoye par l'utilisateur
+**	img:			Tableau d'image utile au jeu
+**	texture:		Tableau d'image contenant les textures, Ainsi texture[T_WOOD]
+**					donne accees a la struct image contenant la texture de BOIS.
+**	draw:			Tableau de fonction de dessin, Ainsi l'appel a draw[MAIN_MENU]()
+**					dessine le menu principal.
+**	event_key:		Tableau de fonction de gestion d'evenements clavier,
+**					Ainsi l'appel a event_key[MAIN_MENU]() gere les
+**					evenements clavier du menu principal.
+**	event_mouse:	Tableau de fonction de gestion d'evenements souris,
+**					Ainsi l'appel a event_mouse[MAIN_MENU]() gere les
+**					evenements souris du menu principal.
+**	map_size:		Taille de la map envoye par l'utilisateur
+**	current_page:	Etat du jeux, donne l'information sur quel page doit etre geree
+**	cam:			Variable de la cameras
+**	map_crea:		Variable pour la creation de map
+**	time:			Structure independante au projets, qui gere le temps, les fps, etc ..
+**					(Voir delta_time.c/.h)
+**	keypress:		Tableau de sauvegarde des etats pour certaines touches
+**	cursor:			Etat du curseur du menu
 */
 typedef struct		s_wolf
 {
@@ -166,7 +233,7 @@ typedef struct		s_wolf
 	t_event_m		event_mouse[NB_PAGE];
 	t_coord			map_size;
 	t_page			current_page;
-	t_player		player; // A definir (camera, var joueur)
+	t_cam			cam;
 	t_creator		map_crea;
 	t_delta_time	time;
 	int				keypress[NB_KEYSTATE];

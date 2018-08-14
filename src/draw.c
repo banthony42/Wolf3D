@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/13 20:08:40 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/14 12:47:55 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,12 @@ void		trace_texture(t_img *img, t_coord a, t_coord b, t_img *txt, double distWal
 	{
 		pt.x = (int)pt_d.x;
 		pt.y = (int)pt_d.y;
-		ptt.x = (int)(txt->size.x * (fmod(distWall, BLOC_SIZE) / BLOC_SIZE));
-		ptt.y = (int)(txt->size.y * (i/ hWall));
-		put_pixel_from_txt(pt, ptt, txt, img);
+		if (pt.x > 0 && pt.x < WIN_W && pt.y > 0 && pt.y < WIN_H)
+		{
+			ptt.x = (int)(txt->size.x * (fmod(distWall, BLOC_SIZE) / BLOC_SIZE));
+			ptt.y = (int)(txt->size.y * (i/ hWall));
+			put_pixel_from_txt(pt, ptt, txt, img);
+		}
 		pt_d.x += step.x;
 		pt_d.y += step.y;
 	}

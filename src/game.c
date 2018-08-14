@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/13 20:20:45 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/14 13:35:46 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int			eventk_game(int keyhook, void *wolf)
 	if (keyhook == MLX_KEY_ESCAPE)
 		w->current_page = MAIN_MENU;
 	if (w->keypress[KEY_RIGHT])
-		w->player.pos.angle += w->player.spd_angle * w->time.delta;	// reset l'angle
+		w->cam.pos.angle += w->cam.spd_angle * w->time.delta;	// reset l'angle
 	if (w->keypress[KEY_LEFT])
-		w->player.pos.angle -= w->player.spd_angle * w->time.delta;	// reset l'angle
+		w->cam.pos.angle -= w->cam.spd_angle * w->time.delta;	// reset l'angle
 	if (w->keypress[KEY_W])
 		move_forward(w);
 	if (w->keypress[KEY_S])
@@ -85,18 +85,19 @@ static t_texture find_intersection(t_wolf *w, t_vector a, t_vector b, t_vector *
 	return (0);
 }
 
-static void	renderer(t_wolf *w, double hWallHalf, int ray_x, t_texture text_index, t_vector hitPoint, double hWall)
+static void	renderer(t_wolf *w, int ray_x, t_texture text_index, t_vector hitPoint, double hWall)
 {
 	t_coord column_start;
 	t_coord column_end;
 	double distWall;
+	double hWallHalf = hWall / 2;
 
 	// WALL
 	column_start.x = ray_x;
-	if ((column_start.y = (int)(w->player.heightView - hWallHalf)) < 0)
+	if ((column_start.y = (int)(w->cam.heightView - hWallHalf)) < 0)
 		;
 	column_end.x = ray_x;
-	if ((column_end.y = (int)(w->player.heightView + hWallHalf)) > WIN_H)
+	if ((column_end.y = (int)(w->cam.heightView + hWallHalf)) > WIN_H)
 		;
 //	printf("start.y: %d - end.y: %d\n", column_start.y, column_end.y);
 	//TEXTURE (necessaire pour savoir quel axe utiliser pour trouver la bonne colonne de texture)
@@ -108,7 +109,7 @@ static void	renderer(t_wolf *w, double hWallHalf, int ray_x, t_texture text_inde
 	column_end.y = 0;
 	trace_color(&w->img[GAME], column_start, column_end, BLUE);
 	// FLOOR
-	column_start.y = (int)(w->player.heightView + hWallHalf);
+	column_start.y = (int)(w->cam.heightView + hWallHalf);
 	column_end.y = WIN_H;
 	trace_color(&w->img[GAME], column_start, column_end, 0x1f1f1f);
 }
@@ -139,17 +140,17 @@ static void raycast(t_wolf *w)
 	hWall = 0;
 	while (++i < WIN_W)
 	{
-		end.x = (w->player.pos.x - (w->player.lengthView *
-				d_cos(w->player.pos.angle + w->player.fov_half + w->player.ray_dir[i])));
-		end.y = (w->player.pos.y - (w->player.lengthView *
-				d_sin(w->player.pos.angle + w->player.fov_half + w->player.ray_dir[i])));
-		if ((objectHit = find_intersection(w, w->player.pos, end, &hitPoint)))
+		end.x = (w->cam.pos.x - (w->cam.lengthView *
+				d_cos(w->cam.pos.angle + w->cam.fov_half + w->cam.ray_dir[i])));
+		end.y = (w->cam.pos.y - (w->cam.lengthView *
+				d_sin(w->cam.pos.angle + w->cam.fov_half + w->cam.ray_dir[i])));
+		if ((objectHit = find_intersection(w, w->cam.pos, end, &hitPoint)))
 		{
-			distHit = d_cos(w->player.fov_half + w->player.ray_dir[i])
-				* sqrt(((hitPoint.y - w->player.pos.y) * (hitPoint.y - w->player.pos.y))
-					  + ((hitPoint.x - w->player.pos.x) * (hitPoint.x - w->player.pos.x)));
-			hWall = (BLOC_SIZE / distHit) * w->player.screenDist;
-			renderer(w, hWall / 2, i, objectHit, hitPoint, hWall);
+			distHit = d_cos(w->cam.fov_half + w->cam.ray_dir[i])
+				* sqrt(((hitPoint.y - w->cam.pos.y) * (hitPoint.y - w->cam.pos.y))
+					  + ((hitPoint.x - w->cam.pos.x) * (hitPoint.x - w->cam.pos.x)));
+			hWall = (BLOC_SIZE / distHit) * w->cam.screenDist;
+			renderer(w, i, objectHit, hitPoint, hWall);
 		}
 	}
 }

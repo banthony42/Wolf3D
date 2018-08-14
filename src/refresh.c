@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/13 19:55:54 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/14 13:36:56 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ static void init_raycast(t_wolf *w)
 	incr = (double)FOV / (double)WIN_W; //check cast
 	while (++i < WIN_W)
 		raydir[i] = (double)i * incr;
-	w->player = (t_player) {{6.5 * BLOC_SIZE, 11.5 * BLOC_SIZE, 120},
+	w->cam = (t_cam) {{6.5 * BLOC_SIZE, 11.5 * BLOC_SIZE, 120},
 							{0}, WIN_H / 2, ((double)WIN_W / 2) / d_tan(FOV / 2),
 							100 * BLOC_SIZE, FOV, -FOV / 2, 200, 50};
-	ft_memcpy(&w->player.ray_dir, &raydir, sizeof(raydir));
-	printf("screenDist:%f\n", w->player.screenDist);
+	ft_memcpy(&w->cam.ray_dir, &raydir, sizeof(raydir));
+	printf("screenDist:%f\n", w->cam.screenDist);
 }
 
 static void	init_img(t_wolf *w)
@@ -83,7 +83,6 @@ int			new_img(t_wolf *w, t_page page, t_coord size)
 	w->img[page].data = mlx_get_data_addr(w->img[page].ptr, &w->img[page].bpp,
 									&w->img[page].width, &w->img[page].endian);
 	w->img[page].octet = (unsigned int)(w->img[page].bpp / 8);
-	w->img[page].data_size = w->img[page].octet * (unsigned int)size.x * (unsigned int)size.y;
 	return (1);
 }
 

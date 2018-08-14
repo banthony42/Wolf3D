@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 18:57:47 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/05 16:32:14 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/14 12:58:42 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static int	load_img(char *path, t_img *i, t_wolf *wolf)
 	}
 	i->data = mlx_get_data_addr(i->ptr, &i->bpp, &i->width, &i->endian);
 	i->octet = (unsigned int)(i->bpp / 8);
-	i->max_size = i->octet * (unsigned int)(i->size.x * i->size.y);
 	ft_putstr("Texture ");
 	ft_putstr(path);
 	ft_putstr(" : LOADED - size in px: ");
