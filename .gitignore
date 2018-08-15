@@ -1,5 +1,6 @@
 libft
 .DS_store
+obj
 *.o
 *.a
 wolf3D
