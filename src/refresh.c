@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/14 18:12:51 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/15 17:23:36 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 static void init_raycast(t_wolf *w)
 {
 	double raydir[WIN_W];
+	t_coord spawn;
 	double incr;
 	int		i;
 
@@ -26,7 +27,9 @@ static void init_raycast(t_wolf *w)
 	incr = (double)FOV / (double)WIN_W; //check cast
 	while (++i < WIN_W)
 		raydir[i] = (double)i * incr;
-	w->cam = (t_cam) {{6.5 * BLOC_SIZE, 11.5 * BLOC_SIZE, 120},
+	spawn.x = (int)(ft_strchr(w->map[2], '0') - w->map[2]) * BLOC_SIZE;
+	spawn.y = (int)(2.5 * BLOC_SIZE);
+	w->cam = (t_cam) {{6.5 * BLOC_SIZE, spawn.y, 120},
 							{0}, WIN_H / 2, ((double)WIN_W / 2) / d_tan(FOV / 2),
 							100 * BLOC_SIZE, FOV, -FOV / 2, 300, 100};
 	ft_memcpy(&w->cam.ray_dir, &raydir, sizeof(raydir));
