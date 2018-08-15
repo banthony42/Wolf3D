@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/10 00:03:33 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/15 18:36:00 by grdalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,6 @@ static void		usage(char *bin)
 	ft_exit(NULL, -1);
 }
 
-static int ft_clos(void *wolf)
-{
-	t_wolf *w;
-
-	if (!(w = (t_wolf *)wolf))
-		return(0);
-	wolf_exit ("fermeture croix", 0, w);
-	return(0);
-}
 static void		wolf_run(t_wolf wolf)
 {
 	init(&wolf);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/14 19:38:06 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/15 18:47:05 by grdalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,6 +306,8 @@ int					keyhook(int keycode, t_wolf *wolf);
 int					new_img(t_wolf *wolf, t_page page, t_coord size);
 void				expose(t_wolf *wolf);
 int					refresh(void *wptr);
+int					ft_clos(void *wolf);
+void				renderer(t_wolf *w, int ray_x, t_hit_info hit, double h_wall);
 void				init(t_wolf *wolf);
 
 void				save_map_into_file(t_wolf *w);

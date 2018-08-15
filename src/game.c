@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/14 14:53:10 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/15 16:37:11 by grdalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int			eventm_game(int button, int x, int y, void *wolf)
 void		draw_game(void *wolf)
 {
 	t_wolf	*w;
+	
 	if (!(w = (t_wolf*)wolf))
 		return ;
 	raycast_1(w);

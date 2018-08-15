@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/14 14:51:38 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/15 16:35:22 by grdalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void		put_pixel_from_txt(t_coord pti, t_coord ptt, t_img *txt, t_img *img)
 			+ ((unsigned int)ptt.x * txt->octet);
 	if (pos > (unsigned)(img->width * WIN_W))
 		return ;
-	*(unsigned int*)(void*)(img->data + pos) = *(unsigned int*)(void*)(txt->data + pos_txt);
+	*(unsigned int*)(void*)(img->data + pos) = *(unsigned int*)
+		(void*)(txt->data + pos_txt);
 }
 
 void		put_texture_on_img_at(t_img *dest, t_img *text,

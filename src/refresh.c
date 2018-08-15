@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refresh.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/15 17:23:36 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/15 17:33:49 by grdalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 **	Initialisation des variables constantes utile au raycast
 **	spawn sur la case (2, 2) pour l'instant
 */
-static void init_raycast(t_wolf *w)
+
+static void	init_raycast(t_wolf *w)
 {
-	double raydir[WIN_W];
+	double  raydir[WIN_W];
 	t_coord spawn;
-	double incr;
-	int		i;
+	double  incr;
+	int     i;
 
 	i = -1;
 	incr = (double)FOV / (double)WIN_W; //check cast
@@ -124,18 +125,19 @@ void		expose(t_wolf *w)
 	}
 }
 
-static void img_clear(t_wolf *w, t_page page)
+static void	img_clear(t_wolf *w, t_page page)
 {
 	t_coord size;
 
 	size = w->img[page].size;
 	mlx_destroy_image(w->mlx, w->img[page].ptr);
 	new_img(w, page, size);
+}
+
 /*
 **	Bizarrement la ligne ci dessous est plus couteuse en fps
 **	ft_memset(w->img[page].data, 0, w->img[page].data_size);
 */
-}
 
 /*
 **	La page GAME et MAP_CREATOR contiennent deux images.

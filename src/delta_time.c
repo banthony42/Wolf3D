@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delta_time.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:46:03 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/09 16:52:19 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/15 16:34:09 by grdalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,19 @@
 #include <stdio.h>
 
 /*
-**	Initialise la structure delta time.
-**	Recuperation du premier timestamp, (begin_time).
-**	Assignation de la fonction update dans la structure.
-*/
+ **	Initialise la structure delta time.
+ **	Recuperation du premier timestamp, (begin_time).
+ **	Assignation de la fonction update dans la structure.
+ */
 
 /*
-**	probleme sur ce genre de nombres: XX.00XX
-**	(un ou plusieurs 0 entre la virgule et le prochain chiffre)
-*/
+ **	probleme sur ce genre de nombres: XX.00XX
+ **	(un ou plusieurs 0 entre la virgule et le prochain chiffre)
+ */
 
 # if 0
-static void    affdouble(double data)
+
+static void		affdouble(double data)
 {
 	if (data < 0)
 	{
@@ -37,8 +38,10 @@ static void    affdouble(double data)
 	ft_putchar('.');
 	ft_putnbr((int)((data + 0.00000005 - (double)((int)data)) * 1000000));
 }
+
 # endif
-void	init_time_struct(t_delta_time *ts)
+
+void			init_time_struct(t_delta_time *ts)
 {
 	if (!ts)
 		return ;
@@ -49,14 +52,14 @@ void	init_time_struct(t_delta_time *ts)
 }
 
 /*
-**	Met a jour la structure delta time.
-**	Stockage du timestamp precedent.
-**	Recuperation d'un nouveau timestamp.
-**	Calcul du temps ecoule en millisecondes.
-**	Calcul du delta time.
-*/
+ **	Met a jour la structure delta time.
+ **	Stockage du timestamp precedent.
+ **	Recuperation d'un nouveau timestamp.
+ **	Calcul du temps ecoule en millisecondes.
+ **	Calcul du delta time.
+ */
 
-void	update_time(void *delta_time_struct)
+void			update_time(void *delta_time_struct)
 {
 	t_delta_time *ts;
 
@@ -72,22 +75,23 @@ void	update_time(void *delta_time_struct)
 }
 
 /*
-**	Affichage des variable de la structure delta time
-*/
+ **	Affichage des variable de la structure delta time
+ */
 
-void	print_delta_time(void *delta_time_struct)
+void			print_delta_time(void *delta_time_struct)
 {
 	t_delta_time *ts;
 
 	ts = NULL;
 	if (!(ts = (t_delta_time*)delta_time_struct))
 		return ;
-	printf("elapsed: %f ms - delta: %f - fps: %d\n", ts->elapsed, ts->delta, (int)ts->fps);
-//	ft_putstr("elapsed: ");
-//	affdouble(ts->elapsed);
-//	ft_putstr(" ms\n");// - delta: ");
-//	affdouble(ts->delta);
-//	ft_putstr(" - fps:");
-//	ft_putnbrendl((int)ts->fps);
-// /!\ printf - recoder un putnbrf()
+	printf("elapsed: %f ms - delta: %f - fps: %d\n",
+		ts->elapsed, ts->delta, (int)ts->fps);
+	//	ft_putstr("elapsed: ");
+	//	affdouble(ts->elapsed);
+	//	ft_putstr(" ms\n");// - delta: ");
+	//	affdouble(ts->delta);
+	//	ft_putstr(" - fps:");
+	//	ft_putnbrendl((int)ts->fps);
+	// /!\ printf - recoder un putnbrf()
 }

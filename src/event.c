@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   event.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 17:17:38 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/10 00:04:52 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/15 18:44:42 by grdalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-int	keyhook(int keycode, t_wolf *wolf)
+int				keyhook(int keycode, t_wolf *wolf)
 {
 	if (!wolf)
 		return (0);
@@ -20,7 +20,7 @@ int	keyhook(int keycode, t_wolf *wolf)
 	return (0);
 }
 
-int	mousehook(int button, int x, int y, t_wolf *wolf)
+int				mousehook(int button, int x, int y, t_wolf *wolf)
 {
 	if (!wolf)
 		return (0);
@@ -28,7 +28,7 @@ int	mousehook(int button, int x, int y, t_wolf *wolf)
 	return (0);
 }
 
-int	keypress(int keycode, void *w)
+int				keypress(int keycode, void *w)
 {
 	t_wolf *wolf;
 
@@ -53,7 +53,7 @@ int	keypress(int keycode, void *w)
 	return (1);
 }
 
-int	keyrelease(int keycode, void *w)
+int				keyrelease(int keycode, void *w)
 {
 	t_wolf *wolf;
 
@@ -75,4 +75,14 @@ int	keyrelease(int keycode, void *w)
 		wolf->keypress[KEY_RIGHT] = 0;
 	refresh(w);
 	return (1);
+}
+
+int		ft_clos(void *wolf)
+{
+	t_wolf *w;
+
+	if (!(w = (t_wolf *)wolf))
+		return (0);
+	wolf_exit("fermeture croix", 0, w);
+	return (0);
 }
