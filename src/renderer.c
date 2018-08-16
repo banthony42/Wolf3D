@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/16 09:14:44 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/16 16:52:44 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,44 +33,29 @@ static void			trace_sky(t_img *img, t_coord start, t_hit_info hit)
 
 static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWall, t_wolf *w)
 {
-	(void)hit;
+	// Remplissage du sol avec couleur unie
 /*	while (start.y < img->size.y)
 	{
 		put_pixel_img(start, DARK_GREY, img);
 		start.y++;
-	}*/
-
-	(void)hWall;
-
-//	double floorDist;
-//	double weight;
-//	t_vector current_floor;
-//	t_coord floorWall;
-	t_coord floor_texel;
-/*
-	floorWall.x = start.x;
-	floorWall.y = start.y;
-	while (start.y < img->size.y)
-	{
-		floorDist = w->cam.heightView / (2.0 * start.y / w->cam.heightView);
-		weight = floorDist / hit.dist;
-		current_floor.x = weight * floorWall.x + (1.0 - weight) * w->cam.pos.x / BLOC_SIZE;
-		current_floor.y = weight * floorWall.y + (1.0 - weight) * w->cam.pos.y / BLOC_SIZE;
-		floor_texel.x = (int)(current_floor.x * w->texture[T_FLOOR].size.x) % w->texture[T_FLOOR].size.x;
-		floor_texel.y = (int)(current_floor.y * w->texture[T_FLOOR].size.y) % w->texture[T_FLOOR].size.y;
-		printf("%d - %d\n", floor_texel.x, floor_texel.y);
-		put_pixel_from_txt(start, floor_texel, &w->texture[T_FLOOR], img);
-		start.y++;
 	}
 */
-	double ratio;
-	double perpDist;
+
+	// Si le compilateur crie car une var est unused
+	(void)hit;
+	(void)hWall;
+	(void)w;
+
+	// Algo 1 qui marche pas encore bien
+	t_coord floor_texel;
+	double dist;
 	while (start.y < img->size.y)
 	{
-		ratio = w->cam.heightView / (start.y - (img->size.y / 2));
-		perpDist = (fabs(w->cam.screenDist) * ratio);
-		floor_texel.x = perpDist / d_cos(w->cam.ray_dir[start.x]);
-		floor_texel.y = perpDist / d_sin(w->cam.ray_dir[start.x]);
+		dist = w->cam.screenDist * (w->cam.heightView / (start.y - (WIN_H / 2)));
+		floor_texel.x = (int)(w->cam.pos.x - (dist * d_cos(w->cam.pos.angle + w->cam.fov_half + w->cam.ray_dir[start.x])));
+		floor_texel.y = (int)(w->cam.pos.y - (dist * d_sin(w->cam.pos.angle + w->cam.fov_half + w->cam.ray_dir[start.x])));
+		floor_texel.x /= BLOC_SIZE;
+		floor_texel.y /= BLOC_SIZE;
 		put_pixel_from_txt(start, floor_texel, &w->texture[T_FLOOR], img);
 		start.y++;
 	}

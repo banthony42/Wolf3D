@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/16 14:50:22 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/16 15:26:04 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ int			new_img(t_wolf *w, t_page page, t_coord size)
 **	et l'action bind sur la touche.
 **	Le champ LAST_KEY_PRESS est remis a zero, et nous permet d'avoir une alternative
 **	au keyrepeat qui est tres rapide.
+**
+**	Couteux en fps voir si opti possible
 */
 
 void		expose(t_wolf *w)
@@ -118,7 +120,7 @@ void		expose(t_wolf *w)
 	{
 		if (w->keypress[KEY_TAB])
 		{
-			fill_img(&w->img[MAP_I], MAP_OVERLAY);	// Couteux en fps voir si opti possible
+			fill_img(&w->img[MAP_I], MAP_OVERLAY);
 			draw_map(w, w->map, w->map_size);
 			pt = (t_coord){(WIN_W - MAPI_W) / 2, (WIN_H - MAPI_H) / 2, CLR};
 			mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr
