@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/15 18:45:23 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/16 09:14:44 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,47 @@ static void			trace_sky(t_img *img, t_coord start, t_hit_info hit)
 	}
 }
 
-static void			trace_floor(t_img *img, t_coord start, t_hit_info hit)
+static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWall, t_wolf *w)
 {
 	(void)hit;
-	while (start.y < img->size.y)
+/*	while (start.y < img->size.y)
 	{
 		put_pixel_img(start, DARK_GREY, img);
+		start.y++;
+	}*/
+
+	(void)hWall;
+
+//	double floorDist;
+//	double weight;
+//	t_vector current_floor;
+//	t_coord floorWall;
+	t_coord floor_texel;
+/*
+	floorWall.x = start.x;
+	floorWall.y = start.y;
+	while (start.y < img->size.y)
+	{
+		floorDist = w->cam.heightView / (2.0 * start.y / w->cam.heightView);
+		weight = floorDist / hit.dist;
+		current_floor.x = weight * floorWall.x + (1.0 - weight) * w->cam.pos.x / BLOC_SIZE;
+		current_floor.y = weight * floorWall.y + (1.0 - weight) * w->cam.pos.y / BLOC_SIZE;
+		floor_texel.x = (int)(current_floor.x * w->texture[T_FLOOR].size.x) % w->texture[T_FLOOR].size.x;
+		floor_texel.y = (int)(current_floor.y * w->texture[T_FLOOR].size.y) % w->texture[T_FLOOR].size.y;
+		printf("%d - %d\n", floor_texel.x, floor_texel.y);
+		put_pixel_from_txt(start, floor_texel, &w->texture[T_FLOOR], img);
+		start.y++;
+	}
+*/
+	double ratio;
+	double perpDist;
+	while (start.y < img->size.y)
+	{
+		ratio = w->cam.heightView / (start.y - (img->size.y / 2));
+		perpDist = (fabs(w->cam.screenDist) * ratio);
+		floor_texel.x = perpDist / d_cos(w->cam.ray_dir[start.x]);
+		floor_texel.y = perpDist / d_sin(w->cam.ray_dir[start.x]);
+		put_pixel_from_txt(start, floor_texel, &w->texture[T_FLOOR], img);
 		start.y++;
 	}
 }
@@ -74,5 +109,5 @@ void			renderer(t_wolf *w, int ray_x, t_hit_info hit, double h_wall)
 	trace_sky(&w->img[GAME], column_start, hit);
 	// FLOOR
 	column_start.y = (int)(w->cam.heightView + half_wall);
-	trace_floor(&w->img[GAME], column_start, hit);
+	trace_floor(&w->img[GAME], column_start, hit, h_wall, w);
 }

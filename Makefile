@@ -6,7 +6,7 @@
 #    By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/08/15 18:47:56 by grdalmas         ###   ########.fr        #
+#    Updated: 2018/08/15 22:51:30 by banthony         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ LIBFT_NAME_SANIT = -L $(LIBFT) -lft_sanit
 ifeq ($(UNAME), Linux)
 MLX_LIB = ./minilibx_linux/
 HEAD_DIR = -I ./include -I $(LIBFT) -I $(MLX_LIB)
-LIB = -L $(MLX_LIB) -lmlx -lXext -lX11 -lbsd
+LIB = -L $(MLX_LIB) -lmlx -lXext -lX11 -lbsd -lm
 FLAGS = -Wall -Wextra -Werror
 endif
 
