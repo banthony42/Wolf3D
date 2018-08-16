@@ -1,9 +1,9 @@
 /*
-** mlx.h for MinilibX in 
-** 
+** mlx.h for MinilibX in
+**
 ** Made by Charlie Root
 ** Login   <ol@staff.42.fr>
-** 
+**
 ** Started on  Mon Jul 31 16:37:50 2000 Charlie Root
 ** Last update Tue Oct 01 16:23:28 2014 Olivier Crouzet
 */
@@ -46,6 +46,14 @@
 
 #define	MLX_H
 
+/*
+**	Gestion de souris hors de la fenetre
+**	Recuperation de la position souris dans la fenetre. (mouseover)
+*/
+int mlx_mouse_hide();
+int mlx_mouse_show();
+int mlx_mouse_move(void *win_ptr, int x, int y);
+int mlx_mouse_get_pos(void *win_ptr, int *x, int *y);
 
 void	*mlx_init();
 /*
