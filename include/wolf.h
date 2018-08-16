@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/15 18:47:05 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/16 14:44:36 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ typedef enum	e_page
 */
 typedef enum	e_keystate
 {
-	KEY_NULL, KEY_TAB, KEY_W, KEY_A, KEY_S, KEY_D,
+	LAST_KEY_PRESS,
+	KEY_TAB, KEY_W, KEY_A, KEY_S, KEY_D,
 	KEY_LEFT, KEY_RIGHT,
 	NB_KEYSTATE,
 }				t_keystate;
@@ -302,7 +303,6 @@ void				draw_map_creator(void *wolf);
 int					keypress(int keycode, void *w);
 int					keyrelease(int keycode, void *w);
 int					mousehook(int button, int x, int y, t_wolf *wolf);
-int					keyhook(int keycode, t_wolf *wolf);
 int					new_img(t_wolf *wolf, t_page page, t_coord size);
 void				expose(t_wolf *wolf);
 int					refresh(void *wptr);

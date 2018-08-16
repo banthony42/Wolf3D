@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/15 17:33:49 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/16 14:50:22 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,18 +96,29 @@ int			new_img(t_wolf *w, t_page page, t_coord size)
 **	Si les if deviennent trop nombreux, un tableau de fonction sera utilise.
 **	Les pages GAME et MAP_CREATOR ont besoin respectivement de la gestion
 **	de la map et map + interface.
+**
+**	Event:
+**	La fonction d'event_key est appele dans l'expose, les statuts des touches
+**	sont memorise dans keypress / keyrelease.
+**	Cette methode resout le probleme de latence entre l'appui sur une touche
+**	et l'action bind sur la touche.
+**	Le champ LAST_KEY_PRESS est remis a zero, et nous permet d'avoir une alternative
+**	au keyrepeat qui est tres rapide.
 */
 
 void		expose(t_wolf *w)
 {
 	t_coord pt;
 
+	w->event_key[w->current_page](w->keypress[LAST_KEY_PRESS], w);
+	w->keypress[LAST_KEY_PRESS] = 0;
 	w->draw[w->current_page](w);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[w->current_page].ptr, 0, 0);
 	if (w->current_page == GAME)
 	{
 		if (w->keypress[KEY_TAB])
 		{
+			fill_img(&w->img[MAP_I], MAP_OVERLAY);	// Couteux en fps voir si opti possible
 			draw_map(w, w->map, w->map_size);
 			pt = (t_coord){(WIN_W - MAPI_W) / 2, (WIN_H - MAPI_H) / 2, CLR};
 			mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr
@@ -160,6 +171,6 @@ int			refresh(void *wptr)
 	}
 	if (wolf->current_page == GAME)
 		img_clear(wolf, MAP_I);
-	expose(wolf);
+	expose((t_wolf*)wptr);
 	return (1);
 }

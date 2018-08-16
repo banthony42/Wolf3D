@@ -6,19 +6,11 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 17:17:38 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/15 18:44:42 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/16 14:44:45 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-int				keyhook(int keycode, t_wolf *wolf)
-{
-	if (!wolf)
-		return (0);
-	wolf->event_key[wolf->current_page](keycode, wolf);
-	return (0);
-}
 
 int				mousehook(int button, int x, int y, t_wolf *wolf)
 {
@@ -48,8 +40,7 @@ int				keypress(int keycode, void *w)
 		wolf->keypress[KEY_S] = 1;
 	else if (keycode == MLX_KEY_RIGHT)
 		wolf->keypress[KEY_RIGHT] = 1;
-	keyhook(keycode, wolf);
-	refresh(w);
+	wolf->keypress[LAST_KEY_PRESS] = keycode;
 	return (1);
 }
 
@@ -73,7 +64,6 @@ int				keyrelease(int keycode, void *w)
 		wolf->keypress[KEY_S] = 0;
 	else if (keycode == MLX_KEY_RIGHT)
 		wolf->keypress[KEY_RIGHT] = 0;
-	refresh(w);
 	return (1);
 }
 
