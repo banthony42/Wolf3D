@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 19:13:48 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/16 12:55:25 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/16 22:30:44 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	draw_palette(t_wolf *w)
 	t_coord	pt;
 	t_coord	box;
 	t_coord item_size;
-	int		i;
+	unsigned int		i;
 
 	i = 0;
 	item_size.x = ITEM_SIZE;
