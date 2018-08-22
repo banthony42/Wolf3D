@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/22 19:00:35 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/22 23:26:50 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	init_raycast(t_wolf *w)
 	while (++i < WIN_W)
 		w->cam.ray_dir[i] = (i * incr) - (FOV/2);
 	spawn = find_spawn(w->map, T_SPAWN);
-	spawn.angle = 180;
+	spawn.angle = 180+90;
 	w->cam.pos = spawn;
 	w->cam.heightView = WIN_H / 2;
 	w->cam.screenDist = (double)(WIN_W / 2) / d_tan(FOV / 2);
@@ -185,7 +185,7 @@ int			refresh(void *wptr)
 	if (!(wolf = (t_wolf*)wptr))
 		return (0);
 	wolf->time.update(&wolf->time);
-	wolf->time.print(&wolf->time);
+//	wolf->time.print(&wolf->time);
 	img_clear(wolf, wolf->current_page);
 	if (wolf->current_page == MAP_CREATOR)
 	{

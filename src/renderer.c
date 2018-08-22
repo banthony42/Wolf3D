@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/22 19:19:34 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/22 23:31:15 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,24 @@
 
 static void			trace_sky(t_img *img, t_coord start, t_hit_info hit)
 {
+	(void)img;
 	(void)hit;
 	while (start.y > 0)
 	{
-		put_pixel_img(start, BLUE, img);
+//		put_pixel_img(start, BLUE, img);
 		start.y--;
 	}
 }
 
-static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWall, t_wolf *w)
+/*static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWall, t_wolf *w)
 {
 	// Remplissage du sol avec couleur unie
-/*	while (start.y < img->size.y)
+	while (start.y < img->size.y)
 	{
 		put_pixel_img(start, DARK_GREY, img);
 		start.y++;
 	}
-*/
+
 
 	// Si le compilateur crie car une var est unused
 	(void)hit;
@@ -48,7 +49,6 @@ static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWal
 
 	// Algo 1 qui marche pas encore bien	#ragekit
 	t_coord floor_texel;
-	t_coord map_box;
 	t_vector floor;
 	double dist;
 	t_texture texture;
@@ -71,8 +71,6 @@ static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWal
 //		floor.x = round((dist / w->cam.screenDist) * abs((WIN_W/2) - start.x)) / (hWall/BLOC_SIZE);
 //		floor.y = w->cam.pos.y + dist / (hWall/BLOC_SIZE);
 
-		map_box.x = (int)(fmod(floor.x, ITEM_SIZE));
-		map_box.y = (int)(fmod(floor.y, ITEM_SIZE));
 // 		TEXTURE CALCUL
 
 		floor_texel.x = (int)(fmod(floor.x, BLOC_SIZE));
@@ -86,6 +84,51 @@ static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWal
 		put_pixel_from_txt(start, floor_texel, &w->texture[T_STONE], img);
 		start.y++;
 	}
+}*/
+
+static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWall, t_wolf *w)
+{
+	// Si le compilateur crie car une var est unused
+	(void)hit;
+	(void)hWall;
+	(void)w;
+
+	int i;
+	int column_rest;
+	t_vector floor;
+	t_vector incr;
+	t_coord floor_texel;
+	t_texture texture;
+	t_coord map;
+	t_coord pt;
+/*	double delta;
+
+	delta = fabs(hit.point.y - w->cam.pos.y);
+	if (fabs(hit.point.x - w->cam.pos.x) >= delta)
+		delta =hit.point.x - w->cam.pos.x;*/
+	i = 0;
+	column_rest = WIN_H - start.y;
+	incr.x = (hit.point.x - w->cam.pos.x) / column_rest;
+	incr.y = (hit.point.y - w->cam.pos.y) / column_rest;
+	while (start.y < WIN_H)
+	{
+		floor.x = w->cam.pos.x + (i * incr.x);
+		floor.y = w->cam.pos.y + (i * incr.y);
+		floor_texel.x = (int)(fmod(floor.x, BLOC_SIZE));
+		floor_texel.y = (int)(fmod(floor.y, BLOC_SIZE));
+		map.x = (int)floor_texel.x / BLOC_SIZE;
+		map.y = (int)floor_texel.y / BLOC_SIZE;
+		texture = (t_texture)(w->map[map.y][map.x] - '0');
+		(void)texture;
+		pt.x = (int)floor.x;
+		pt.y = (int)floor.y;
+		put_pixel_img(pt, GREEN, img);
+
+		put_pixel_from_txt(start, floor_texel, &w->texture[texture], img);
+			printf("map:%d x %d - mapchar:%c\n", map.y, map.x, w->map[map.y][map.x]);
+		start.y++;
+		i++;
+	}
 }
 
 static void			trace_textured_wall(t_img *img, t_coord start, int h_wall, t_hit_info hit)
@@ -94,6 +137,8 @@ static void			trace_textured_wall(t_img *img, t_coord start, int h_wall, t_hit_i
 	t_coord	pt;
 	t_coord	ptt;
 
+	(void)ptt;
+	(void)img;
 	i = -1;
 	pt = start;
 	ptt.x = (int)(hit.object.size.x * (fmod(hit.side, BLOC_SIZE) / BLOC_SIZE));
@@ -102,7 +147,7 @@ static void			trace_textured_wall(t_img *img, t_coord start, int h_wall, t_hit_i
 		if (pt.y >= 0 && pt.y < WIN_H)
 		{
 			ptt.y = hit.object.size.y * i / h_wall;
-			put_pixel_from_txt(pt, ptt, &hit.object, img);
+//			put_pixel_from_txt(pt, ptt, &hit.object, img);
 		}
 		pt.y = start.y + i;
 	}
