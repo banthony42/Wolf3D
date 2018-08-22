@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/23 00:04:59 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/23 01:08:30 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ static void			trace_sky(t_img *img, t_coord start, t_hit_info hit)
 	}
 }*/
 
+
 static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWall, t_wolf *w)
 {
 	// Si le compilateur crie car une var est unused
@@ -108,11 +109,11 @@ static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWal
 	if (fabs(hit.point.x - w->cam.pos.x) >= delta)
 		delta = fabs(hit.point.x - w->cam.pos.x);
 	i = -1;
-	column_rest = (double)(WIN_H - start.y) / delta;
+	column_rest = (double)(WIN_H - start.y);
 	(void)column_rest;
-	incr.x = (hit.point.x - w->cam.pos.x) / delta;
-	incr.y = (hit.point.y - w->cam.pos.y) / delta;
-	floor = w->cam.pos;
+	incr.x = ((hit.point.x - w->cam.pos.x) / delta);
+	incr.y = ((hit.point.y - w->cam.pos.y) / delta);
+	floor = hit.point;
 	while (++i < delta)
 	{
 		// Point de l'ecran
@@ -121,8 +122,8 @@ static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWal
 		// Affichage des rayons
 		put_pixel_img(pt, GREEN, img);
 		// Increment du point vers la destination
-		floor.x += incr.x;
-		floor.y += incr.y;
+		floor.x -= incr.x;
+		floor.y -= incr.y;
 		// Calcul du point correspondant dans la texture
 		floor_texel.x = (int)(fmod(floor.x, BLOC_SIZE));
 		floor_texel.y = (int)(fmod(floor.y, BLOC_SIZE));
@@ -133,6 +134,7 @@ static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWal
 		texture = (t_texture)(w->map[map.y][map.x] - '0');
 		// Texturage du point du rayon
 		put_pixel_from_txt(pt, floor_texel, &w->texture[texture], img);
+		start.y++;
 	}
 }
 
