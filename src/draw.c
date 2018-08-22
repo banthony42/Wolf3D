@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/15 16:35:22 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/22 14:25:39 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void		put_pixel_img(t_coord pt, unsigned int color, t_img *img)
 {
 	unsigned int pos;
 
+	if (!img || !img->data)
+		return ;
 	if (pt.y > WIN_H || pt.y < 0 || pt.x > WIN_W || pt.x < 0)
 		return ;
 	pos = (unsigned int)(pt.y * img->width) + ((unsigned int)pt.x * img->octet);
@@ -37,6 +39,8 @@ void		put_pixel_from_txt(t_coord pti, t_coord ptt, t_img *txt, t_img *img)
 	unsigned int pos;
 	unsigned int pos_txt;
 
+	if (!txt || !img || !txt->data || !img->data)
+		return ;
 	if (pti.y > img->size.y || pti.y < 0 || pti.x > img->size.x || pti.x < 0)
 		return ;
 	if (ptt.x > txt->size.x || ptt.y > txt->size.y || ptt.x < 0 || ptt.y < 0)
@@ -61,7 +65,7 @@ void		put_texture_on_img_at(t_img *dest, t_img *text,
 	pt_max.x = at.x + text_size.x;
 	pt_max.y = at.y + text_size.y;
 	pt.y = at.y;
-	if (!dest || !text)
+	if (!dest || !text || !dest->data || !text->data)
 		return ;
 	while (pt.y < pt_max.y)
 	{
@@ -83,7 +87,7 @@ void		put_texture_on_img(t_img *dest, t_img *text)
 	t_coord ptt;
 
 	pt.y = 0;
-	if (!dest || !text)
+	if (!dest || !text || !dest->data || !text->data)
 		return ;
 	while (pt.y < dest->size.y)
 	{
