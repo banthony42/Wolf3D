@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/22 13:47:42 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/22 14:38:21 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,9 +170,9 @@ typedef struct		s_cam
 	double			ray_dir[WIN_W];
 	double			heightView;
 	double			screenDist;
-	const double	lengthView;
-	const double	spd_move;	// surement non const
-	const double	spd_angle;	// surement non const
+	double			lengthView;
+	double			spd_move;
+	double			spd_angle;
 }					t_cam;
 
 /*

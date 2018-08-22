@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/22 14:18:52 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/22 14:42:22 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,22 @@ static t_vector find_spawn(char **map, t_texture spawner)
 
 static void	init_raycast(t_wolf *w)
 {
-	double  raydir[WIN_W];
 	t_vector spawn;
 	double  incr;
 	int     i;
 
 	i = -1;
-	incr = (double)FOV / (double)WIN_W; //check cast
+	incr = (double)FOV / (double)WIN_W;
 	while (++i < WIN_W)
-		raydir[i] = (double)((i * incr) - (FOV/2));
+		w->cam.ray_dir[i] = (i * incr) - (FOV/2);
 	spawn = find_spawn(w->map, T_SPAWN);
-	w->cam = (t_cam) {{spawn.x, spawn.y, 120},
-							{0}, WIN_H / 2, ((double)WIN_W / 2) / d_tan(FOV / 2),
-							100 * BLOC_SIZE, 300, 100};
-	ft_memcpy(&w->cam.ray_dir, &raydir, sizeof(raydir));
+	spawn.angle = 120;
+	w->cam.pos = spawn;
+	w->cam.heightView = WIN_H / 2;
+	w->cam.screenDist = (double)(WIN_W / 2) / d_tan(FOV / 2);
+	w->cam.lengthView = 100 * BLOC_SIZE;
+	w->cam.spd_move = 300;
+	w->cam.spd_angle = 100;
 }
 
 static void	init_img(t_wolf *w)
