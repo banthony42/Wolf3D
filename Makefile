@@ -6,7 +6,7 @@
 #    By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/08/22 15:27:38 by banthony         ###   ########.fr        #
+#    Updated: 2018/08/22 19:17:45 by banthony         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,7 +84,7 @@ ifneq ($(COMPILATION_VAR), NULL)
 	gcc -D $(COMPILATION_VAR) $(FLAGS) $(HEAD_DIR) -c $(SRC)
 endif
 ifeq ($(COMPILATION_VAR), NULL)
-	gcc $(FLAGS) $(HEAD_DIR) -c $(SRC)
+	gcc -D COMPILATION_VAR=0 $(FLAGS) $(HEAD_DIR) -c $(SRC)
 endif
 	mkdir -p $(OBJ_PATH)
 	mv $(OBJ) $(OBJ_PATH)

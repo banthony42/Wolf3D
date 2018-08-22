@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/22 17:56:11 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/22 19:19:34 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,33 +48,40 @@ static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWal
 
 	// Algo 1 qui marche pas encore bien	#ragekit
 	t_coord floor_texel;
+	t_coord map_box;
 	t_vector floor;
-	floor.y = (double)w->cam.pos.y;
-	floor.x = (double)w->cam.pos.x;
 	double dist;
 	t_texture texture;
-		(void)texture;
+	(void)texture;
 	while (start.y < img->size.y)
 	{
 		dist = round((w->cam.heightView / ((start.y - (WIN_H / 2)))) * w->cam.screenDist);
 		if (w->cam.pos.angle > 180)
 		{
 			floor.x = round((w->cam.pos.x + (dist * fabs(d_cos(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
-			floor.y = round((w->cam.pos.y + (dist * fabs(d_sin(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
+			floor.y = round((w->cam.pos.y + (dist * fabs(d_tan(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
 		}
 		else
 		{
-			floor.x = round((w->cam.pos.x + (dist * fabs(d_sin(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
+			floor.x = round((w->cam.pos.x + (dist * fabs(d_tan(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
 			floor.y = round((w->cam.pos.y + (dist * fabs(d_cos(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
 		}
-//		floor.y = w->cam.pos.y + dist;
+//		floor.x = round((w->cam.pos.x + (dist * fabs(d_cos(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
+//		floor.y = round((w->cam.pos.y + (dist * fabs(d_sin(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
+//		floor.x = round((dist / w->cam.screenDist) * abs((WIN_W/2) - start.x)) / (hWall/BLOC_SIZE);
+//		floor.y = w->cam.pos.y + dist / (hWall/BLOC_SIZE);
+
+		map_box.x = (int)(fmod(floor.x, ITEM_SIZE));
+		map_box.y = (int)(fmod(floor.y, ITEM_SIZE));
+// 		TEXTURE CALCUL
+
 		floor_texel.x = (int)(fmod(floor.x, BLOC_SIZE));
 		floor_texel.y = (int)(fmod(floor.y, BLOC_SIZE));
 //		floor_texel.x = (int)(fmod((start.x * fabs(d_sin(w->cam.pos.angle ))), BLOC_SIZE));
 //		floor_texel.y = (int)(fmod((start.y * fabs(d_cos(w->cam.pos.angle ))), BLOC_SIZE));
 ///		floor_texel.x = (int)(fmod((start.x * fabs(d_tan(w->cam.pos.angle + w->cam.ray_dir[start.x]))), BLOC_SIZE));
 //		floor_texel.y = (int)(fmod((start.y * fabs(d_cos(w->cam.pos.angle + w->cam.ray_dir[start.x]))), BLOC_SIZE));
-//		printf("floor:%d x %d\n", floor_texel.x, floor_texel.y);
+//		printf("dist:%f\n", dist);
 		texture = (t_texture)w->map[(int)(floor_texel.y / BLOC_SIZE)][(int)(floor_texel.x / BLOC_SIZE)] - '0';
 		put_pixel_from_txt(start, floor_texel, &w->texture[T_STONE], img);
 		start.y++;
@@ -116,3 +123,11 @@ void			renderer(t_wolf *w, int ray_x, t_hit_info hit, double h_wall)
 	column_start.y = (int)(w->cam.heightView + half_wall);
 	trace_floor(&w->img[GAME], column_start, hit, h_wall, w);
 }
+
+
+
+
+
+
+
+
