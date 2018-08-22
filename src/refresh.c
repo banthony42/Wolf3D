@@ -6,35 +6,52 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/16 15:26:04 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/22 14:18:52 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
 /*
-**	Initialisation des variables constantes utile au raycast
-**	spawn sur la case (2, 2) pour l'instant
+**	Retourne la position du spawn sur la map.
+**	Sinon retourne la position de la premiere case vide.
 */
+static t_vector find_spawn(char **map, t_texture spawner)
+{
+	t_vector	spawn;
+	char		*find;
+	int			i;
+
+	find = NULL;
+	i = -1;
+	while (map[++i])
+	{
+		if ((find = ft_strchr(map[i], '0' + spawner)))
+		{
+			spawn.y = (i * BLOC_SIZE) + BLOC_SIZE / 2;
+			spawn.x = ((int)(find - map[i]) * BLOC_SIZE) + BLOC_SIZE / 2;
+			return (spawn);
+		}
+	}
+	return (find_spawn(map, T_FLOOR));
+}
 
 static void	init_raycast(t_wolf *w)
 {
 	double  raydir[WIN_W];
-	t_coord spawn;
+	t_vector spawn;
 	double  incr;
 	int     i;
 
 	i = -1;
 	incr = (double)FOV / (double)WIN_W; //check cast
 	while (++i < WIN_W)
-		raydir[i] = (double)i * incr;
-	spawn.x = (int)(ft_strchr(w->map[2], '0') - w->map[2]) * BLOC_SIZE;
-	spawn.y = (int)(2.5 * BLOC_SIZE);
-	w->cam = (t_cam) {{6.5 * BLOC_SIZE, spawn.y, 120},
+		raydir[i] = (double)((i * incr) - (FOV/2));
+	spawn = find_spawn(w->map, T_SPAWN);
+	w->cam = (t_cam) {{spawn.x, spawn.y, 120},
 							{0}, WIN_H / 2, ((double)WIN_W / 2) / d_tan(FOV / 2),
-							100 * BLOC_SIZE, FOV, -FOV / 2, 300, 100};
+							100 * BLOC_SIZE, 300, 100};
 	ft_memcpy(&w->cam.ray_dir, &raydir, sizeof(raydir));
-	printf("screenDist:%f\n", w->cam.screenDist);
 }
 
 static void	init_img(t_wolf *w)
@@ -48,7 +65,7 @@ static void	init_img(t_wolf *w)
 	w->map_crea.m_size.y = w->img[MAP_I].size.y / ITEM_SIZE;
 	w->map_crea.map = ft_newtab(w->map_crea.m_size.y,
 									w->map_crea.m_size.x, (int)'0');
-	w->map_crea.texture = T_NULL;
+	w->map_crea.texture = T_STONE;
 	init_raycast(w);
 }
 

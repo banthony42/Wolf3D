@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/15 18:38:50 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/22 12:41:43 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ void				raycast_1(t_wolf *w)
 	while (++i < WIN_W)
 	{
 		end.x = (w->cam.pos.x - (w->cam.lengthView *
-				d_cos(w->cam.pos.angle + w->cam.fov_half + w->cam.ray_dir[i])));
+				d_cos(w->cam.pos.angle + w->cam.ray_dir[i])));
 		end.y = (w->cam.pos.y - (w->cam.lengthView *
-				d_sin(w->cam.pos.angle + w->cam.fov_half + w->cam.ray_dir[i])));
+				d_sin(w->cam.pos.angle + w->cam.ray_dir[i])));
 		if ((text = find_intersection(w, w->cam.pos, end, &hit.point)))
 		{
-			hit.dist = d_cos(w->cam.fov_half + w->cam.ray_dir[i])
+			hit.dist = d_cos(w->cam.ray_dir[i])
 				* sqrt(((hit.point.y - w->cam.pos.y) * (hit.point.y - w->cam.pos.y))
 				+ ((hit.point.x - w->cam.pos.x) * (hit.point.x - w->cam.pos.x)));
 			h_wall = (BLOC_SIZE / hit.dist) * w->cam.screenDist;

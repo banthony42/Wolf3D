@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 18:57:47 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/15 18:51:39 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/22 13:48:37 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int			load_texture(t_wolf *w)
 	error = load_img("./texture/wood.xpm", &w->texture[T_WOOD], w);
 	error = load_img("./texture/redbrick.xpm", &w->texture[T_REDBRICK], w);
 	error = load_img("./texture/colorstone.xpm", &w->texture[T_FLOOR], w);
+	error = load_img("./texture/bluestone.xpm", &w->texture[T_FLOOR2], w);
 	error = load_img("./texture/door.xpm", &w->texture[T_DOOR], w);
 	error = load_img("./texture/interface_creator.xpm",
 						&w->texture[T_CREATOR_INTERFACE], w);
