@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/15 16:37:11 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/22 14:53:25 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int			eventk_game(int keyhook, void *wolf)
 	if (keyhook == MLX_KEY_ESCAPE)
 		w->current_page = MAIN_MENU;
 	if (w->keypress[KEY_RIGHT])
-		w->cam.pos.angle += w->cam.spd_angle * w->time.delta;	// reset l'angle
+		w->cam.pos.angle += w->cam.spd_angle * w->time.delta;
 	if (w->keypress[KEY_LEFT])
-		w->cam.pos.angle -= w->cam.spd_angle * w->time.delta;	// reset l'angle
+		w->cam.pos.angle -= w->cam.spd_angle * w->time.delta;
 	if (w->keypress[KEY_W])
 		move_forward(w);
 	if (w->keypress[KEY_S])
@@ -49,7 +49,7 @@ int			eventm_game(int button, int x, int y, void *wolf)
 void		draw_game(void *wolf)
 {
 	t_wolf	*w;
-	
+
 	if (!(w = (t_wolf*)wolf))
 		return ;
 	raycast_1(w);

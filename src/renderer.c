@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/22 14:04:12 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/22 17:56:11 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static void			trace_sky(t_img *img, t_coord start, t_hit_info hit)
 static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWall, t_wolf *w)
 {
 	// Remplissage du sol avec couleur unie
-	while (start.y < img->size.y)
+/*	while (start.y < img->size.y)
 	{
 		put_pixel_img(start, DARK_GREY, img);
 		start.y++;
 	}
-
+*/
 
 	// Si le compilateur crie car une var est unused
 	(void)hit;
@@ -47,27 +47,38 @@ static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWal
 	(void)w;
 
 	// Algo 1 qui marche pas encore bien	#ragekit
-/*	t_coord floor_texel;
+	t_coord floor_texel;
 	t_vector floor;
 	floor.y = (double)w->cam.pos.y;
 	floor.x = (double)w->cam.pos.x;
 	double dist;
 	t_texture texture;
+		(void)texture;
 	while (start.y < img->size.y)
 	{
 		dist = round((w->cam.heightView / ((start.y - (WIN_H / 2)))) * w->cam.screenDist);
-//		dist = dist * (1 / d_cos(w->cam.ray_dir[start.x]));
-//		floor.x +=  dist * d_tan( w->cam.ray_dir[start.x]);
-//		floor.y = dist / d_cos(w->cam.ray_dir[start.x]);
-		floor.x = round((w->cam.pos.x + (dist * d_cos(w->cam.pos.angle + w->cam.ray_dir[start.x]))));
-		floor.y = round((w->cam.pos.y + (dist * d_sin(w->cam.pos.angle + w->cam.ray_dir[start.x]))));
-		floor_texel.x = (int)(fmod((floor.x), BLOC_SIZE));
-		floor_texel.y = (int)(fmod((floor.y), BLOC_SIZE));
+		if (w->cam.pos.angle > 180)
+		{
+			floor.x = round((w->cam.pos.x + (dist * fabs(d_cos(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
+			floor.y = round((w->cam.pos.y + (dist * fabs(d_sin(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
+		}
+		else
+		{
+			floor.x = round((w->cam.pos.x + (dist * fabs(d_sin(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
+			floor.y = round((w->cam.pos.y + (dist * fabs(d_cos(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
+		}
+//		floor.y = w->cam.pos.y + dist;
+		floor_texel.x = (int)(fmod(floor.x, BLOC_SIZE));
+		floor_texel.y = (int)(fmod(floor.y, BLOC_SIZE));
+//		floor_texel.x = (int)(fmod((start.x * fabs(d_sin(w->cam.pos.angle ))), BLOC_SIZE));
+//		floor_texel.y = (int)(fmod((start.y * fabs(d_cos(w->cam.pos.angle ))), BLOC_SIZE));
+///		floor_texel.x = (int)(fmod((start.x * fabs(d_tan(w->cam.pos.angle + w->cam.ray_dir[start.x]))), BLOC_SIZE));
+//		floor_texel.y = (int)(fmod((start.y * fabs(d_cos(w->cam.pos.angle + w->cam.ray_dir[start.x]))), BLOC_SIZE));
 //		printf("floor:%d x %d\n", floor_texel.x, floor_texel.y);
 		texture = (t_texture)w->map[(int)(floor_texel.y / BLOC_SIZE)][(int)(floor_texel.x / BLOC_SIZE)] - '0';
-		put_pixel_from_txt(start, floor_texel, &w->texture[texture], img);
+		put_pixel_from_txt(start, floor_texel, &w->texture[T_STONE], img);
 		start.y++;
-		}*/
+	}
 }
 
 static void			trace_textured_wall(t_img *img, t_coord start, int h_wall, t_hit_info hit)
