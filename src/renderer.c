@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/23 19:37:06 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/23 20:04:01 by grdalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,21 +234,26 @@ static void			trace_untextured_wall(t_img *img, t_coord start, t_cam cam, t_hit_
 	}
 }
 
-void			renderer(t_wolf *w, int ray_x, t_hit_info hit, double h_wall)
+void			renderer(t_wolf *w)
 {
 	t_coord	column_start;
-	double	half_wall = h_wall / 2;
-
-	// WALL
-	column_start.x = ray_x;
-	column_start.y = (int)(w->cam.heightView - half_wall);
-	if (w->textured)
-		trace_textured_wall(&w->img[GAME], column_start, (int)h_wall, hit);
-	else
-		trace_untextured_wall(&w->img[GAME], column_start, w->cam, hit);
-	// SKY
-	trace_sky(&w->img[GAME], column_start, hit);
-	// FLOOR
-	column_start.y = (int)(w->cam.heightView + half_wall);
-	trace_floor(&w->img[GAME], column_start, hit, h_wall, w);
+	double	half_wall;
+	int		i;
+	
+	i = -1;
+	while (++i < WIN_W)
+	{// WALL
+		half_wall = w->hit[i].h_wall / 2;
+		column_start.x = i;
+		column_start.y = (int)(w->cam.heightView - half_wall);
+		if (w->textured)
+			trace_textured_wall(&w->img[GAME], column_start, (int)w->hit[i].h_wall, w->hit[i]);
+		else
+			trace_untextured_wall(&w->img[GAME], column_start, w->cam, w->hit[i]);
+		// SKY
+		trace_sky(&w->img[GAME], column_start, w->hit[i]);
+		// FLOOR
+		column_start.y = (int)(w->cam.heightView + half_wall);
+		trace_floor(&w->img[GAME], column_start, w->hit[i], w->hit[i].h_wall, w);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/23 15:19:17 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/23 20:07:27 by grdalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int			eventk_game(int keyhook, void *wolf)
 		move_right(w);
 	if (w->keypress[KEY_A])
 		move_left(w);
+	raycast_1(w);
 	return (0);
 }
 
@@ -54,6 +55,6 @@ void		draw_game(void *wolf)
 
 	if (!(w = (t_wolf*)wolf))
 		return ;
-	raycast_1(w);
+	renderer(w);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[GAME].ptr, 0, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/23 19:37:07 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/23 20:05:48 by grdalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,10 @@ static t_texture	find_intersection(t_wolf *w, t_vector a, t_vector b, t_vector *
 void				raycast_1(t_wolf *w)
 {
 	t_vector	end;
-	double		h_wall;
 	t_texture	text;
 	int			i;
 
 	i = -1;
-	h_wall = 0;
 	while (++i < WIN_W)
 	{
 		end.x = (w->cam.pos.x - (w->cam.lengthView *
@@ -119,12 +117,11 @@ void				raycast_1(t_wolf *w)
 			w->hit[i].dist = d_cos(w->cam.ray_dir[i])
 				* sqrt(((w->hit[i].point.y - w->cam.pos.y) * (w->hit[i].point.y - w->cam.pos.y))
 				+ ((w->hit[i].point.x - w->cam.pos.x) * (w->hit[i].point.x - w->cam.pos.x)));
-			h_wall = (BLOC_SIZE / w->hit[i].dist) * w->cam.screenDist;
+			w->hit[i].h_wall = (BLOC_SIZE / w->hit[i].dist) * w->cam.screenDist;
 			w->hit[i].side = w->hit[i].point.y;
 			if (((int)(w->hit[i].point.y) % BLOC_SIZE) == 0)
 				w->hit[i].side = w->hit[i].point.x;
 			w->hit[i].object = w->texture[text];
-			renderer(w, i, w->hit[i], h_wall);
 		}
 	}
 }

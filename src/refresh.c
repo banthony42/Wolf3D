@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/23 17:19:47 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/23 20:06:21 by grdalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ int			refresh(void *wptr)
 	if (!(wolf = (t_wolf*)wptr))
 		return (0);
 	wolf->time.update(&wolf->time);
-//	wolf->time.print(&wolf->time);
+	wolf->time.print(&wolf->time);
 	img_clear(wolf, wolf->current_page);
 	if (wolf->current_page == MAP_CREATOR)
 	{
