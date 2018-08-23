@@ -30,19 +30,24 @@ static int		check_collision(t_vector pt, t_wolf *w)
 void			move_right(t_wolf *w)
 {
 	t_vector pt;
+	double movex;
+	double movey;
+
+	movex = d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
+	movey = d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
 
 	pt = w->cam.pos;
-	if (fabs(d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 10.0)
-		pt.x -= d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
-	else if ((d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 0.0)
+	if (fabs(movex) < 10.0)
+		pt.x -= movex;
+	else if ((movex) < 0.0)
 		pt.x -= -10;
 	else
 		pt.x -= 10;
 	if (!(check_collision(pt, w)))
 		w->cam.pos = pt;
-	if (fabs(d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 10.0)
-		pt.y -= d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
-	else if ((d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 0.0)
+	if (fabs(movey) < 10.0)
+		pt.y -= movey;
+	else if ((movey) < 0.0)
 		pt.y -= -10;
 	else
 		pt.y -= 10;
@@ -53,19 +58,23 @@ void			move_right(t_wolf *w)
 void			move_left(t_wolf *w)
 {
 	t_vector pt;
+	double movex;
+	double movey;
 
+	movex = d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
+	movey = d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
 	pt = w->cam.pos;
-	if (fabs(d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 10.0)
-		pt.x += d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
-	else if ((d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 0.0)
+	if (fabs(movex) < 10.0)
+		pt.x += movex;
+	else if ((movex) < 0.0)
 		pt.x += -10;
 	else
 		pt.x += 10;
 	if (!(check_collision(pt, w)))
 		w->cam.pos = pt;
-	if (fabs(d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 10.0)
-		pt.y += d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
-	else if ((d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 0.0)
+	if (fabs(movey) < 10.0)
+		pt.y += movey;
+	else if ((movey) < 0.0)
 		pt.y += -10;
 	else
 		pt.y += 10;
@@ -76,19 +85,23 @@ void			move_left(t_wolf *w)
 void			move_back(t_wolf *w)
 {
 	t_vector pt;
+	double movex;
+	double movey;
 
+	movex = d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
+	movey = d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
 	pt = w->cam.pos;
-	if (fabs(d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 10.0)
-		pt.x += d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
-	else if ((d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 0.0)
+	if (fabs(movex) < 10.0)
+		pt.x += movex;
+	else if ((movex) < 0.0)
 		pt.x += -10;
 	else
 		pt.x += 10;
 	if (!(check_collision(pt, w)))
 		w->cam.pos = pt;
-	if (fabs(d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 10.0)
-		pt.y += d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
-	else if ((d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 0.0)
+	if (fabs(movey) < 10.0)
+		pt.y += movey;
+	else if ((movey) < 0.0)
 		pt.y += -10;
 	else
 		pt.y += 10;
@@ -99,19 +112,23 @@ void			move_back(t_wolf *w)
 void			move_forward(t_wolf *w)
 {
 	t_vector pt;
+	double movex;
+	double movey;
 
+	movex = d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
+	movey = d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
 	pt = w->cam.pos;
-	if (fabs(d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 10.0)
-		pt.x -= d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
-	else if ((d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 0.0)
+	if (fabs(movex) < 10.0)
+		pt.x -= movex;
+	else if ((movex) < 0.0)
 		pt.x -= -10;
 	else
 		pt.x -= 10;
 	if (!(check_collision(pt, w)))
 		w->cam.pos = pt;
-	if (fabs(d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 10.0)
-		pt.y -= d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
-	else if ((d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 0.0)
+	if (fabs(movey) < 10.0)
+		pt.y -= movey;
+	else if ((movey) < 0.0)
 		pt.y = -10;
 	else
 		pt.y -= 10;
