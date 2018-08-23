@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/22 18:15:38 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/23 19:37:07 by grdalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,40 @@ static t_texture	find_intersection(t_wolf *w, t_vector a, t_vector b, t_vector *
 **	longueurHypotenuse calc avec pythagore
 */
 
+// void				raycast_1(t_wolf *w)
+// {
+// 	t_vector	end;
+// 	t_w->hit[i]_info	w->hit[i];
+// 	double		h_wall;
+// 	t_texture	text;
+// 	int			i;
+
+// 	i = -1;
+// 	h_wall = 0;
+// 	while (++i < WIN_W)
+// 	{
+// 		end.x = (w->cam.pos.x - (w->cam.lengthView *
+// 				d_cos(w->cam.pos.angle + w->cam.ray_dir[i])));
+// 		end.y = (w->cam.pos.y - (w->cam.lengthView *
+// 				d_sin(w->cam.pos.angle + w->cam.ray_dir[i])));
+// 		if ((text = find_intersection(w, w->cam.pos, end, &w->hit[i].point)))
+// 		{
+// 			w->hit[i].dist = d_cos(w->cam.ray_dir[i])
+// 				* sqrt(((w->hit[i].point.y - w->cam.pos.y) * (w->hit[i].point.y - w->cam.pos.y))
+// 				+ ((w->hit[i].point.x - w->cam.pos.x) * (w->hit[i].point.x - w->cam.pos.x)));
+// 			h_wall = (BLOC_SIZE / w->hit[i].dist) * w->cam.screenDist;
+// 			w->hit[i].side = w->hit[i].point.y;
+// 			if (((int)(w->hit[i].point.y) % BLOC_SIZE) == 0)
+// 				w->hit[i].side = w->hit[i].point.x;
+// 			w->hit[i].object = w->texture[text];
+// 			renderer(w, i, w->hit[i], h_wall);
+// 		}
+// 	}
+// }
+
 void				raycast_1(t_wolf *w)
 {
 	t_vector	end;
-	t_hit_info	hit;
 	double		h_wall;
 	t_texture	text;
 	int			i;
@@ -84,48 +114,17 @@ void				raycast_1(t_wolf *w)
 				d_cos(w->cam.pos.angle + w->cam.ray_dir[i])));
 		end.y = (w->cam.pos.y - (w->cam.lengthView *
 				d_sin(w->cam.pos.angle + w->cam.ray_dir[i])));
-		if ((text = find_intersection(w, w->cam.pos, end, &hit.point)))
+		if ((text = find_intersection(w, w->cam.pos, end, &w->hit[i].point)))
 		{
-			hit.dist = d_cos(w->cam.ray_dir[i])
-				* sqrt(((hit.point.y - w->cam.pos.y) * (hit.point.y - w->cam.pos.y))
-				+ ((hit.point.x - w->cam.pos.x) * (hit.point.x - w->cam.pos.x)));
-			h_wall = (BLOC_SIZE / hit.dist) * w->cam.screenDist;
-			hit.side = hit.point.y;
-			if (((int)(hit.point.y) % BLOC_SIZE) == 0)
-				hit.side = hit.point.x;
-			hit.object = w->texture[text];
-			renderer(w, i, hit, h_wall);
+			w->hit[i].dist = d_cos(w->cam.ray_dir[i])
+				* sqrt(((w->hit[i].point.y - w->cam.pos.y) * (w->hit[i].point.y - w->cam.pos.y))
+				+ ((w->hit[i].point.x - w->cam.pos.x) * (w->hit[i].point.x - w->cam.pos.x)));
+			h_wall = (BLOC_SIZE / w->hit[i].dist) * w->cam.screenDist;
+			w->hit[i].side = w->hit[i].point.y;
+			if (((int)(w->hit[i].point.y) % BLOC_SIZE) == 0)
+				w->hit[i].side = w->hit[i].point.x;
+			w->hit[i].object = w->texture[text];
+			renderer(w, i, w->hit[i], h_wall);
 		}
 	}
 }
-
-// void				raycast_1(t_wolf *w)
-// {
-// 	t_vector	end;
-// 	t_hit_info	hit[WIN W];
-// 	double		h_wall;
-// 	t_texture	text;
-// 	int			i;
-
-// 	i = -1;
-// 	h_wall = 0;
-// 	while (++i < WIN_W)
-// 	{
-// 		end.x = (w->cam.pos.x - (w->cam.lengthView *
-// 				d_cos(w->cam.pos.angle + w->cam.fov_half + w->cam.ray_dir[i])));
-// 		end.y = (w->cam.pos.y - (w->cam.lengthView *
-// 				d_sin(w->cam.pos.angle + w->cam.fov_half + w->cam.ray_dir[i])));
-// 		if ((text = find_intersection(w, w->cam.pos, end, &hit.point)))
-// 		{
-// 			hit.dist = d_cos(w->cam.fov_half + w->cam.ray_dir[i])
-// 				* sqrt(((hit.point.y - w->cam.pos.y) * (hit.point.y - w->cam.pos.y))
-// 				+ ((hit.point.x - w->cam.pos.x) * (hit.point.x - w->cam.pos.x)));
-// 			h_wall = (BLOC_SIZE / hit.dist) * w->cam.screenDist;
-// 			hit.side = hit.point.y;
-// 			if (((int)(hit.point.y) % BLOC_SIZE) == 0)
-// 				hit.side = hit.point.x;
-// 			hit.object = w->texture[text];
-// 			renderer(w, i, hit, h_wall);
-// 		}
-// 	}
-// }

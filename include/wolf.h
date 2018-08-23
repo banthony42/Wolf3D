@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/23 16:18:05 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/23 19:16:24 by grdalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,6 +243,7 @@ typedef struct		s_wolf
 	t_cam			cam;
 	t_creator		map_crea;
 	t_delta_time	time;
+	t_hit_info		hit[WIN_W];
 	int				keypress[NB_KEYSTATE];
 	int				cursor;
 	int				textured;
