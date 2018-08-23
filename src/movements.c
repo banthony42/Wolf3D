@@ -32,10 +32,20 @@ void			move_right(t_wolf *w)
 	t_vector pt;
 
 	pt = w->cam.pos;
-	pt.x -= d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
+	if (fabs(d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 10.0)
+		pt.x -= d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
+	else if ((d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 0.0)
+		pt.x -= -10;
+	else
+		pt.x -= 10;
 	if (!(check_collision(pt, w)))
 		w->cam.pos = pt;
-	pt.y -= d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
+	if (fabs(d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 10.0)
+		pt.y -= d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
+	else if ((d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 0.0)
+		pt.y -= -10;
+	else
+		pt.y -= 10;
 	if (!(check_collision(pt, w)))
 		w->cam.pos = pt;
 }
@@ -45,10 +55,20 @@ void			move_left(t_wolf *w)
 	t_vector pt;
 
 	pt = w->cam.pos;
-	pt.x += d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
+	if (fabs(d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 10.0)
+		pt.x += d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
+	else if ((d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 0.0)
+		pt.x += -10;
+	else
+		pt.x += 10;
 	if (!(check_collision(pt, w)))
 		w->cam.pos = pt;
-	pt.y += d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
+	if (fabs(d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 10.0)
+		pt.y += d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
+	else if ((d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta) < 0.0)
+		pt.y += -10;
+	else
+		pt.y += 10;
 	if (!(check_collision(pt, w)))
 		w->cam.pos = pt;
 }
@@ -58,10 +78,20 @@ void			move_back(t_wolf *w)
 	t_vector pt;
 
 	pt = w->cam.pos;
-	pt.x += d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
+	if (fabs(d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 10.0)
+		pt.x += d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
+	else if ((d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 0.0)
+		pt.x += -10;
+	else
+		pt.x += 10;
 	if (!(check_collision(pt, w)))
 		w->cam.pos = pt;
-	pt.y += d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
+	if (fabs(d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 10.0)
+		pt.y += d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
+	else if ((d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 0.0)
+		pt.y += -10;
+	else
+		pt.y += 10;
 	if (!(check_collision(pt, w)))
 		w->cam.pos = pt;
 }
@@ -71,10 +101,20 @@ void			move_forward(t_wolf *w)
 	t_vector pt;
 
 	pt = w->cam.pos;
-	pt.x -= d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
+	if (fabs(d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 10.0)
+		pt.x -= d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
+	else if ((d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 0.0)
+		pt.x -= -10;
+	else
+		pt.x -= 10;
 	if (!(check_collision(pt, w)))
 		w->cam.pos = pt;
-	pt.y -= d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
+	if (fabs(d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 10.0)
+		pt.y -= d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
+	else if ((d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta) < 0.0)
+		pt.y = -10;
+	else
+		pt.y -= 10;
 	if (!(check_collision(pt, w)))
 		w->cam.pos = pt;
 }

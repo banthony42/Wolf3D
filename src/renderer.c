@@ -218,11 +218,14 @@ static void			trace_untextured_wall(t_img *img, t_coord start, t_cam cam, t_hit_
 	{
 		if (((int)hit.point.y % BLOC_SIZE) == 0)	// NORTH OR SOUTH
 		{
+			if (cam.pos.angle + cam.ray_dir[start.x] > 0 && cam.pos.angle + cam.ray_dir[start.x] < 180)
+				put_pixel_img(start, BLUE, img);
+			else
 				put_pixel_img(start, RED, img);
 		}
 		else										// EST OR WEST
 		{
-			if (cam.pos.angle + cam.ray_dir[start.x] > 90)
+			if (cam.pos.angle + cam.ray_dir[start.x] > 90 && cam.pos.angle + cam.ray_dir[start.x] < 270)
 				put_pixel_img(start, YELLOW, img);
 			else
 				put_pixel_img(start, GREEN, img);
