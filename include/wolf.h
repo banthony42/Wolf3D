@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/22 14:38:21 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/23 16:18:05 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ typedef enum	e_keystate
 	KEY_LEFT, KEY_RIGHT,
 	NB_KEYSTATE,
 }				t_keystate;
+
+typedef enum	e_direction
+{
+	NORTH, SOUTH, EST, WEST,
+}				t_direction;
 
 /*
 **	Enumeration des entrees du menu principal
@@ -240,7 +245,7 @@ typedef struct		s_wolf
 	t_delta_time	time;
 	int				keypress[NB_KEYSTATE];
 	int				cursor;
-	char			padding[4];
+	int				textured;
 }					t_wolf;
 
 void				raycast_1(t_wolf *w);

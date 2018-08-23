@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/22 14:53:25 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/23 15:19:17 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int			eventk_game(int keyhook, void *wolf)
 		return (0);
 	if (keyhook == MLX_KEY_ESCAPE)
 		w->current_page = MAIN_MENU;
+	if (keyhook == MLX_KEY_F1)
+		w->textured = !w->textured;
 	if (w->keypress[KEY_RIGHT])
 		w->cam.pos.angle += w->cam.spd_angle * w->time.delta;
 	if (w->keypress[KEY_LEFT])

@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/22 23:26:50 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/23 15:18:29 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static void	init_raycast(t_wolf *w)
 	w->cam.lengthView = 100 * BLOC_SIZE;
 	w->cam.spd_move = 300;
 	w->cam.spd_angle = 100;
+	w->textured = 1;
 }
 
 static void	init_img(t_wolf *w)
