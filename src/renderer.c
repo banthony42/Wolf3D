@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/23 16:28:42 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/23 17:01:25 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void			trace_sky(t_img *img, t_coord start, t_hit_info hit)
 	(void)hit;
 	while (start.y > 0)
 	{
-		put_pixel_img(start, BLUE, img);
+		put_pixel_img(start, BLUE_SKY, img);
 		start.y--;
 	}
 }
@@ -210,16 +210,24 @@ static void			trace_textured_wall(t_img *img, t_coord start, int h_wall, t_hit_i
 	}
 }
 
-static void			trace_untextured_wall(t_img *img, t_coord start, int h_wall, t_hit_info hit)
+static void			trace_untextured_wall(t_img *img, t_coord start, t_cam cam, t_hit_info hit)
 {
-	int i;
-
-	i = -1;
-	while (++i < h_wall)
+	(void)hit;
+	(void)cam;
+	while (start.y < img->size.y)
 	{
-		(void)img;
-		(void)start;
-		(void)hit;
+		if (((int)hit.point.y % BLOC_SIZE) == 0)	// NORTH OR SOUTH
+		{
+				put_pixel_img(start, RED, img);
+		}
+		else										// EST OR WEST
+		{
+			if (cam.pos.angle + cam.ray_dir[start.x] > 90)
+				put_pixel_img(start, YELLOW, img);
+			else
+				put_pixel_img(start, GREEN, img);
+		}
+		start.y++;
 	}
 }
 
@@ -234,7 +242,7 @@ void			renderer(t_wolf *w, int ray_x, t_hit_info hit, double h_wall)
 	if (w->textured)
 		trace_textured_wall(&w->img[GAME], column_start, (int)h_wall, hit);
 	else
-		trace_untextured_wall(&w->img[GAME], column_start, (int)h_wall, hit);
+		trace_untextured_wall(&w->img[GAME], column_start, w->cam, hit);
 	// SKY
 	trace_sky(&w->img[GAME], column_start, hit);
 	// FLOOR
