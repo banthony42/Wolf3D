@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/23 16:58:32 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/23 17:19:47 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void		expose(t_wolf *w)
 	t_coord pt;
 
 	if (w->cam.pos.angle < 0 || w->cam.pos.angle > 360)
-		w->cam.pos.angle = fmod(w->cam.pos.angle, 360);
+		w->cam.pos.angle = fmod(fmod(w->cam.pos.angle, 360) + 360, 360);
 	w->event_key[w->current_page](w->keypress[LAST_KEY_PRESS], w);
 	w->keypress[LAST_KEY_PRESS] = 0;
 	w->draw[w->current_page](w);
