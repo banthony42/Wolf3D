@@ -6,18 +6,11 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/23 20:04:01 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/24 21:42:22 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-/*
-**	Algo de raycast basique
-**	Un rayon pour chaque colonne de pixel de l'ecran.
-**	L'angle de rayon est incremente avec: Angle de vue / Largeur ecran.
-**	(FOV / WIN_W)
-*/
 
 // RENDERER
 
@@ -216,19 +209,19 @@ static void			trace_untextured_wall(t_img *img, t_coord start, t_cam cam, t_hit_
 	(void)cam;
 	while (start.y < img->size.y)
 	{
-		if (((int)hit.point.y % BLOC_SIZE) == 0)	// NORTH OR SOUTH
+		if (((int)hit.point.y % BLOC_SIZE) == 0)	// FACE NORD OU SUD, (hit sur une ligne horizontale)
 		{
-			if (cam.pos.angle + cam.ray_dir[start.x] > 0 && cam.pos.angle + cam.ray_dir[start.x] < 180)
-				put_pixel_img(start, BLUE, img);
-			else
+			if (cam.pos.y < hit.point.y)			// FACE NORD, (Joueur au dessus du hit)
 				put_pixel_img(start, RED, img);
-		}
-		else										// EST OR WEST
-		{
-			if (cam.pos.angle + cam.ray_dir[start.x] > 90 && cam.pos.angle + cam.ray_dir[start.x] < 270)
-				put_pixel_img(start, YELLOW, img);
 			else
+				put_pixel_img(start, BLUE, img);	// FACE SUD, (Joueur en dessous du hit)
+		}
+		else 										// FACE EST OU OUEST, (hit sur ligne verticale)
+		{
+			if (cam.pos.x < hit.point.x)			// FACE OUEST, (Joueur a gauche du hit)
 				put_pixel_img(start, GREEN, img);
+			else
+				put_pixel_img(start, YELLOW, img);	// FACE EST, (Joueur a droite du hit)
 		}
 		start.y++;
 	}
@@ -239,10 +232,11 @@ void			renderer(t_wolf *w)
 	t_coord	column_start;
 	double	half_wall;
 	int		i;
-	
+
 	i = -1;
 	while (++i < WIN_W)
-	{// WALL
+	{
+		// WALL
 		half_wall = w->hit[i].h_wall / 2;
 		column_start.x = i;
 		column_start.y = (int)(w->cam.heightView - half_wall);
