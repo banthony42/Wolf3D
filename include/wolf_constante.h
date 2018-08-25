@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/25 13:25:47 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/25 19:04:30 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@
 # define MAP_MAX 500
 # define FOV 60
 # define BLOC_SIZE 64
-# define PLAYER_RADIUS 20
+# define PLAYER_RADIUS 10
 
 /*
 **	Menu Principal

@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/24 21:42:22 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/25 18:58:38 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,24 @@ static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWal
 		start.y++;
 	}
 
-
 	// Si le compilateur crie car une var est unused
+	(void)start;
+	(void)img;
 	(void)hit;
 	(void)hWall;
 	(void)w;
-/*
+/*	if (hit.dist < 0.01)
+		return ;
 	// Algo 1 qui marche pas encore bien	#ragekit
 	t_coord floor_texel;
 	t_vector floor;
 	double dist;
-	double ratio;
+//	double ratio;
+//	double wall_x;
 	t_texture texture;
 	(void)texture;
+	(void)floor;
+	(void)floor_texel;
 	while (start.y < img->size.y)
 	{
 		dist = round((w->cam.heightView / ((start.y - (WIN_H / 2)))) * w->cam.screenDist);
@@ -59,18 +64,20 @@ static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWal
 		{
 			floor.x = round((w->cam.pos.x + (dist * fabs(d_tan(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
 			floor.y = round((w->cam.pos.y + (dist * fabs(d_cos(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
-		}
+			}
 //		floor.x = round((w->cam.pos.x + (dist * fabs(d_cos(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
 //		floor.y = round((w->cam.pos.y + (dist * fabs(d_sin(w->cam.pos.angle + w->cam.ray_dir[start.x])))));
 //		floor.x = round((dist / w->cam.screenDist) * abs((WIN_W/2) - start.x)) / (hWall/BLOC_SIZE);
 //		floor.y = w->cam.pos.y + dist / (hWall/BLOC_SIZE);
-		dist = w->cam.heightView / (2 * start.y - w->cam.heightView);
-		ratio = dist / hit.straight_dist;
-		floor.x = (hit.point.x * ratio) + ((1 - ratio) * w->cam.pos.x);
-		floor.y = (hit.point.y * ratio) + ((1 - ratio) * w->cam.pos.y);
+//		dist = WIN_H / (2 * start.y - WIN_H);
+//		ratio = dist / hit.dist;
+//		wall_x = w->cam.pos.x + hit.dist * d_cos(w->cam.ray_dir[start.x]);
+//		wall_x -= round(wall_x);
+//		floor.x = (hit.point.x * ratio) + ((1 - ratio) * w->cam.pos.x);
+//		floor.y = (hit.point.y * ratio) + ((1 - ratio) * w->cam.pos.y);
 // 		TEXTURE CALCUL
-		floor_texel.x = (int)(floor.x * BLOC_SIZE *4) % BLOC_SIZE;
-		floor_texel.y = (int)(floor.y * BLOC_SIZE *4) % BLOC_SIZE;
+//		floor_texel.x = (int)(floor.x * BLOC_SIZE ) % BLOC_SIZE;
+//		floor_texel.y = (int)(floor.y * BLOC_SIZE ) % BLOC_SIZE;
 //		floor_texel.x = (int)(fmod(floor.x, BLOC_SIZE));
 //		floor_texel.y = (int)(fmod(floor.y, BLOC_SIZE));
 //		floor_texel.x = (int)(fmod((start.x * fabs(d_sin(w->cam.pos.angle ))), BLOC_SIZE));
@@ -78,11 +85,10 @@ static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWal
 ///		floor_texel.x = (int)(fmod((start.x * fabs(d_tan(w->cam.pos.angle + w->cam.ray_dir[start.x]))), BLOC_SIZE));
 //		floor_texel.y = (int)(fmod((start.y * fabs(d_cos(w->cam.pos.angle + w->cam.ray_dir[start.x]))), BLOC_SIZE));
 //		printf("dist:%f\n", dist);
-		texture = (t_texture)w->map[(int)(floor_texel.y / BLOC_SIZE)][(int)(floor_texel.x / BLOC_SIZE)] - '0';
-		put_pixel_from_txt(start, floor_texel, &w->texture[T_STONE], img);
+//		texture = (t_texture)w->map[(int)(floor.y / BLOC_SIZE)][(int)(floor.x / BLOC_SIZE)] - '0';
+//		put_pixel_from_txt(start, floor_texel, &w->texture[T_STONE], img);
 		start.y++;
-	}
-*/
+	}*/
 }
 
  /*
@@ -179,7 +185,7 @@ static void	trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWall,
 		start.y++;
 		i++;
 	}
-}*/
+	}*/
 
 static void			trace_textured_wall(t_img *img, t_coord start, int h_wall, t_hit_info hit)
 {
@@ -205,18 +211,21 @@ static void			trace_textured_wall(t_img *img, t_coord start, int h_wall, t_hit_i
 
 static void			trace_untextured_wall(t_img *img, t_coord start, t_cam cam, t_hit_info hit)
 {
-	(void)hit;
-	(void)cam;
-	while (start.y < img->size.y)
+	int i;
+
+	i = -1;
+	while (++i < hit.h_wall)
 	{
-		if (((int)hit.point.y % BLOC_SIZE) == 0)	// FACE NORD OU SUD, (hit sur une ligne horizontale)
+		if (((int)hit.point.y % BLOC_SIZE) == 0 && ((int)hit.point.x % BLOC_SIZE) == 0)
+			put_pixel_img(start, 0xffffff, img);
+		else if (((int)hit.point.y % BLOC_SIZE) == 0)	// FACE NORD OU SUD, (hit sur une ligne horizontale)
 		{
 			if (cam.pos.y < hit.point.y)			// FACE NORD, (Joueur au dessus du hit)
 				put_pixel_img(start, RED, img);
 			else
 				put_pixel_img(start, BLUE, img);	// FACE SUD, (Joueur en dessous du hit)
 		}
-		else 										// FACE EST OU OUEST, (hit sur ligne verticale)
+		else if (((int)hit.point.x % BLOC_SIZE) == 0)	// FACE EST OU OUEST, (hit sur ligne verticale)
 		{
 			if (cam.pos.x < hit.point.x)			// FACE OUEST, (Joueur a gauche du hit)
 				put_pixel_img(start, GREEN, img);

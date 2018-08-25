@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/25 13:16:14 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/25 19:02:15 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,33 +31,45 @@ static t_texture	find_intersection(t_wolf *w, t_vector a, t_vector b, t_vector *
 	int			i;
 	t_vector	step;
 	t_coord		map_point;
-
 	delta = fabs(b.y - a.y);
 	if (fabs(b.x - a.x) >= delta)
 		delta = fabs(b.x - a.x);
 	step.x = (double)((b.x - a.x) / (double)delta);
 	step.y = (double)((b.y - a.y) / (double)delta);
 	i = -1;
+	delta *= 2;
 	while (++i < delta)
 	{
-		map_point.x = ((int)a.x / BLOC_SIZE);
-		map_point.y = ((int)a.y / BLOC_SIZE);
+		map_point.x = (int)(a.x / BLOC_SIZE);
+		map_point.y = (int)(a.y / BLOC_SIZE);
 		if (map_point.x < w->map_size.x && map_point.y < w->map_size.y)
 		{
 			if (w->map[map_point.y][map_point.x] > '0' && w->map[map_point.y][map_point.x] < '0' + T_DOOR)
 			{
-				if (fmod(a.x, BLOC_SIZE) < fmod(a.y, BLOC_SIZE))
+				if ((int)(fmod(a.x, BLOC_SIZE)) == (int)(fmod(a.y, BLOC_SIZE)))
+				{
+					if ((int)(fmod(a.x, BLOC_SIZE)) == BLOC_SIZE - 1)
+					{
+						a.y = (int)(a.y + 1);
+						a.x = (int)(a.x + 1);
+					}
+				}
+				else if (fmod(a.x, BLOC_SIZE) < fmod(a.y, BLOC_SIZE))
 					a.y = (int)(a.y + 1);
 				else
 					a.x = (int)(a.x + 1);
 				*hit_point = a;
 				return ((t_texture)(w->map[map_point.y][map_point.x] - '0'));
 			}
-//			else
-//				put_pixel_img((t_coord){a.x,a.y,0}, RED, &w->img[GAME]);
+			//		else
+			//	put_pixel_img((t_coord){(int)a.x,(int)a.y,0}, RED, &w->img[GAME]);	// Tracer du FOV
 		}
-		a.x += step.x;
-		a.y += step.y;
+		// proof qui permet d'eviter de passer au travers des coins
+		// recoder le principe en evitant de doubler le delta et en changeant les increment ou autre
+		if (i %2)
+			a.x += step.x;
+		else
+			a.y += step.y;
 	}
 	return (0);
 }

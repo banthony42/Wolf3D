@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/25 13:24:29 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/25 18:28:25 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,7 @@ typedef struct		s_wolf
 	double			sin_table[360];
 }					t_wolf;
 
+int					check_collision(t_vector pt, t_wolf *w, int hitbox_radius);
 void				raycast_1(t_wolf *w);
 
 double				d_tan(double degree);
