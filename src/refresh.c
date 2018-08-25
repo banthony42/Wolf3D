@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/23 20:06:21 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/25 11:00:09 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ static void	init_raycast(t_wolf *w)
 	incr = (double)FOV / (double)WIN_W;
 	while (++i < WIN_W)
 		w->cam.ray_dir[i] = (i * incr) - (FOV/2);
+	w->cam.ray_dir[LEFT_RAY] = -90;
+	w->cam.ray_dir[RIGHT_RAY] = 90;
+	w->cam.ray_dir[BACK_RAY] = 180;
 	spawn = find_spawn(w->map, T_SPAWN);
 	spawn.angle = 90;
 	w->cam.pos = spawn;

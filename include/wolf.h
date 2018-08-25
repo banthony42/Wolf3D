@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/23 20:03:09 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/25 10:22:00 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@
 # include <math.h>
 
 # include <stdio.h>
+
+# define FRONT_RAY WIN_W / 2
+# define NEAR_WALL 20
+
+typedef enum	e_additional_ray
+{
+	LEFT_RAY = WIN_W,
+	RIGHT_RAY,
+	BACK_RAY,
+	TOTAL_RAY,
+}				t_additional_ray;
 
 /*
 **	Enumeration des textures
@@ -79,11 +90,6 @@ typedef enum	e_keystate
 	KEY_LEFT, KEY_RIGHT,
 	NB_KEYSTATE,
 }				t_keystate;
-
-typedef enum	e_direction
-{
-	NORTH, SOUTH, EST, WEST,
-}				t_direction;
 
 /*
 **	Enumeration des entrees du menu principal
@@ -150,6 +156,7 @@ typedef struct		s_hit_info
 	double			h_wall;
 	t_vector		point;
 	double			dist;
+	double			real_dist;
 	double			side;
 	t_img			object;
 	char			padding[8];
@@ -165,15 +172,13 @@ typedef struct		s_hit_info
 **	heightView:	Hauteur de la camera dans le monde
 **	screenDist:	Distance de l'ecran par rapport a la camera
 **	lengthView:	Distance de vision max
-**	fov:		Field Of View, angle definissant le champs de vision de la camera
-**	fov_half:	fov / 2, calcule dans l'init
 **	spd_move:	Vitesse de deplacement de la camera dans le monde
 **	spd_angle:	Vitesse de rotation de la camera dans le monde
 */
 typedef struct		s_cam
 {
 	t_vector		pos;
-	double			ray_dir[WIN_W];
+	double			ray_dir[TOTAL_RAY];
 	double			heightView;
 	double			screenDist;
 	double			lengthView;
@@ -226,8 +231,10 @@ typedef int			(*t_event_m)(int button, int x, int y, void *wolf);
 **	map_crea:		Variable pour la creation de map
 **	time:			Structure independante au projets, qui gere le temps, les fps, etc ..
 **					(Voir delta_time.c/.h)
+**	hit:			Tableau contenant les infos issue du raycast pour chaque rayons.
 **	keypress:		Tableau de sauvegarde des etats pour certaines touches
 **	cursor:			Etat du curseur du menu
+**	textured:		Activation/Desactivation des textures
 */
 typedef struct		s_wolf
 {
@@ -244,7 +251,7 @@ typedef struct		s_wolf
 	t_cam			cam;
 	t_creator		map_crea;
 	t_delta_time	time;
-	t_hit_info		hit[WIN_W];
+	t_hit_info		hit[TOTAL_RAY];
 	int				keypress[NB_KEYSTATE];
 	int				cursor;
 	int				textured;
