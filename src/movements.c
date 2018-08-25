@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/06 18:00:24 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/25 13:21:26 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/25 14:13:44 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static int		check_collision(t_vector pt, t_wolf *w)
 
 	while (++i < 360)
 	{
-		map.x = (int)((pt.x + w->cos_table[i] * PLAYER_RADIUS) / BLOC_SIZE);	// faire une look up table
-		map.y = (int)((pt.y + w->sin_table[i] * PLAYER_RADIUS) / BLOC_SIZE);	// faire une look up table
-		if (map.x > w->map_size.x || map.y > w->map_size.y)
+		map.x = (int)((pt.x + w->cos_table[i] * PLAYER_RADIUS) / BLOC_SIZE);
+		map.y = (int)((pt.y + w->sin_table[i] * PLAYER_RADIUS) / BLOC_SIZE);
+		if (map.x >= w->map_size.x || map.y >= w->map_size.y)
 			return (1);
 		if (map.x < 0 || map.y < 0)
 			return (1);
@@ -39,7 +39,6 @@ void			move_right(t_wolf *w)
 
 	move_x = d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
 	move_y = d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
-
 	pt = w->cam.pos;
 	pt.x -= move_x;
 	if (!(check_collision(pt, w)))
