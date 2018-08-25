@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/25 10:38:21 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/25 13:16:14 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void				raycast_1(t_wolf *w)
 	int			i;
 
 	i = -1;
-	while (++i < TOTAL_RAY)
+	while (++i < WIN_W)
 	{
 		end.x = (w->cam.pos.x - (w->cam.lengthView *
 				d_cos(w->cam.pos.angle + w->cam.ray_dir[i])));

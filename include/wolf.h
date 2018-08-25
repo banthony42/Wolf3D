@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/25 10:22:00 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/25 13:24:29 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,6 @@
 # include <math.h>
 
 # include <stdio.h>
-
-# define FRONT_RAY WIN_W / 2
-# define NEAR_WALL 20
-
-typedef enum	e_additional_ray
-{
-	LEFT_RAY = WIN_W,
-	RIGHT_RAY,
-	BACK_RAY,
-	TOTAL_RAY,
-}				t_additional_ray;
 
 /*
 **	Enumeration des textures
@@ -178,7 +167,7 @@ typedef struct		s_hit_info
 typedef struct		s_cam
 {
 	t_vector		pos;
-	double			ray_dir[TOTAL_RAY];
+	double			ray_dir[WIN_W];
 	double			heightView;
 	double			screenDist;
 	double			lengthView;
@@ -235,6 +224,8 @@ typedef int			(*t_event_m)(int button, int x, int y, void *wolf);
 **	keypress:		Tableau de sauvegarde des etats pour certaines touches
 **	cursor:			Etat du curseur du menu
 **	textured:		Activation/Desactivation des textures
+**	cos_table[360]:		Valeur de cosinus pour tout les angles, Index du tableau = angle
+**	sin_table[360]:		Valeur de sinus pour tout les angles, Index du tableau = angle
 */
 typedef struct		s_wolf
 {
@@ -251,10 +242,12 @@ typedef struct		s_wolf
 	t_cam			cam;
 	t_creator		map_crea;
 	t_delta_time	time;
-	t_hit_info		hit[TOTAL_RAY];
+	t_hit_info		hit[WIN_W];
 	int				keypress[NB_KEYSTATE];
 	int				cursor;
 	int				textured;
+	double			cos_table[360];
+	double			sin_table[360];
 }					t_wolf;
 
 void				raycast_1(t_wolf *w);

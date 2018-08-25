@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/23 16:44:46 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/25 13:25:47 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,13 @@
 **	MAP_MAX:	Taille maximum d'une map
 **	FOV:		Angle de vue de la cameras, champ de vision.
 **	BLOC_SIZE:	Taille d'un mur, ou d'un cube dans le monde
+**	PLAYER_RADIUS: Rayon du cercle de la hit_box du joueur.
 */
 # define MAP_MIN 3
 # define MAP_MAX 500
 # define FOV 60
 # define BLOC_SIZE 64
+# define PLAYER_RADIUS 20
 
 /*
 **	Menu Principal
