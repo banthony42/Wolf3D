@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 19:13:48 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/28 13:23:59 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/28 14:21:00 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,9 @@ void	draw_text_button(char *str, t_wolf *w, t_page page, t_coord pt)
 **	Une echelle de dessin (taille des carre) est cacule
 **	en fonction de la taille de l'img et de la map,
 **	via la fonction map_scaler()
+**
+**	Fonction de 27 lignes:
+**	Faire une fonction pour l'affichage du joueur dans la map.
 */
 
 void	draw_map(t_wolf *w, char **map, t_coord map_size)

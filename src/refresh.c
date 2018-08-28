@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/28 13:55:01 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/28 14:13:04 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ int			new_img(t_wolf *w, t_page page, t_coord size)
 }
 
 /*
-**	Contrairement aux event et draw, pour l'instant il n'y a qu'une fonction
-**	pour le refresh et l'expose, pour chaque page.
-**	Si les if deviennent trop nombreux, un tableau de fonction sera utilise.
 **	Les pages GAME et MAP_CREATOR ont besoin respectivement de la gestion
 **	de la map et map + interface.
 **
@@ -40,14 +37,10 @@ int			new_img(t_wolf *w, t_page page, t_coord size)
 **	et l'action bind sur la touche.
 **	Le champ LAST_KEY_PRESS est remis a zero, et nous permet
 **	d'avoir une alternative au keyrepeat qui est tres rapide.
-**
-**	Couteux en fps voir si opti possible
 */
 
 void		expose(t_wolf *w)
 {
-	t_coord pt;
-
 	if (w->cam.pos.angle < 0 || w->cam.pos.angle > 360)
 		w->cam.pos.angle = fmod(fmod(w->cam.pos.angle, 360) + 360, 360);
 	w->event_key[w->current_page](w->keypress[LAST_KEY_PRESS], w);
@@ -60,19 +53,16 @@ void		expose(t_wolf *w)
 		{
 			fill_img(&w->img[MAP_I], MAP_OVERLAY);
 			draw_map(w, w->map, w->map_size);
-			pt = (t_coord){(WIN_W - MAPI_W) / 2, (WIN_H - MAPI_H) / 2, CLR};
 			mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr
-									, pt.x, pt.y);
+									, w->mini_map.x, w->mini_map.y);
 		}
 	}
 	else if (w->current_page == MAP_CREATOR)
 	{
-		pt.x = (MAP_CRT_W - MAPI_W) / 2;
-		pt.y = (MAP_CRT_H - MAPI_H) / 2;
-		mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr
-									, pt.x, pt.y);
+		mlx_put_image_to_window(w->mlx, w->win, w->img[MAP_I].ptr,
+							w->map_crea.grid_pos.x, w->map_crea.grid_pos.y);
 		mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, 0,
-								w->img[MAP_CREATOR].size.y);
+							w->img[MAP_CREATOR].size.y);
 	}
 }
 
@@ -84,15 +74,6 @@ static void	img_clear(t_wolf *w, t_page page)
 	mlx_destroy_image(w->mlx, w->img[page].ptr);
 	new_img(w, page, size);
 }
-
-/*
-**	Bizarrement la ligne ci dessous est plus couteuse en fps
-**	ft_memset(w->img[page].data, 0, w->img[page].data_size);
-*/
-
-/*
-**	La page GAME et MAP_CREATOR contiennent deux images.
-*/
 
 int			refresh(void *wptr)
 {

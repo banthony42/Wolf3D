@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 13:39:30 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/28 13:52:45 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/28 16:13:46 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void		init_raycast(t_wolf *w)
 		w->sin_table[i] = d_sin(i);
 	}
 	spawn = find_spawn(w->map, T_SPAWN);
-	spawn.angle = 90;
+	spawn.angle = 0;
 	w->cam.pos = spawn;
 	w->cam.heightView = WIN_H / 2;
 	w->cam.screenDist = (double)(WIN_W / 2) / d_tan(FOV / 2);
@@ -76,6 +76,10 @@ static void		init_img(t_wolf *w)
 	w->map_crea.map = ft_newtab(w->map_crea.m_size.y,
 									w->map_crea.m_size.x, (int)'0');
 	w->map_crea.texture = T_STONE;
+	w->map_crea.grid_pos.x = (MAP_CRT_W - MAPI_W) / 2;
+	w->map_crea.grid_pos.y = (MAP_CRT_H - MAPI_H) / 2;
+	w->mini_map.x = (WIN_W - MAPI_W) / 2;
+	w->mini_map.y = (WIN_H - MAPI_H) / 2;
 }
 
 void			init(t_wolf *wolf)

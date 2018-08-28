@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 18:57:47 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/28 13:53:34 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/28 14:14:20 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	load_img(char *path, t_img *i, t_wolf *wolf)
 }
 
 /*
-**	A revoir
+**	A revoir, si le nombre de texture augmente:
 **	Creer un tableau statique dans un header contenant tout les path
 **	Boucler sur ce tableau pour charger les texture
 **	Arreter a la moindre erreur
@@ -125,29 +125,4 @@ double		map_scaler(t_coord map_size, t_coord img_size)
 	if (final_scale < 0.5)
 		return (1.0);
 	return (final_scale);
-}
-
-/*
-**	FONCTION TEMPORAIRE
-**	Trace un repere pour mieux visualiser le centre de la fenetre
-*/
-
-void		draw_landmark(t_img *img)
-{
-	t_coord pt;
-
-	pt.y = 0;
-	while (pt.y < img->size.y)
-	{
-		pt.x = 0;
-		while (pt.x < img->size.x)
-		{
-			if (pt.x == img->size.x / 2)
-				put_pixel_img(pt, 0xff0000, img);
-			if (pt.y == img->size.y / 2)
-				put_pixel_img(pt, 0xff0000, img);
-			pt.x++;
-		}
-		pt.y++;
-	}
 }

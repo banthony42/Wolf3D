@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/28 14:03:02 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/28 14:30:36 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,8 @@ typedef struct		s_wolf
 	int				textured;
 	double			cos_table[360];
 	double			sin_table[360];
+	t_coord			mini_map;
+	char			padding[4];
 }					t_wolf;
 
 int					check_collision(t_vector pt, t_wolf *w, int hitbox_radius);
