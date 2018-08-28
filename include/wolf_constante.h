@@ -176,4 +176,12 @@
 */
 # define TINY_CHAR ".,1l!':;]Iij|["
 
+/*
+**	Gestion des differents angle pour chaque mouvement, une seule fonction pour le tout.
+*/
+# define RIGHT 90
+# define LEFT -90
+# define FORWARD 0
+# define BEHIND 180
+
 #endif

@@ -258,10 +258,7 @@ void				launch_raycast_1(t_wolf *w);
 double				d_tan(double degree);
 double				d_cos(double degree);
 double				d_sin(double degree);
-void				move_right(t_wolf *w);
-void				move_left(t_wolf *w);
-void				move_back(t_wolf *w);
-void				move_forward(t_wolf *w);
+void				move(t_wolf *w, int dir);
 
 void				draw_palette(t_wolf *w);
 

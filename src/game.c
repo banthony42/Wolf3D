@@ -29,13 +29,13 @@ int			eventk_game(int keyhook, void *wolf)
 	if (w->keypress[KEY_LEFT])
 		w->cam.pos.angle -= w->cam.spd_angle * w->time.delta;
 	if (w->keypress[KEY_W])
-		move_forward(w);
+		move(w, FORWARD);
 	if (w->keypress[KEY_S])
-		move_back(w);
+		move(w, BEHIND);
 	if (w->keypress[KEY_D])
-		move_right(w);
+		move(w, RIGHT);
 	if (w->keypress[KEY_A])
-		move_left(w);
+		move(w, LEFT);
 	launch_raycast_1(w);
 	return (0);
 }

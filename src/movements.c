@@ -32,80 +32,14 @@ int				check_collision(t_vector pt, t_wolf *w, int hitbox_radius)
 	return (0);
 }
 
-/*
-**	Voir si on peut faire tout les mouvement en une fonction
-**	En ajoutant un parametre: int direction, a cam.pos.angle
-**	right:	cam.pos.angle + (90)
-**	left:	cam.pos.angle + (-90)
-**	front:	cam.pos.angle + (0)
-**	back:	cam.pos.angle + (180)
-*/
-
-void			move_right(t_wolf *w)
+void			move(t_wolf *w, int dir)
 {
 	t_vector	pt;
 	double		move_x;
 	double		move_y;
 
-	move_x = d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
-	move_y = d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
-	pt = w->cam.pos;
-	pt.x -= move_x;
-	if (!(check_collision(pt, w, PLAYER_RADIUS)))
-		w->cam.pos.x -= move_x;
-	else
-		pt = w->cam.pos;
-	pt.y -= move_y;
-	if (!(check_collision(pt, w, PLAYER_RADIUS)))
-		w->cam.pos.y -= move_y;
-}
-
-void			move_left(t_wolf *w)
-{
-	t_vector	pt;
-	double		move_x;
-	double		move_y;
-
-	move_x = d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
-	move_y = d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
-	pt = w->cam.pos;
-	pt.x += move_x;
-	if (!(check_collision(pt, w, PLAYER_RADIUS)))
-		w->cam.pos.x += move_x;
-	else
-		pt = w->cam.pos;
-	pt.y += move_y;
-	if (!(check_collision(pt, w, PLAYER_RADIUS)))
-		w->cam.pos.y += move_y;
-}
-
-void			move_back(t_wolf *w)
-{
-	t_vector	pt;
-	double		move_x;
-	double		move_y;
-
-	move_x = d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
-	move_y = d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
-	pt = w->cam.pos;
-	pt.x += move_x;
-	if (!(check_collision(pt, w, PLAYER_RADIUS)))
-		w->cam.pos.x += move_x;
-	else
-		pt = w->cam.pos;
-	pt.y += move_y;
-	if (!(check_collision(pt, w, PLAYER_RADIUS)))
-		w->cam.pos.y += move_y;
-}
-
-void			move_forward(t_wolf *w)
-{
-	t_vector	pt;
-	double		move_x;
-	double		move_y;
-
-	move_x = d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
-	move_y = d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
+	move_x = d_cos(w->cam.pos.angle + dir) * w->cam.spd_move * w->time.delta;
+	move_y = d_sin(w->cam.pos.angle + dir) * w->cam.spd_move * w->time.delta;
 	pt = w->cam.pos;
 	pt.x -= move_x;
 	if (!(check_collision(pt, w, PLAYER_RADIUS)))
