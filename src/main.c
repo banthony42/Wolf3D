@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/15 18:36:00 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/28 13:31:06 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void		wolf_run(t_wolf wolf)
 	init(&wolf);
 	mlx_mouse_hook(wolf.win, mousehook, &wolf);
 	mlx_loop_hook(wolf.mlx, refresh, &wolf);
-	mlx_hook(wolf.win, 17, 1L << 17, ft_clos, &wolf);
+	mlx_hook(wolf.win, DESTROY_NOTIFY, STRUCT_NOTIFY_MASK, close_win, &wolf);
 	mlx_hook(wolf.win, KEY_PRESS, KEY_PRESS_MASK, keypress, &wolf);
 	mlx_hook(wolf.win, KEY_RELEASE, KEY_RELEASE_MASK, keyrelease, &wolf);
 	mlx_loop(wolf.mlx);

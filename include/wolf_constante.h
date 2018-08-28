@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/25 19:04:30 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/28 13:29:59 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,12 +127,14 @@
 # define BROWN 0xcd661d
 # define YELLOW 0xffff00
 /*
-**	Event pour mlx_hook
+**	Event pour mlx_hook (voir X11.h)
 */
 # define KEY_PRESS 2
 # define KEY_RELEASE 3
+# define DESTROY_NOTIFY 17
 # define KEY_PRESS_MASK (1L<<0)
 # define KEY_RELEASE_MASK (1L<<1)
+# define STRUCT_NOTIFY_MASK (1L<<17)
 
 /*
 **	GESTION DE LA TEXTURE DE POLICE DOOM

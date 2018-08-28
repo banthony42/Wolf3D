@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 19:13:48 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/22 22:59:40 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/28 13:23:59 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	draw_palette(t_wolf *w)
 {
-	t_coord	pt;
-	t_coord	box;
-	t_coord item_size;
-	unsigned int		i;
+	t_coord			pt;
+	t_coord			box;
+	t_coord			item_size;
+	unsigned int	i;
 
 	i = 0;
 	item_size.x = ITEM_SIZE;
@@ -93,7 +93,7 @@ void	draw_map(t_wolf *w, char **map, t_coord map_size)
 	t_texture	text;
 	t_coord		it;
 
-	if (!w)
+	if (!w || !map)
 		return ;
 	it.x = (int)(round(ITEM_SIZE / map_scaler(map_size, w->img[MAP_I].size)));
 	it.y = it.x;
@@ -111,11 +111,9 @@ void	draw_map(t_wolf *w, char **map, t_coord map_size)
 				put_texture_on_img_at(&w->img[MAP_I], &w->texture[text], p, it);
 		}
 	}
-	t_coord pl;
-
-	pl.x = (int)((double)(w->cam.pos.x / BLOC_SIZE) * it.x) + rest.x;
-	pl.y = (int)((double)(w->cam.pos.y / BLOC_SIZE) * it.y) + rest.y;
-	put_pixel_img(pl, GREEN, &w->img[MAP_I]);
+	p.x = (int)((double)(w->cam.pos.x / BLOC_SIZE) * it.x) + rest.x;
+	p.y = (int)((double)(w->cam.pos.y / BLOC_SIZE) * it.y) + rest.y;
+	put_pixel_img(p, GREEN, &w->img[MAP_I]);
 }
 
 void	draw_grid(t_wolf *w, t_page page, int square)

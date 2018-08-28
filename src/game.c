@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/23 20:07:27 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/08/28 13:05:30 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int			eventk_game(int keyhook, void *wolf)
 		move_right(w);
 	if (w->keypress[KEY_A])
 		move_left(w);
-	raycast_1(w);
+	launch_raycast_1(w);
 	return (0);
 }
 

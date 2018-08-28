@@ -6,17 +6,18 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/06 18:00:24 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/25 18:15:26 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/28 13:37:18 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-int		check_collision(t_vector pt, t_wolf *w, int hitbox_radius)
+int				check_collision(t_vector pt, t_wolf *w, int hitbox_radius)
 {
-	t_coord map;
-	int i = -1;
+	t_coord	map;
+	int		i;
 
+	i = -1;
 	while (++i < 360)
 	{
 		map.x = (int)((pt.x + w->cos_table[i] * hitbox_radius) / BLOC_SIZE);
@@ -31,11 +32,20 @@ int		check_collision(t_vector pt, t_wolf *w, int hitbox_radius)
 	return (0);
 }
 
+/*
+**	Voir si on peut faire tout les mouvement en une fonction
+**	En ajoutant un parametre: int direction, a cam.pos.angle
+**	right:	cam.pos.angle + (90)
+**	left:	cam.pos.angle + (-90)
+**	front:	cam.pos.angle + (0)
+**	back:	cam.pos.angle + (180)
+*/
+
 void			move_right(t_wolf *w)
 {
-	t_vector pt;
-	double move_x;
-	double move_y;
+	t_vector	pt;
+	double		move_x;
+	double		move_y;
 
 	move_x = d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
 	move_y = d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
@@ -52,9 +62,9 @@ void			move_right(t_wolf *w)
 
 void			move_left(t_wolf *w)
 {
-	t_vector pt;
-	double move_x;
-	double move_y;
+	t_vector	pt;
+	double		move_x;
+	double		move_y;
 
 	move_x = d_cos(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
 	move_y = d_sin(w->cam.pos.angle + 90) * w->cam.spd_move * w->time.delta;
@@ -71,9 +81,9 @@ void			move_left(t_wolf *w)
 
 void			move_back(t_wolf *w)
 {
-	t_vector pt;
-	double move_x;
-	double move_y;
+	t_vector	pt;
+	double		move_x;
+	double		move_y;
 
 	move_x = d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
 	move_y = d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
@@ -90,9 +100,9 @@ void			move_back(t_wolf *w)
 
 void			move_forward(t_wolf *w)
 {
-	t_vector pt;
-	double move_x;
-	double move_y;
+	t_vector	pt;
+	double		move_x;
+	double		move_y;
 
 	move_x = d_cos(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;
 	move_y = d_sin(w->cam.pos.angle) * w->cam.spd_move * w->time.delta;

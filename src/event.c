@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 17:17:38 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/16 14:44:45 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/28 13:31:35 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int				keyrelease(int keycode, void *w)
 	return (1);
 }
 
-int		ft_clos(void *wolf)
+int				close_win(void *wolf)
 {
 	t_wolf *w;
 

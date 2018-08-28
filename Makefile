@@ -6,7 +6,7 @@
 #    By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/08/22 19:17:45 by banthony         ###   ########.fr        #
+#    Updated: 2018/08/28 13:42:22 by banthony         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC_FILE += movements.c
 SRC_FILE += my_math.c
 SRC_FILE += raycast_algo1.c
 SRC_FILE += renderer.c
+SRC_FILE += init.c
 
 SRC = $(SRC_FILE:%c=$(PATH_SRC)%c)
 INCLUDE = $(HEADER_FILE:%h=$(PATH_HEAD)%h)
