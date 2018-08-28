@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/28 19:48:31 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 00:55:57 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef enum	e_keystate
 {
 	LAST_KEY_PRESS,
 	KEY_TAB, KEY_W, KEY_A, KEY_S, KEY_D,
-	KEY_C, KEY_LEFT, KEY_RIGHT,
+	KEY_C, KEY_LEFT, KEY_RIGHT, KEY_SPACEBAR,
 	NB_KEYSTATE,
 }				t_keystate;
 
@@ -161,6 +161,7 @@ typedef struct		s_hit_info
 **	heightView:	Hauteur de la camera dans le monde
 **	screenDist:	Distance de l'ecran par rapport a la camera
 **	lengthView:	Distance de vision max
+**	velocity:	Velocite, utilise pour le jump, et decremente par la constante GRAVITY
 **	spd_move:	Vitesse de deplacement de la camera dans le monde
 **	spd_angle:	Vitesse de rotation de la camera dans le monde
 */
@@ -171,6 +172,7 @@ typedef struct		s_cam
 	double			heightView;
 	double			screenDist;
 	double			lengthView;
+	double			velocity;
 	double			spd_move;
 	double			spd_angle;
 }					t_cam;

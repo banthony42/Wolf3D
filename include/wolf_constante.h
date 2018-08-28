@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/28 13:29:59 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 00:57:49 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@
 #  define WIN_W 1024
 #  define WIN_H 768
 # else
-#  define WIN_W 800
-#  define WIN_H 600
+#  define WIN_W 1024
+#  define WIN_H 768
 # endif
 # define WIN_NAME "Wolf3D"
 # define CENTERWIN_W(x) (WIN_W - x) / 2
@@ -85,6 +85,8 @@
 # define FOV 60
 # define BLOC_SIZE 64
 # define PLAYER_RADIUS 10
+# define JUMP_VELOCITY 600
+# define GRAVITY 1500
 
 /*
 **	Menu Principal

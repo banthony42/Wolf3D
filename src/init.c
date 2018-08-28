@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 13:39:30 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/28 16:13:46 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 00:42:42 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void		init_raycast(t_wolf *w)
 		w->sin_table[i] = d_sin(i);
 	}
 	spawn = find_spawn(w->map, T_SPAWN);
-	spawn.angle = 0;
+	spawn.angle = 180;
 	w->cam.pos = spawn;
 	w->cam.heightView = WIN_H / 2;
 	w->cam.screenDist = (double)(WIN_W / 2) / d_tan(FOV / 2);
