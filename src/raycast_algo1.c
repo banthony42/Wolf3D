@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/28 13:18:28 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/28 20:07:01 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,15 @@ static t_texture	find_intersection(t_wolf *w, t_vector a,
 	map.y = (int)(a.y / BLOC_SIZE);
 	if (map.x < w->map_size.x && map.y < w->map_size.y)
 	{
-		if (w->map[map.y][map.x] > '0' && w->map[map.y][map.x] < '0' + T_DOOR)
+		if (w->map[map.y][map.x] > '0' && w->map[map.y][map.x] < '0' + T_DOOR + 1)
 		{
-			if ((int)(fmod(a.x, BLOC_SIZE)) == (int)(fmod(a.y, BLOC_SIZE))
-				&& ((int)(fmod(a.x, BLOC_SIZE)) == BLOC_SIZE - 1))
+			if ((int)(fmod(a.x, BLOC_SIZE)) == (int)(fmod(a.y, BLOC_SIZE)))
 			{
-				a.y = (int)(a.y + 1);
-				a.x = (int)(a.x + 1);
+				if (((int)(fmod(a.x, BLOC_SIZE)) == BLOC_SIZE - 1))
+				{
+					a.y = (int)(a.y + 1);
+					a.x = (int)(a.x + 1);
+				}
 			}
 			else if (fmod(a.x, BLOC_SIZE) < fmod(a.y, BLOC_SIZE))
 				a.y = (int)(a.y + 1);

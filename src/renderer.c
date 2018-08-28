@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/28 19:29:20 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/28 20:15:00 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void			trace_sky(t_img *img, t_coord start, t_hit_info hit)
 {
 	(void)img;
 	(void)hit;
-	while (start.y > 0)
+	while (start.y >= 0)
 	{
 		put_pixel_img(start, BLUE_SKY, img);
 		start.y--;
