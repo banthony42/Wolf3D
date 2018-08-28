@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/28 16:28:43 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/28 19:29:20 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,72 +24,12 @@ static void			trace_sky(t_img *img, t_coord start, t_hit_info hit)
 		start.y--;
 	}
 }
-/*
-static void	trace_color(t_img *img, t_coord a, t_coord b, unsigned int color)
-{
-	intdelta;
-	int i;
-	t_vector step;
-	t_vector pt_d;
-	t_coord pt;
-	if (abs(b.x - a.x) >= abs(b.y - a.y))
-		delta = abs(b.x - a.x);
-	else
-		delta = abs(b.y - a.y);
-	if (!delta)
-		return ;
-	step.x = (double)((b.x - a.x) / delta);
-	step.y = (double)((b.y - a.y) / delta);
-	pt_d.x = a.x;
-	pt_d.y = a.y;
-	i = -1;
-	while (++i < delta)
-	{
-		pt.x = (int)pt_d.x;
-		pt.y = (int)pt_d.y;
-		put_pixel_img(pt, color, img);
-		pt_d.x += step.x;
-		pt_d.y += step.y;
-	}
-}*/
 
-static void			trace_floor(t_img *img, t_coord start, t_hit_info hit, double hWall, t_wolf *w)
+static void			trace_floor(t_img *img, t_coord start)
 {
-// Remplissage du sol avec couleur unie
-/*	while (start.y < img->size.y)
-	{
-		put_pixel_img(start, DARK_GREY, img);
-		start.y++;
-	}
-*/
-	// Si le compilateur crie car une var est unused
-	(void)start;
-	(void)img;
-	(void)hit;
-	(void)hWall;
-	(void)w;
-	if (hit.dist < 0.01)
-		return ;
-	// Algo 1 qui marche pas encore bien	#ragekit
-	t_coord floor_texel;
-	t_vector floor;
-	double dist;
-	t_texture texture;
-	double angle;
-	(void)texture;
-	(void)floor;
-	(void)floor_texel;
-	double incr = 180 / WIN_W;
 	while (start.y < img->size.y)
 	{
-		angle = (start.x * incr) + w->cam.ray_dir[start.x];
-		dist = (w->cam.heightView / ((start.y - (WIN_H / 2)))) * (w->cam.screenDist) / 16;
-		floor.y = w->cam.pos.x + dist;
-		floor.x = w->cam.pos.y + ((dist + ((1 - d_cos(angle)) * dist)) * d_sin(angle));
-		floor_texel.x = (int)(fmod(floor.x, BLOC_SIZE));
-		floor_texel.y = (int)(fmod(floor.y, BLOC_SIZE));
-//		texture = (t_texture)w->map[(int)(floor.y / BLOC_SIZE)][(int)(floor.x / BLOC_SIZE)] - '0';
-		put_pixel_from_txt(start, floor_texel, &w->texture[T_STONE], img);
+		put_pixel_img(start, DARK_GREY, img);
 		start.y++;
 	}
 }
@@ -164,6 +104,6 @@ void			renderer(t_wolf *w)
 		trace_sky(&w->img[GAME], column_start, w->hit[i]);
 		// FLOOR
 		column_start.y = (int)(w->cam.heightView + half_wall);
-		trace_floor(&w->img[GAME], column_start, w->hit[i], w->hit[i].h_wall, w);
+		trace_floor(&w->img[GAME], column_start);
 	}
 }
