@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/29 00:52:27 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 02:01:37 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int			eventk_game(int keyhook, void *wolf)
 		move(w, RIGHT);
 	if (w->keypress[KEY_A])
 		move(w, LEFT);
+	if (keyhook == MLX_KEY_P)
+		w->door_timer = 1;
 	launch_raycast_1(w);
 	return (0);
 }
@@ -67,6 +69,9 @@ void		draw_game(void *wolf)
 		else
 			w->cam.heightView = WIN_H /2;
 	}
+	if (w->door_timer >= 0)
+		w->door_timer -= w->time.delta;
+	printf("t:%f\n", w->door_timer);
 	renderer(w);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[GAME].ptr, 0, 0);
 }

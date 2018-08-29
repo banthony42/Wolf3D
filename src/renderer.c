@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/28 20:15:00 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 01:58:14 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 // RENDERER
 
-static void			trace_sky(t_img *img, t_coord start, t_hit_info hit)
+static void			trace_sky(t_img *img, t_coord start)
 {
-	(void)img;
-	(void)hit;
 	while (start.y >= 0)
 	{
 		put_pixel_img(start, BLUE_SKY, img);
@@ -34,7 +32,7 @@ static void			trace_floor(t_img *img, t_coord start)
 	}
 }
 
-static void			trace_textured_wall(t_img *img, t_coord start, int h_wall, t_hit_info hit)
+static void			trace_textured_wall(t_img *img, t_coord start, int h_wall, t_hit_info hit, double timer)
 {
 	int		i;
 	t_coord	pt;
@@ -44,6 +42,10 @@ static void			trace_textured_wall(t_img *img, t_coord start, int h_wall, t_hit_i
 	(void)img;
 	i = -1;
 	pt = start;
+	if (hit.texture == T_DOOR)
+	{
+		pt.x += timer * BLOC_SIZE;
+	}
 	ptt.x = (int)(hit.object.size.x * (fmod(hit.side, BLOC_SIZE) / BLOC_SIZE));
 	while (++i < h_wall)
 	{
@@ -97,11 +99,11 @@ void			renderer(t_wolf *w)
 		column_start.x = i;
 		column_start.y = (int)(w->cam.heightView - half_wall);
 		if (w->textured)
-			trace_textured_wall(&w->img[GAME], column_start, (int)w->hit[i].h_wall, w->hit[i]);
+			trace_textured_wall(&w->img[GAME], column_start, (int)w->hit[i].h_wall, w->hit[i], w->door_timer);
 		else
 			trace_untextured_wall(&w->img[GAME], column_start, w->cam, w->hit[i]);
 		// SKY
-		trace_sky(&w->img[GAME], column_start, w->hit[i]);
+		trace_sky(&w->img[GAME], column_start);
 		// FLOOR
 		column_start.y = (int)(w->cam.heightView + half_wall);
 		trace_floor(&w->img[GAME], column_start);

@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/28 20:07:01 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 01:24:42 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ void				launch_raycast_1(t_wolf *w)
 			if (((int)(w->hit[i].point.y) % BLOC_SIZE) == 0)
 				w->hit[i].side = w->hit[i].point.x;
 			w->hit[i].object = w->texture[text];
+			w->hit[i].texture = text;
 		}
 	}
 }
