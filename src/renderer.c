@@ -44,7 +44,7 @@ static void			trace_textured_wall(t_img *img, t_coord start, int h_wall, t_hit_i
 	pt = start;
 	ptt.x = (int)(hit.object.size.x * (fmod(hit.side, BLOC_SIZE) / BLOC_SIZE));
 	if (hit.texture == T_DOOR)
-		ptt.x -= timer * hit.h_wall;
+		ptt.x -= timer * BLOC_SIZE;
 	while (++i < h_wall)
 	{
 		if (pt.y >= 0 && pt.y < WIN_H)
