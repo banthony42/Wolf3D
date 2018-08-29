@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/29 19:21:00 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 21:48:55 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void			trace_sky(t_img *img, t_coord start)
 {
 	while (start.y >= 0)
 	{
-		//	put_pixel_img(start, BLUE_SKY, img);
+//		put_pixel_img(start, BLUE_SKY, img);
 		start.y--;
 	}
 		(void)img;
@@ -45,11 +45,13 @@ static void			trace_textured_wall(t_img *img, t_coord start, int h_wall, t_hit_i
 	(void)timer;
 	i = -1;
 	pt = start;
-	ptt.x = (int)(hit.object.size.x * (fmod(hit.side, BLOC_SIZE) / BLOC_SIZE));
 	if (hit.texture == T_DOOR)
 	{
+		ptt.x = (int)(hit.object.size.x * (fmod(hit.side, BLOC_SIZE) / BLOC_SIZE));
 		ptt.x -= timer * hit.object.size.x;
 	}
+	else
+		ptt.x = (int)(hit.object.size.x * (fmod(hit.side, BLOC_SIZE) / BLOC_SIZE));
 	while (++i < h_wall)
 	{
 		if (pt.y >= 0 && pt.y < WIN_H)

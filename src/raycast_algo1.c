@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/29 19:54:54 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 22:03:27 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 */
 
 static t_texture	find_intersection(t_wolf *w, t_vector a,
-										t_vector *hit_point, int debug)
+									  t_hit_info *hit, int i, int debug)
 {
 	t_coord		map;
 
@@ -35,8 +35,8 @@ static t_texture	find_intersection(t_wolf *w, t_vector a,
 		if (w->map[map.y][map.x] > '0' && w->map[map.y][map.x] < '0' + T_DOOR + 1)
 		{
 			if (w->map[map.y][map.x] == '0' + T_DOOR
-				&& ( (fmod(a.y, BLOC_SIZE) / BLOC_SIZE) < w->door_timer
-					 || !(fmod(a.x, BLOC_SIZE) < 33 && fmod(a.x, BLOC_SIZE) > 31) ))
+				&& ((fmod(a.y, BLOC_SIZE) / BLOC_SIZE) < w->door_timer
+				|| !(fmod(a.x, BLOC_SIZE) < HALF_BLOC + 1  && fmod(a.x, BLOC_SIZE) > HALF_BLOC - 1)))
 				;
 			else
 			{
@@ -52,13 +52,14 @@ static t_texture	find_intersection(t_wolf *w, t_vector a,
 					a.y = (int)(a.y + 1);
 				else
 					a.x = (int)(a.x + 1);
-				*hit_point = a;
+				hit->point = a;
 				return ((t_texture)(w->map[map.y][map.x] - '0'));
 			}
 		}
 		if (debug)
 			put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, RED, &w->img[GAME]);
 	}
+	(void)i;
 	return (0);
 }
 
@@ -69,7 +70,7 @@ static t_texture	find_intersection(t_wolf *w, t_vector a,
 */
 
 static t_texture	raycast(t_wolf *w, t_vector a, t_vector b,
-										t_vector *hit_point)
+										t_hit_info *hit)
 {
 	double		delta;
 	int			i;
@@ -84,8 +85,14 @@ static t_texture	raycast(t_wolf *w, t_vector a, t_vector b,
 	i = -1;
 	while (++i < delta)
 	{
-		if ((texture = find_intersection(w, a, hit_point, 0)))
+		if ((texture = find_intersection(w, a, hit, i,0)))
+		{
+			if (i % 2)
+				hit->side = a.x;
+			else
+				hit->side = a.y;
 			return (texture);
+		}
 		if (i % 2)
 			a.x += step.x;
 		else
@@ -118,7 +125,7 @@ void				launch_raycast_1(t_wolf *w)
 				d_cos(w->cam.pos.angle + w->cam.ray_dir[i])));
 		end.y = (w->cam.pos.y - (w->cam.lengthView *
 				d_sin(w->cam.pos.angle + w->cam.ray_dir[i])));
-		if ((text = raycast(w, w->cam.pos, end, &w->hit[i].point)))
+		if ((text = raycast(w, w->cam.pos, end, &w->hit[i])))
 		{
 			w->hit[i].real_dist = sqrt(((w->hit[i].point.y - w->cam.pos.y)
 									* (w->hit[i].point.y - w->cam.pos.y))
@@ -126,9 +133,6 @@ void				launch_raycast_1(t_wolf *w)
 									* (w->hit[i].point.x - w->cam.pos.x)));
 			w->hit[i].dist = d_cos(w->cam.ray_dir[i]) * w->hit[i].real_dist;
 			w->hit[i].h_wall = (BLOC_SIZE / w->hit[i].dist) * w->cam.screenDist;
-			w->hit[i].side = w->hit[i].point.y;
-			if (((int)(w->hit[i].point.y) % BLOC_SIZE) == 0)
-				w->hit[i].side = w->hit[i].point.x;
 			w->hit[i].object = w->texture[text];
 			w->hit[i].texture = text;
 		}

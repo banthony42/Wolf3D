@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/29 14:54:55 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 20:07:49 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@
 # define MAP_MAX 500
 # define FOV 60
 # define BLOC_SIZE 64
+# define HALF_BLOC 32
 # define PLAYER_RADIUS 10
 # define JUMP_VELOCITY 450
 # define GRAVITY 1500
@@ -101,7 +102,7 @@
 **	TEXT:				Nombre de texture dans la palette.
 **	TEXT_P:				Ecart en pixel, (le pas) entre chaque box de texture.
 **	ITEM_SIZE:			Taille en pixel d'un carre pour representer une texture
-**						/!\ pas encore proportionel a la taille fenetre ...
+*						/!\ pas encore proportionel a la taille fenetre ...
 **	CUSTOM_MAP_NAME:	Nom du fichier lors d'une save.
 **	MAP_CREA_MAX_MAP:	Nombre de map maximum & Utile aussi pour l'increment
 **						du chiffre dans le nom du fichier.
