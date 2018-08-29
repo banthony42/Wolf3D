@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/29 15:18:24 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 17:53:59 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 */
 typedef enum	e_texture
 {
-	T_FLOOR, T_STONE, T_WOOD, T_REDBRICK, T_DOOR, T_ERASER, T_WEAPON,
+	T_FLOOR, T_STONE, T_WOOD, T_REDBRICK, T_DOOR, T_ERASER, T_DOOR_SIDE, T_WEAPON,
 	T_AMO, T_SPAWN, T_SKY, T_MAIN_MENU, T_GAME_OVER, T_GAME_WIN,
 	T_MAP_CREATOR, T_GAME_INTERFACE, T_CREATOR_INTERFACE, T_MINI_MAP, T_FONT,
 	NB_TEXTURE,
