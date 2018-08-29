@@ -69,9 +69,14 @@ void		draw_game(void *wolf)
 		else
 			w->cam.heightView = WIN_H /2;
 	}
-	if (w->door_timer >=  -0 && w->door_timer <= 1)
-		w->door_timer += w->door_incr * 0.02;
-	printf("t:%f\n", w->door_timer);
+	if (w->door_timer < 0.0)
+		w->door_timer *= -1;
+	if ((w->door_timer >= 0.0) && (w->door_timer <= 1.0))
+	{
+		printf("ici batard\n");
+		w->door_timer += w->door_incr * 0.005;
+	}
+	printf("t:%f increase:%f\n", w->door_timer, w->door_incr);
 	renderer(w);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[GAME].ptr, 0, 0);
 }
