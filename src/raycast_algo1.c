@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/29 22:03:27 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/30 00:28:16 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,36 @@
 **	(visualisation du trace de rayon, (FOV))
 */
 
+static int			door_handler(t_wolf *w, t_vector a, int i, t_coord map)
+{
+	(void)i;
+	(void)a;
+	if (w->map[map.y][map.x] == '0' + T_DOOR)
+	{
+		if (i % 2)
+		{
+			if ((fmod(a.x, BLOC_SIZE) / BLOC_SIZE) < w->door_timer)
+				return (0);
+			if (!(((int)a.y % BLOC_SIZE) < HALF_BLOC + 1  && ((int)a.y % BLOC_SIZE) > HALF_BLOC - 1))
+				return (0);
+			if (DRAWING_MODE)
+				put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, BLUE, &w->img[GAME]);
+		}
+		else
+		{
+			if ((fmod(a.y, BLOC_SIZE) / BLOC_SIZE) < w->door_timer)
+				return (0);
+			if (!(((int)a.x % BLOC_SIZE) < HALF_BLOC + 1  && ((int)a.x % BLOC_SIZE) > HALF_BLOC - 1))
+				return (0);
+			if (DRAWING_MODE)
+				put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, GREEN, &w->img[GAME]);
+		}
+	}
+	return (1);
+}
+
 static t_texture	find_intersection(t_wolf *w, t_vector a,
-									  t_hit_info *hit, int i, int debug)
+									  t_hit_info *hit, int i)
 {
 	t_coord		map;
 
@@ -34,11 +62,7 @@ static t_texture	find_intersection(t_wolf *w, t_vector a,
 	{
 		if (w->map[map.y][map.x] > '0' && w->map[map.y][map.x] < '0' + T_DOOR + 1)
 		{
-			if (w->map[map.y][map.x] == '0' + T_DOOR
-				&& ((fmod(a.y, BLOC_SIZE) / BLOC_SIZE) < w->door_timer
-				|| !(fmod(a.x, BLOC_SIZE) < HALF_BLOC + 1  && fmod(a.x, BLOC_SIZE) > HALF_BLOC - 1)))
-				;
-			else
+			if (door_handler(w, a, i, map))
 			{
 				if ((int)(fmod(a.x, BLOC_SIZE)) == (int)(fmod(a.y, BLOC_SIZE)))
 				{
@@ -56,7 +80,7 @@ static t_texture	find_intersection(t_wolf *w, t_vector a,
 				return ((t_texture)(w->map[map.y][map.x] - '0'));
 			}
 		}
-		if (debug)
+		if (DRAWING_MODE)
 			put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, RED, &w->img[GAME]);
 	}
 	(void)i;
@@ -85,12 +109,11 @@ static t_texture	raycast(t_wolf *w, t_vector a, t_vector b,
 	i = -1;
 	while (++i < delta)
 	{
-		if ((texture = find_intersection(w, a, hit, i,0)))
+		if ((texture = find_intersection(w, a, hit, i)))
 		{
+			hit->side = a.y;
 			if (i % 2)
 				hit->side = a.x;
-			else
-				hit->side = a.y;
 			return (texture);
 		}
 		if (i % 2)

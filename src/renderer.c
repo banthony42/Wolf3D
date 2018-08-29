@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/29 21:48:55 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 23:31:05 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ static void			trace_textured_wall(t_img *img, t_coord start, int h_wall, t_hit_i
 		if (pt.y >= 0 && pt.y < WIN_H)
 		{
 			ptt.y = hit.object.size.y * i / h_wall;
-			put_pixel_from_txt(pt, ptt, &hit.object, img);
+			if (!DRAWING_MODE)
+				put_pixel_from_txt(pt, ptt, &hit.object, img);
 		}
 		pt.y = start.y + i;
 	}
