@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/29 01:24:05 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 13:48:44 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ typedef struct		s_hit_info
 	double			side;
 	t_img			object;
 	t_texture		texture;
-	char			padding[8];
+	char			padding[4];
 }					t_hit_info;
 
 /*
@@ -252,6 +252,7 @@ typedef struct		s_wolf
 	int				cursor;
 	int				textured;
 	t_coord			mini_map;
+	char			padding[4];
 	double			cos_table[360];
 	double			sin_table[360];
 	double			door_timer;
