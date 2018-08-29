@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/29 01:58:14 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 15:14:25 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,9 @@ static void			trace_textured_wall(t_img *img, t_coord start, int h_wall, t_hit_i
 	(void)img;
 	i = -1;
 	pt = start;
-	if (hit.texture == T_DOOR)
-	{
-		pt.x += timer * BLOC_SIZE;
-	}
 	ptt.x = (int)(hit.object.size.x * (fmod(hit.side, BLOC_SIZE) / BLOC_SIZE));
+	if (hit.texture == T_DOOR)
+		ptt.x -= timer * hit.h_wall;
 	while (++i < h_wall)
 	{
 		if (pt.y >= 0 && pt.y < WIN_H)
@@ -105,7 +103,7 @@ void			renderer(t_wolf *w)
 		// SKY
 		trace_sky(&w->img[GAME], column_start);
 		// FLOOR
-		column_start.y = (int)(w->cam.heightView + half_wall);
+		column_start.y = (int)(w->cam.heightView + half_wall) - 2;
 		trace_floor(&w->img[GAME], column_start);
 	}
 }

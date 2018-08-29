@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/29 01:24:42 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 15:10:11 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ static t_texture	find_intersection(t_wolf *w, t_vector a,
 			else
 				a.x = (int)(a.x + 1);
 			*hit_point = a;
-			return ((t_texture)(w->map[map.y][map.x] - '0'));
+			if (w->map[map.y][map.x] == T_DOOR && (fmod(a.x, BLOC_SIZE) / BLOC_SIZE) > w->door_timer)
+				;
+			else
+				return ((t_texture)(w->map[map.y][map.x] - '0'));
 		}
 		else if (debug)
 			put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, RED, &w->img[GAME]);

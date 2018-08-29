@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/29 01:08:03 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 14:54:55 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@
 # define FOV 60
 # define BLOC_SIZE 64
 # define PLAYER_RADIUS 10
-# define JUMP_VELOCITY 600
+# define JUMP_VELOCITY 450
 # define GRAVITY 1500
 
 /*

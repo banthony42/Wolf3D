@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 13:39:30 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/29 01:11:25 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 15:25:40 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void		init_raycast(t_wolf *w)
 	w->cam.spd_angle = 100;
 	w->textured = 1;
 	w->door_timer = 1;
+	w->door_incr = -1;
 }
 
 static void		init_img(t_wolf *w)

@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/29 02:01:37 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/29 15:27:00 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int			eventk_game(int keyhook, void *wolf)
 		w->current_page = MAIN_MENU;
 	if (keyhook == MLX_KEY_F1)
 		w->textured = !w->textured;
-	if (keyhook == MLX_KEY_SPACEBAR && w->cam.heightView == WIN_H / 2)
+	if (keyhook == MLX_KEY_SPACEBAR && w->cam.heightView <= (double)(WIN_H / 2))
 		w->cam.velocity = JUMP_VELOCITY;
 	if (w->keypress[KEY_C])
 		w->cam.heightView = WIN_H / 2.8;
@@ -41,7 +41,7 @@ int			eventk_game(int keyhook, void *wolf)
 	if (w->keypress[KEY_A])
 		move(w, LEFT);
 	if (keyhook == MLX_KEY_P)
-		w->door_timer = 1;
+		w->door_incr *= -1;
 	launch_raycast_1(w);
 	return (0);
 }
@@ -69,8 +69,8 @@ void		draw_game(void *wolf)
 		else
 			w->cam.heightView = WIN_H /2;
 	}
-	if (w->door_timer >= 0)
-		w->door_timer -= w->time.delta;
+	if (w->door_timer >=  -0 && w->door_timer <= 1)
+		w->door_timer += w->door_incr * 0.02;
 	printf("t:%f\n", w->door_timer);
 	renderer(w);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[GAME].ptr, 0, 0);
