@@ -29,23 +29,51 @@ static int			door_handler(t_wolf *w, t_vector a, int i, t_coord map)
 	(void)a;
 	if (w->map[map.y][map.x] == '0' + T_DOOR)
 	{
-		if (i % 2)
+		if (w->map[map.y][map.x + 1] && w->map[map.y][map.x -1] && w->map[map.y][map.x + 1] != '0' && w->map[map.y][map.x -1] != '0')
 		{
-			if ((fmod(a.x, BLOC_SIZE) / BLOC_SIZE) < w->door_timer)
-				return (0);
-			if (!(((int)a.y % BLOC_SIZE) < HALF_BLOC + 1  && ((int)a.y % BLOC_SIZE) > HALF_BLOC - 1))
-				return (0);
-			if (DRAWING_MODE)
-				put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, BLUE, &w->img[GAME]);
+			if (((int)a.x % BLOC_SIZE) == 0 || ((int)a.x % BLOC_SIZE) == 63)
+				return (1);
+			if (i % 2)
+			{
+				if ((fmod(a.x, BLOC_SIZE) / BLOC_SIZE) < w->door_timer)
+					return (0);
+				if (!(((int)a.y % BLOC_SIZE) < HALF_BLOC + 1  && ((int)a.y % BLOC_SIZE) > HALF_BLOC - 1))
+					return (0);
+				if (DRAWING_MODE)
+					put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, BLUE, &w->img[GAME]);
+			}
+			else 
+			{
+				if ((fmod(a.x, BLOC_SIZE) / BLOC_SIZE) < w->door_timer)
+					return (0);
+				if (!(((int)a.y % BLOC_SIZE) < HALF_BLOC + 1  && ((int)a.y % BLOC_SIZE) > HALF_BLOC - 1))
+					return (0);
+				if (DRAWING_MODE)
+					put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, GREEN, &w->img[GAME]);
+			}
 		}
-		else
+		if (w->map[map.y + 1][map.x] && w->map[map.y + 1][map.x] && w->map[map.y - 1][map.x] != '0' && w->map[map.y + 1][map.x] != '0')
 		{
-			if ((fmod(a.y, BLOC_SIZE) / BLOC_SIZE) < w->door_timer)
-				return (0);
-			if (!(((int)a.x % BLOC_SIZE) < HALF_BLOC + 1  && ((int)a.x % BLOC_SIZE) > HALF_BLOC - 1))
-				return (0);
-			if (DRAWING_MODE)
-				put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, GREEN, &w->img[GAME]);
+			if (((int)a.y % BLOC_SIZE) == 0 || ((int)a.y % BLOC_SIZE) == 63)
+				return (1);
+			if (i % 2)
+			{
+				if ((fmod(a.y, BLOC_SIZE) / BLOC_SIZE) < w->door_timer)
+					return (0);
+				if (!(((int)a.x % BLOC_SIZE) < HALF_BLOC + 1  && ((int)a.x % BLOC_SIZE) > HALF_BLOC - 1))
+					return (0);
+				if (DRAWING_MODE)
+					put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, BLUE, &w->img[GAME]);
+			}
+			else
+			{
+				if ((fmod(a.y, BLOC_SIZE) / BLOC_SIZE) < w->door_timer)
+					return (0);
+				if (!(((int)a.x % BLOC_SIZE) < HALF_BLOC + 1  && ((int)a.x % BLOC_SIZE) > HALF_BLOC - 1))
+					return (0);
+				if (DRAWING_MODE)
+					put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, GREEN, &w->img[GAME]);
+			}
 		}
 	}
 	return (1);
