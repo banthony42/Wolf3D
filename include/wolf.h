@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/29 17:53:59 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/31 16:50:18 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,20 @@ typedef int			(*t_event_k)(int keyhook, void *wolf);
 typedef int			(*t_event_m)(int button, int x, int y, void *wolf);
 
 /*
+**	Structure permettant de gerer les portes independemment les unes des autres.
+**	ptr:	Pointeur vers une case de la map, contenant une porte. (&map[y][x])
+**	timer:	Timer de la porte
+**	incr:	Increment de la porte, -1 pour ouvrir, 1 pour fermer
+**	Si ptr vaut NULL, alors la structure est libre et peut gerer une porte.
+*/
+typedef struct		s_door
+{
+	void			*ptr;
+	double			timer;
+	double			incr;
+}					t_door;
+
+/*
 **	Structure principale du jeu
 **	mlx:			Pointeur recu lors d'un mlx_init()
 **	win:			Pointeur de la fenetre du jeu recu lors d'un mlx_new_window()
@@ -253,12 +267,12 @@ typedef struct		s_wolf
 	int				textured;
 	t_coord			mini_map;
 	char			padding[4];
-	double			door_timer;
-	double			door_incr;
+	t_door			doors[MAX_DOOR];
 	double			cos_table[360];
 	double			sin_table[360];
 }					t_wolf;
 
+t_door				*get_door(t_wolf *w, t_vector hit_point, int map_offset_y, int map_offset_x);
 int					check_collision(t_vector pt, t_wolf *w, int hitbox_radius);
 void				launch_raycast_1(t_wolf *w);
 

@@ -6,11 +6,41 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/31 12:39:56 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/31 16:38:20 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
+
+static int			door_handler(t_wolf *w, t_vector a, t_coord map)
+{
+	t_door  *door;
+
+	if (w->map[map.y][map.x] == '0' + T_DOOR && (door = get_door(w, a, 0, 0)))
+	{
+		if (w->map[map.y][map.x + 1] && w->map[map.y][map.x - 1] && w->map[map.y][map.x + 1] != '0' && w->map[map.y][map.x - 1] != '0')
+		{
+			if (((int)a.x % BLOC_SIZE) == 0 || ((int)a.x % BLOC_SIZE) == 63)
+				return (1);
+			if ((fmod(a.x, BLOC_SIZE) / BLOC_SIZE) < door->timer)
+				return (0);
+			if (!(((int)a.y % BLOC_SIZE) < HALF_BLOC + 1 && ((int)a.y % BLOC_SIZE) > HALF_BLOC - 1))
+				return (0);
+		}
+		if (w->map[map.y + 1][map.x] && w->map[map.y + 1][map.x] && w->map[map.y - 1][map.x] != '0' && w->map[map.y + 1][map.x] != '0')
+		{
+			if (((int)a.y % BLOC_SIZE) == 0 || ((int)a.y % BLOC_SIZE) == 63)
+				return (1);
+			if ((fmod(a.y, BLOC_SIZE) / BLOC_SIZE) < door->timer)
+				return (0);
+			if (!(((int)a.x % BLOC_SIZE) < HALF_BLOC + 1 && ((int)a.x % BLOC_SIZE) > HALF_BLOC - 1))
+				return (0);
+		}
+		if (DRAWING_MODE)
+			put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, BLUE, &w->img[GAME]);
+	}
+	return (1);
+}
 
 /*
 **	Calcul du point correspondant dans la map
@@ -23,38 +53,8 @@
 **	(visualisation du trace de rayon, (FOV))
 */
 
-static int			door_handler(t_wolf *w, t_vector a, t_coord map)
-{
-	if (w->map[map.y][map.x] == '0' + T_DOOR)
-	{
-		if (w->map[map.y][map.x + 1] && w->map[map.y][map.x -1] && w->map[map.y][map.x + 1] != '0' && w->map[map.y][map.x -1] != '0')
-		{
-			if (((int)a.x % BLOC_SIZE) == 0 || ((int)a.x % BLOC_SIZE) == 63)
-				return (1);
-			if ((fmod(a.x, BLOC_SIZE) / BLOC_SIZE) < w->door_timer)
-				return (0);
-			if (!(((int)a.y % BLOC_SIZE) < HALF_BLOC + 1  && ((int)a.y % BLOC_SIZE) > HALF_BLOC - 1))
-				return (0);
-			if (DRAWING_MODE)
-				put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, BLUE, &w->img[GAME]);
-		}
-		if (w->map[map.y + 1][map.x] && w->map[map.y + 1][map.x] && w->map[map.y - 1][map.x] != '0' && w->map[map.y + 1][map.x] != '0')
-		{
-			if (((int)a.y % BLOC_SIZE) == 0 || ((int)a.y % BLOC_SIZE) == 63)
-				return (1);
-			if ((fmod(a.y, BLOC_SIZE) / BLOC_SIZE) < w->door_timer)
-				return (0);
-			if (!(((int)a.x % BLOC_SIZE) < HALF_BLOC + 1  && ((int)a.x % BLOC_SIZE) > HALF_BLOC - 1))
-				return (0);
-			if (DRAWING_MODE)
-				put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, BLUE, &w->img[GAME]);
-		}
-	}
-	return (1);
-}
-
 static t_texture	find_intersection(t_wolf *w, t_vector a,
-									  t_hit_info *hit, int i)
+										t_hit_info *hit, int i)
 {
 	t_coord		map;
 

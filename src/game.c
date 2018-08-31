@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/29 20:30:23 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/31 16:51:40 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int			eventk_game(int keyhook, void *wolf)
 {
 	t_wolf		*w;
 	t_vector	pt;
+	t_door		*door;
 
 	ft_bzero(&pt, sizeof(pt));
 	if (!(w = (t_wolf*)wolf))
@@ -41,7 +42,14 @@ int			eventk_game(int keyhook, void *wolf)
 	if (w->keypress[KEY_A])
 		move(w, LEFT);
 	if (keyhook == MLX_KEY_P)
-		w->door_incr *= -1;
+	{
+		pt.x = w->cam.pos.x + (w->cos_table[(int)w->cam.pos.angle] * USE_DIST);
+		pt.y = w->cam.pos.y + (w->sin_table[(int)w->cam.pos.angle] * USE_DIST);;
+		if (DRAWING_MODE)
+			put_pixel_img((t_coord){(int)pt.x, (int)pt.y, 0}, YELLOW, &w->img[GAME]);
+		if ((door = get_door(w, pt, 0, 0)))
+			door->incr *= -1;
+	}
 	launch_raycast_1(w);
 	return (0);
 }
@@ -55,10 +63,27 @@ int			eventm_game(int button, int x, int y, void *wolf)
 	return (0);
 }
 
+static void	update_doors(t_wolf *w, int i)
+{
+	if (w->doors[i].timer > 1.0)
+		w->doors[i].timer = 1.0;
+	else if (w->doors[i].timer < 0.0)
+		w->doors[i].timer = 0.0;
+	if ((w->doors[i].timer >= 0.0) && (w->doors[i].timer <= 1.0))
+	{
+		if ((w->doors[i].incr > 0.0) && (w->doors[i].timer != 1.0))
+			w->doors[i].timer += w->doors[i].incr * 0.02;
+		else if ((w->doors[i].incr < 0.0) && (w->doors[i].timer != 0.0))
+			w->doors[i].timer += w->doors[i].incr * 0.02;
+	}
+}
+
 void		draw_game(void *wolf)
 {
 	t_wolf	*w;
+	int		i;
 
+	i = -1;
 	if (!(w = (t_wolf*)wolf))
 		return ;
 	if (!w->keypress[KEY_C])
@@ -69,17 +94,14 @@ void		draw_game(void *wolf)
 		else
 			w->cam.heightView = WIN_H /2;
 	}
-	if (w->door_timer > 1.0)
-		w->door_timer = 1.0;
-	else if (w->door_timer < 0.0)
-		w->door_timer = 0.0;
-	if ((w->door_timer >= 0.0) && (w->door_timer <= 1.0))
-	{
-		if ((w->door_incr > 0.0) && (w->door_timer != 1.0))
-			w->door_timer += w->door_incr * 0.02;
-		else if ((w->door_incr < 0.0) && (w->door_timer != 0.0))
-			w->door_timer += w->door_incr * 0.02;
-	}
+	while (++i < MAX_DOOR)
+		update_doors(w, i);
 	renderer(w);
 	mlx_put_image_to_window(w->mlx, w->win, w->img[GAME].ptr, 0, 0);
 }
+
+
+
+
+
+

@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 13:39:30 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/29 23:38:23 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/31 16:36:27 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,52 @@ static t_vector	find_spawn(char **map, t_texture spawner)
 	return (find_spawn(map, T_FLOOR));
 }
 
+t_door			*get_door(t_wolf *w, t_vector hit_point, int map_offset_y, int map_offset_x)
+{
+	int		i;
+	t_coord	map;
+	void	*ptr_door;
+
+	ptr_door = NULL;
+	map.x = (int)(hit_point.x  / BLOC_SIZE) + map_offset_x;
+	map.y = (int)(hit_point.y  / BLOC_SIZE) + map_offset_y;
+	if (map.x < w->map_size.x && map.y < w->map_size.y && w->map[map.y][map.x] == '0' + T_DOOR)
+		ptr_door = &w->map[map.y][map.x];
+	i = -1;
+	while (++i < MAX_DOOR && ptr_door)
+	{
+		if (ptr_door == w->doors[i].ptr)
+			return (&w->doors[i]);
+	}
+	return (NULL);
+}
+
+static void		list_doors(t_wolf *w)
+{
+	int		n_door;
+	t_coord	i;
+
+	n_door = 0;
+	i.y = -1;
+	while (w->map[++i.y])
+	{
+		i.x = -1;
+		while (w->map[i.y][++i.x])
+		{
+			if (w->map[i.y][i.x] == '0' + T_DOOR && n_door < MAX_DOOR)
+			{
+				w->doors[n_door].ptr = &w->map[i.y][i.x];
+				w->doors[n_door].timer = 1;
+				w->doors[n_door].incr = -1;
+				ft_putnbrendl(n_door);
+				n_door++;
+			}
+		}
+	}
+	if (n_door >= MAX_DOOR)
+		wolf_exit(ERR_DOOR, -1, w);
+}
+
 static void		init_raycast(t_wolf *w)
 {
 	t_vector	spawn;
@@ -62,8 +108,7 @@ static void		init_raycast(t_wolf *w)
 	w->cam.spd_move = 300;
 	w->cam.spd_angle = 100;
 	w->textured = 1;
-	w->door_timer = 1;
-	w->door_incr = -1;
+	list_doors(w);
 }
 
 static void		init_img(t_wolf *w)

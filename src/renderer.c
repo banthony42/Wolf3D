@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/31 12:37:33 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/31 16:39:21 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,14 @@ static void			trace_floor(t_img *img, t_coord start)
 	}
 }
 
-static void			trace_textured_wall(t_wolf *w, t_coord start, int h_wall, t_hit_info hit, double timer)
+static void			trace_textured_wall(t_wolf *w, t_coord start, int h_wall, t_hit_info hit)
 {
-	int		i;
-	t_coord	pt;
-	t_coord	ptt;
-	t_texture texture;
+	int			i;
+	t_coord		pt;
+	t_coord		ptt;
+	t_texture	texture;
+	t_door		*door;
 
-	(void)ptt;
-	(void)timer;
 	i = -1;
 	pt = start;
 	texture = hit.texture;
@@ -53,8 +52,8 @@ static void			trace_textured_wall(t_wolf *w, t_coord start, int h_wall, t_hit_in
 			texture = T_DOOR_SIDE;
 		else if (((int)hit.point.y % BLOC_SIZE) == 0 || ((int)hit.point.y % BLOC_SIZE) == 63)
 			texture = T_DOOR_SIDE;
-		else
-			ptt.x -= timer * hit.object.size.x;
+		else if ((door = get_door(w, hit.point, 0, 0)))
+			ptt.x -= door->timer * hit.object.size.x;
 	}
 	while (++i < h_wall)
 	{
@@ -109,7 +108,7 @@ void			renderer(t_wolf *w)
 		column_start.x = i;
 		column_start.y = (int)(w->cam.heightView - half_wall);
 		if (w->textured)
-			trace_textured_wall(w, column_start, (int)w->hit[i].h_wall, w->hit[i], w->door_timer);
+			trace_textured_wall(w, column_start, (int)w->hit[i].h_wall, w->hit[i]);
 		else
 			trace_untextured_wall(&w->img[GAME], column_start, w->cam, w->hit[i]);
 		// SKY
