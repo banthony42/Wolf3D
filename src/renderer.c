@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/29 23:31:05 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/31 12:37:33 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,31 +34,35 @@ static void			trace_floor(t_img *img, t_coord start)
 	}
 }
 
-static void			trace_textured_wall(t_img *img, t_coord start, int h_wall, t_hit_info hit, double timer)
+static void			trace_textured_wall(t_wolf *w, t_coord start, int h_wall, t_hit_info hit, double timer)
 {
 	int		i;
 	t_coord	pt;
 	t_coord	ptt;
+	t_texture texture;
 
 	(void)ptt;
-	(void)img;
 	(void)timer;
 	i = -1;
 	pt = start;
+	texture = hit.texture;
+	ptt.x = (int)(hit.object.size.x * (fmod(hit.side, BLOC_SIZE) / BLOC_SIZE));
 	if (hit.texture == T_DOOR)
 	{
-		ptt.x = (int)(hit.object.size.x * (fmod(hit.side, BLOC_SIZE) / BLOC_SIZE));
-		ptt.x -= timer * hit.object.size.x;
+		if (((int)hit.point.x % BLOC_SIZE) == 0 || ((int)hit.point.x % BLOC_SIZE) == 63)
+			texture = T_DOOR_SIDE;
+		else if (((int)hit.point.y % BLOC_SIZE) == 0 || ((int)hit.point.y % BLOC_SIZE) == 63)
+			texture = T_DOOR_SIDE;
+		else
+			ptt.x -= timer * hit.object.size.x;
 	}
-	else
-		ptt.x = (int)(hit.object.size.x * (fmod(hit.side, BLOC_SIZE) / BLOC_SIZE));
 	while (++i < h_wall)
 	{
 		if (pt.y >= 0 && pt.y < WIN_H)
 		{
 			ptt.y = hit.object.size.y * i / h_wall;
 			if (!DRAWING_MODE)
-				put_pixel_from_txt(pt, ptt, &hit.object, img);
+				put_pixel_from_txt(pt, ptt, &w->texture[texture], &w->img[GAME]);
 		}
 		pt.y = start.y + i;
 	}
@@ -105,7 +109,7 @@ void			renderer(t_wolf *w)
 		column_start.x = i;
 		column_start.y = (int)(w->cam.heightView - half_wall);
 		if (w->textured)
-			trace_textured_wall(&w->img[GAME], column_start, (int)w->hit[i].h_wall, w->hit[i], w->door_timer);
+			trace_textured_wall(w, column_start, (int)w->hit[i].h_wall, w->hit[i], w->door_timer);
 		else
 			trace_untextured_wall(&w->img[GAME], column_start, w->cam, w->hit[i]);
 		// SKY
