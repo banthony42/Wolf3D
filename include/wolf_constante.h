@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/31 16:48:00 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/31 19:39:17 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@
 # define HALF_BLOC 32
 # define MAX_DOOR 32
 # define PLAYER_RADIUS 10
-# define USE_DIST 5
+# define USE_DIST 64
 # define JUMP_VELOCITY 450
 # define GRAVITY 1500
 

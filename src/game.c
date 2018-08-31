@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/31 16:51:40 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/31 19:46:49 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int			eventk_game(int keyhook, void *wolf)
 	t_wolf		*w;
 	t_vector	pt;
 	t_door		*door;
+	t_coord		cam_pos;
 
 	ft_bzero(&pt, sizeof(pt));
 	if (!(w = (t_wolf*)wolf))
@@ -41,14 +42,17 @@ int			eventk_game(int keyhook, void *wolf)
 		move(w, RIGHT);
 	if (w->keypress[KEY_A])
 		move(w, LEFT);
-	if (keyhook == MLX_KEY_P)
+	if (keyhook == MLX_KEY_E)
 	{
-		pt.x = w->cam.pos.x + (w->cos_table[(int)w->cam.pos.angle] * USE_DIST);
-		pt.y = w->cam.pos.y + (w->sin_table[(int)w->cam.pos.angle] * USE_DIST);;
-		if (DRAWING_MODE)
-			put_pixel_img((t_coord){(int)pt.x, (int)pt.y, 0}, YELLOW, &w->img[GAME]);
-		if ((door = get_door(w, pt, 0, 0)))
-			door->incr *= -1;
+		cam_pos.x = (int)(w->cam.pos.x / BLOC_SIZE);
+		cam_pos.y = (int)(w->cam.pos.y / BLOC_SIZE);
+		if (w->map[cam_pos.y][cam_pos.x] != '0' + T_DOOR)
+		{
+			pt.x = w->cam.pos.x - (w->cos_table[(int)w->cam.pos.angle] * USE_DIST);
+			pt.y = w->cam.pos.y - (w->sin_table[(int)w->cam.pos.angle] * USE_DIST);
+			if ((door = get_door(w, pt, 0, 0)))
+				door->incr *= -1;
+		}
 	}
 	launch_raycast_1(w);
 	return (0);

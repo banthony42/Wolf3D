@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 13:39:30 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/31 16:36:27 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/31 19:00:27 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void		list_doors(t_wolf *w)
 			if (w->map[i.y][i.x] == '0' + T_DOOR && n_door < MAX_DOOR)
 			{
 				w->doors[n_door].ptr = &w->map[i.y][i.x];
-				w->doors[n_door].timer = 1;
+				w->doors[n_door].timer = 0;
 				w->doors[n_door].incr = -1;
 				ft_putnbrendl(n_door);
 				n_door++;

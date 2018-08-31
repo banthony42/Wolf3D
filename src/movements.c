@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/06 18:00:24 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/31 15:12:08 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/31 19:44:35 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,27 @@
 
 int				check_collision(t_vector pt, t_wolf *w, int hitbox_radius)
 {
-	t_coord	map;
-	int		i;
+	t_coord		new_map;
+	t_vector	new_pt;
+	t_door		*door;
+	int			i;
 
 	i = -1;
 	while (++i < 360)
 	{
-		map.x = (int)((pt.x + w->cos_table[i] * hitbox_radius) / BLOC_SIZE);
-		map.y = (int)((pt.y + w->sin_table[i] * hitbox_radius) / BLOC_SIZE);
-		if (map.x >= w->map_size.x || map.y >= w->map_size.y)
+		new_pt.x = pt.x + (w->cos_table[i] * hitbox_radius);
+		new_pt.y = pt.y + (w->sin_table[i] * hitbox_radius);
+		new_map.x = (int)(new_pt.x / BLOC_SIZE);
+		new_map.y = (int)(new_pt.y / BLOC_SIZE);
+		if (new_map.x >= w->map_size.x || new_map.y >= w->map_size.y)
 			return (1);
-		if (map.x < 0 || map.y < 0)
+		if (new_map.x < 0 || new_map.y < 0)
 			return (1);
-		if (w->map[map.y][map.x] > '0' && w->map[map.y][map.x] < ('0' + T_DOOR))
+		if (w->map[new_map.y][new_map.x] > '0' && w->map[new_map.y][new_map.x] < ('0' + T_DOOR))
 			return (1);
+		if (w->map[new_map.y][new_map.x] == '0' + T_DOOR && (door = get_door(w, pt, 0, 0)))
+			if (door->timer < 1)
+				return (1);
 	}
 	return (0);
 }

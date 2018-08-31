@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:01:58 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/31 16:39:21 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/31 19:20:28 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void			trace_sky(t_img *img, t_coord start)
 {
 	while (start.y >= 0)
 	{
-//		put_pixel_img(start, BLUE_SKY, img);
+		put_pixel_img(start, BLUE_SKY, img);
 		start.y--;
 	}
 		(void)img;
@@ -29,7 +29,7 @@ static void			trace_floor(t_img *img, t_coord start)
 	(void)img;
 	while (start.y < img->size.y)
 	{
-//		put_pixel_img(start, DARK_GREY, img);
+		put_pixel_img(start, DARK_GREY, img);
 		start.y++;
 	}
 }
