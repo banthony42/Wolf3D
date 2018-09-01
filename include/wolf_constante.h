@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/31 19:39:17 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/01 01:58:46 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@
 # define USE_DIST 64
 # define JUMP_VELOCITY 450
 # define GRAVITY 1500
+# define FOG_MIN 64
 
 /*
 **	Menu Principal
@@ -123,6 +124,7 @@
 **	Couleur
 */
 # define CLR 0x00000000
+# define WHITE 0xffffff
 # define MAP_OVERLAY 0x2f1f1f1f
 # define RED 0xff0000
 # define GREEN 0x00ff00
@@ -132,6 +134,8 @@
 # define DARK_GREY 0x1f1f1f
 # define BROWN 0xcd661d
 # define YELLOW 0xffff00
+# define FOG_COLOR CLR
+
 /*
 **	Event pour mlx_hook (voir X11.h)
 */

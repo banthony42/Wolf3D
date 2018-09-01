@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/31 16:50:18 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/01 01:59:30 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,6 +270,7 @@ typedef struct		s_wolf
 	t_door			doors[MAX_DOOR];
 	double			cos_table[360];
 	double			sin_table[360];
+	double			max_dist;
 }					t_wolf;
 
 t_door				*get_door(t_wolf *w, t_vector hit_point, int map_offset_y, int map_offset_x);

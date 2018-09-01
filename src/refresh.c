@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/31 19:59:10 by banthony         ###   ########.fr       */
+/*   Updated: 2018/08/31 23:18:01 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int			new_img(t_wolf *w, t_page page, t_coord size)
 	w->img[page].data = mlx_get_data_addr(w->img[page].ptr, &w->img[page].bpp,
 									&w->img[page].width, &w->img[page].endian);
 	w->img[page].octet = (unsigned int)(w->img[page].bpp / 8);
-	printf("endian:%d\n", w->img[page].endian);
 	return (1);
 }
 

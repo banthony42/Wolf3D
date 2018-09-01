@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/31 16:38:20 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/01 02:04:42 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,8 @@ void				launch_raycast_1(t_wolf *w)
 			w->hit[i].h_wall = (BLOC_SIZE / w->hit[i].dist) * w->cam.screenDist;
 			w->hit[i].object = w->texture[text];
 			w->hit[i].texture = text;
+			if(w->hit[i].dist > w->max_dist)
+				w->max_dist = w->hit[i].dist;
 		}
 	}
 }
