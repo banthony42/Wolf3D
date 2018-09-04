@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 19:13:48 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/28 14:21:00 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/04 18:06:41 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,6 @@ void	draw_map(t_wolf *w, char **map, t_coord map_size)
 				put_texture_on_img_at(&w->img[MAP_I], &w->texture[text], p, it);
 		}
 	}
-	p.x = (int)((double)(w->cam.pos.x / BLOC_SIZE) * it.x) + rest.x;
-	p.y = (int)((double)(w->cam.pos.y / BLOC_SIZE) * it.y) + rest.y;
-	put_pixel_img(p, GREEN, &w->img[MAP_I]);
 }
 
 void	draw_grid(t_wolf *w, t_page page, int square)

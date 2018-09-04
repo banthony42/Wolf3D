@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:45:46 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/05 18:44:54 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/04 18:20:46 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,3 @@ void				update_time(void *delta_time_struct);
 void				print_delta_time(void *delta_time_struct);
 
 #endif
-
-
-
-
-
-
-
-
-
-

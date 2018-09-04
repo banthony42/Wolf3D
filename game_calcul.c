@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/06 18:00:24 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/08/31 19:44:35 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/04 19:05:16 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ int				check_collision(t_vector pt, t_wolf *w, int hitbox_radius)
 			return (1);
 		if (new_map.x < 0 || new_map.y < 0)
 			return (1);
-		if (w->map[new_map.y][new_map.x] > '0' && w->map[new_map.y][new_map.x] < ('0' + T_DOOR))
+		if (w->map[new_map.y][new_map.x] > '0'
+			&& w->map[new_map.y][new_map.x] < ('0' + T_DOOR))
 			return (1);
-		if (w->map[new_map.y][new_map.x] == '0' + T_DOOR && (door = get_door(w, pt, 0, 0)))
+		if (w->map[new_map.y][new_map.x] == '0' + T_DOOR
+			&& (door = get_door(w, pt)))
 			if (door->timer < 1)
 				return (1);
 	}
@@ -56,4 +58,63 @@ void			move(t_wolf *w, int dir)
 	pt.y -= move_y;
 	if (!(check_collision(pt, w, PLAYER_RADIUS)))
 		w->cam.pos.y -= move_y;
+}
+
+unsigned int	fog(t_hit_info hit, unsigned int pixel,
+								unsigned int fog_color, double fog_max)
+{
+	double			fog_rate;
+	unsigned int	r;
+	unsigned int	v;
+	unsigned int	b;
+
+	fog_rate = hit.real_dist / (fog_max - FOG_MIN);
+	if (fog_rate < 0)
+		fog_rate = 0;
+	else if (fog_rate > 1)
+		fog_rate = 1;
+	r = (unsigned int)((1 - fog_rate) * ((pixel & RED) >> 16)
+							+ fog_rate * ((fog_color & RED) >> 16));
+	v = (unsigned int)((1 - fog_rate) * ((pixel & GREEN) >> 8)
+							+ fog_rate * ((fog_color & GREEN) >> 8));
+	b = (unsigned int)((1 - fog_rate) * (pixel & BLUE)
+							+ fog_rate * (fog_color & BLUE));
+	return ((r << 16) | (v << 8) | b);
+}
+
+t_door			*get_door(t_wolf *w, t_vector hit_point)
+{
+	int		i;
+	t_coord	map;
+	void	*ptr_door;
+
+	ptr_door = NULL;
+	map.x = (int)(hit_point.x / BLOC_SIZE);
+	map.y = (int)(hit_point.y / BLOC_SIZE);
+	if (map.x < w->map_size.x && map.y < w->map_size.y
+		&& w->map[map.y][map.x] == '0' + T_DOOR)
+		ptr_door = &w->map[map.y][map.x];
+	i = -1;
+	while (++i < MAX_DOOR && ptr_door)
+	{
+		if (ptr_door == w->doors[i].ptr)
+			return (&w->doors[i]);
+	}
+	return (NULL);
+}
+
+void			my_round(t_vector *a)
+{
+	if ((int)(fmod(a->x, BLOC_SIZE)) == (int)(fmod(a->y, BLOC_SIZE)))
+	{
+		if (((int)(fmod(a->x, BLOC_SIZE)) == BLOC_SIZE - 1))
+		{
+			a->y = (int)(a->y + 1);
+			a->x = (int)(a->x + 1);
+		}
+	}
+	else if (fmod(a->x, BLOC_SIZE) < fmod(a->y, BLOC_SIZE))
+		a->y = (int)(a->y + 1);
+	else
+		a->x = (int)(a->x + 1);
 }

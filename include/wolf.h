@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/01 01:59:30 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/04 19:38:39 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@
 */
 typedef enum	e_texture
 {
-	T_FLOOR, T_STONE, T_WOOD, T_REDBRICK, T_DOOR, T_ERASER, T_DOOR_SIDE, T_WEAPON,
-	T_AMO, T_SPAWN, T_SKY, T_MAIN_MENU, T_GAME_OVER, T_GAME_WIN,
-	T_MAP_CREATOR, T_GAME_INTERFACE, T_CREATOR_INTERFACE, T_MINI_MAP, T_FONT,
+	T_FLOOR, T_STONE, T_WOOD, T_REDBRICK, T_DOOR, T_ERASER,
+	T_PURPLESTONE, T_EAGLE, T_MOSSY, T_BLUESTONE, T_COLORSTONE,
+	T_DOOR_SIDE, T_WEAPON, T_SPAWN, T_MAIN_MENU,
+	T_MAP_CREATOR, T_CREATOR_INTERFACE, T_FONT,
 	NB_TEXTURE,
 }				t_texture;
 
@@ -142,7 +143,7 @@ typedef struct		s_img
 */
 typedef struct		s_hit_info
 {
-	double			h_wall;
+	double			hwall;
 	t_vector		point;
 	double			dist;
 	double			real_dist;
@@ -162,7 +163,7 @@ typedef struct		s_hit_info
 **	heightView:	Hauteur de la camera dans le monde
 **	screenDist:	Distance de l'ecran par rapport a la camera
 **	lengthView:	Distance de vision max
-**	velocity:	Velocite, utilise pour le jump, et decremente par la constante GRAVITY
+**	velocity:	Velocite, utilise pour sauter, et decremente par GRAVITY
 **	spd_move:	Vitesse de deplacement de la camera dans le monde
 **	spd_angle:	Vitesse de rotation de la camera dans le monde
 */
@@ -170,9 +171,9 @@ typedef struct		s_cam
 {
 	t_vector		pos;
 	double			ray_dir[WIN_W];
-	double			heightView;
-	double			screenDist;
-	double			lengthView;
+	double			height_view;
+	double			screen_dist;
+	double			length_view;
 	double			velocity;
 	double			spd_move;
 	double			spd_angle;
@@ -220,12 +221,12 @@ typedef struct		s_door
 /*
 **	Structure principale du jeu
 **	mlx:			Pointeur recu lors d'un mlx_init()
-**	win:			Pointeur de la fenetre du jeu recu lors d'un mlx_new_window()
+**	win:			Pointeur fenetre du jeu recu lors d'un mlx_new_window()
 **	map:			Map du jeu envoye par l'utilisateur
 **	img:			Tableau d'image utile au jeu
-**	texture:		Tableau d'image contenant les textures, Ainsi texture[T_WOOD]
+**	texture:		Tableau d'image contenant les textures, texture[T_WOOD]
 **					donne accees a la struct image contenant la texture de BOIS.
-**	draw:			Tableau de fonction de dessin, Ainsi l'appel a draw[MAIN_MENU]()
+**	draw:			Tableau de fonction de dessin, L'appel a draw[MAIN_MENU]()
 **					dessine le menu principal.
 **	event_key:		Tableau de fonction de gestion d'evenements clavier,
 **					Ainsi l'appel a event_key[MAIN_MENU]() gere les
@@ -234,17 +235,17 @@ typedef struct		s_door
 **					Ainsi l'appel a event_mouse[MAIN_MENU]() gere les
 **					evenements souris du menu principal.
 **	map_size:		Taille de la map envoye par l'utilisateur
-**	current_page:	Etat du jeux, donne l'information sur quel page doit etre geree
+**	current_page:	Etat du jeux, (MENU, GAME, MAP_CREATOR)
 **	cam:			Variable de la cameras
 **	map_crea:		Variable pour la creation de map
-**	time:			Structure independante au projets, qui gere le temps, les fps, etc ..
+**	time:			Structure qui gere le temps, les fps, etc ..
 **					(Voir delta_time.c/.h)
-**	hit:			Tableau contenant les infos issue du raycast pour chaque rayons.
+**	hit:			Tableau contenant les infos du raycast pour chaque rayons
 **	keypress:		Tableau de sauvegarde des etats pour certaines touches
 **	cursor:			Etat du curseur du menu
 **	textured:		Activation/Desactivation des textures
-**	cos_table[360]:		Valeur de cosinus pour tout les angles, Index du tableau = angle
-**	sin_table[360]:		Valeur de sinus pour tout les angles, Index du tableau = angle
+**	cos_table[360]:	Valeur de cosinus pour tout les angles, Index = angle
+**	sin_table[360]:	Valeur de sinus pour tout les angles, Index = angle
 */
 typedef struct		s_wolf
 {
@@ -273,7 +274,10 @@ typedef struct		s_wolf
 	double			max_dist;
 }					t_wolf;
 
-t_door				*get_door(t_wolf *w, t_vector hit_point, int map_offset_y, int map_offset_x);
+void				my_round(t_vector *a);
+unsigned int		fog(t_hit_info hit, unsigned int pixel,
+							unsigned int fog_color, double fog_max);
+t_door				*get_door(t_wolf *w, t_vector hit_point);
 int					check_collision(t_vector pt, t_wolf *w, int hitbox_radius);
 void				launch_raycast_1(t_wolf *w);
 
@@ -341,10 +345,5 @@ void				save_map_into_file(t_wolf *w);
 int					load_texture(t_wolf *wolf);
 void				wolf_exit(char *str, int status, t_wolf *wolf);
 double				map_scaler(t_coord map_size, t_coord img_size);
-
-/*
-**	Fonctions temporaire
-*/
-void				draw_landmark(t_img *img);
 
 #endif

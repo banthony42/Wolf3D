@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/01 01:58:46 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/04 18:35:24 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@
 # define HALF_BLOC 32
 # define MAX_DOOR 32
 # define PLAYER_RADIUS 10
-# define USE_DIST 64
+# define RANGE 64
 # define JUMP_VELOCITY 450
 # define GRAVITY 1500
 # define FOG_MIN 64
@@ -106,7 +106,7 @@
 **	TEXT:				Nombre de texture dans la palette.
 **	TEXT_P:				Ecart en pixel, (le pas) entre chaque box de texture.
 **	ITEM_SIZE:			Taille en pixel d'un carre pour representer une texture
-*						/!\ pas encore proportionel a la taille fenetre ...
+**						/!\ pas encore proportionel a la taille fenetre ...
 **	CUSTOM_MAP_NAME:	Nom du fichier lors d'une save.
 **	MAP_CREA_MAX_MAP:	Nombre de map maximum & Utile aussi pour l'increment
 **						du chiffre dans le nom du fichier.
@@ -134,7 +134,8 @@
 # define DARK_GREY 0x1f1f1f
 # define BROWN 0xcd661d
 # define YELLOW 0xffff00
-# define FOG_COLOR CLR
+# define ORANGE 0xffa500
+# define FOG CLR
 
 /*
 **	Event pour mlx_hook (voir X11.h)
@@ -187,7 +188,8 @@
 # define TINY_CHAR ".,1l!':;]Iij|["
 
 /*
-**	Gestion des differents angle pour chaque mouvement, une seule fonction pour le tout.
+**	Gestion des differents angle pour chaque mouvement,
+**	une seule fonction pour le tout.
 */
 # define RIGHT 90
 # define LEFT -90

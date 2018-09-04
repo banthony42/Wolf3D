@@ -6,7 +6,7 @@
 #    By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/08/29 23:30:37 by banthony         ###   ########.fr        #
+#    Updated: 2018/09/04 19:45:32 by banthony         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRC_FILE += font.c
 SRC_FILE += utility.c
 SRC_FILE += draw_shape.c
 SRC_FILE += delta_time.c
-SRC_FILE += movements.c
+SRC_FILE += game_calcul.c
 SRC_FILE += my_math.c
 SRC_FILE += raycast_algo1.c
 SRC_FILE += renderer.c

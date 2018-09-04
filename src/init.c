@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 13:39:30 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/31 19:00:27 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/04 19:24:15 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,26 +35,6 @@ static t_vector	find_spawn(char **map, t_texture spawner)
 		}
 	}
 	return (find_spawn(map, T_FLOOR));
-}
-
-t_door			*get_door(t_wolf *w, t_vector hit_point, int map_offset_y, int map_offset_x)
-{
-	int		i;
-	t_coord	map;
-	void	*ptr_door;
-
-	ptr_door = NULL;
-	map.x = (int)(hit_point.x  / BLOC_SIZE) + map_offset_x;
-	map.y = (int)(hit_point.y  / BLOC_SIZE) + map_offset_y;
-	if (map.x < w->map_size.x && map.y < w->map_size.y && w->map[map.y][map.x] == '0' + T_DOOR)
-		ptr_door = &w->map[map.y][map.x];
-	i = -1;
-	while (++i < MAX_DOOR && ptr_door)
-	{
-		if (ptr_door == w->doors[i].ptr)
-			return (&w->doors[i]);
-	}
-	return (NULL);
 }
 
 static void		list_doors(t_wolf *w)
@@ -102,10 +82,10 @@ static void		init_raycast(t_wolf *w)
 	spawn = find_spawn(w->map, T_SPAWN);
 	spawn.angle = 315;
 	w->cam.pos = spawn;
-	w->cam.heightView = WIN_H / 2;
-	w->cam.screenDist = (double)(WIN_W / 2) / d_tan(FOV / 2);
-	w->cam.lengthView = 100 * BLOC_SIZE;
-	w->cam.spd_move = 300;
+	w->cam.height_view = WIN_H / 2;
+	w->cam.screen_dist = (double)(WIN_W / 2) / d_tan(FOV / 2);
+	w->cam.length_view = 100 * BLOC_SIZE;
+	w->cam.spd_move = 200;
 	w->cam.spd_angle = 100;
 	w->textured = 1;
 	list_doors(w);

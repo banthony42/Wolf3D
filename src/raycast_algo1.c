@@ -6,38 +6,49 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/01 02:04:42 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/04 19:05:02 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
+static int			door_vertical_handling(t_wolf *w, t_vector a, t_coord map,
+											t_door *door)
+{
+	if (w->map[map.y + 1][map.x] && w->map[map.y + 1][map.x]
+		&& w->map[map.y - 1][map.x] != '0' && w->map[map.y + 1][map.x] != '0')
+	{
+		if (((int)a.y % BLOC_SIZE) == 0
+			|| ((int)a.y % BLOC_SIZE) == BLOC_SIZE - 1)
+			return (1);
+		if ((fmod(a.y, BLOC_SIZE) / BLOC_SIZE) < door->timer)
+			return (0);
+		if (!(((int)a.x % BLOC_SIZE) < HALF_BLOC + 1
+			&& ((int)a.x % BLOC_SIZE) > HALF_BLOC - 1))
+			return (0);
+	}
+	return (1);
+}
+
 static int			door_handler(t_wolf *w, t_vector a, t_coord map)
 {
-	t_door  *door;
+	t_door	*door;
 
-	if (w->map[map.y][map.x] == '0' + T_DOOR && (door = get_door(w, a, 0, 0)))
+	if (w->map[map.y][map.x] == '0' + T_DOOR && (door = get_door(w, a)))
 	{
-		if (w->map[map.y][map.x + 1] && w->map[map.y][map.x - 1] && w->map[map.y][map.x + 1] != '0' && w->map[map.y][map.x - 1] != '0')
+		if (w->map[map.y][map.x + 1] && w->map[map.y][map.x - 1]
+		&& w->map[map.y][map.x + 1] != '0' && w->map[map.y][map.x - 1] != '0')
 		{
-			if (((int)a.x % BLOC_SIZE) == 0 || ((int)a.x % BLOC_SIZE) == 63)
+			if (((int)a.x % BLOC_SIZE) == 0
+				|| ((int)a.x % BLOC_SIZE) == BLOC_SIZE - 1)
 				return (1);
 			if ((fmod(a.x, BLOC_SIZE) / BLOC_SIZE) < door->timer)
 				return (0);
-			if (!(((int)a.y % BLOC_SIZE) < HALF_BLOC + 1 && ((int)a.y % BLOC_SIZE) > HALF_BLOC - 1))
+			if (!(((int)a.y % BLOC_SIZE) < HALF_BLOC + 1
+				&& ((int)a.y % BLOC_SIZE) > HALF_BLOC - 1))
 				return (0);
 		}
-		if (w->map[map.y + 1][map.x] && w->map[map.y + 1][map.x] && w->map[map.y - 1][map.x] != '0' && w->map[map.y + 1][map.x] != '0')
-		{
-			if (((int)a.y % BLOC_SIZE) == 0 || ((int)a.y % BLOC_SIZE) == 63)
-				return (1);
-			if ((fmod(a.y, BLOC_SIZE) / BLOC_SIZE) < door->timer)
-				return (0);
-			if (!(((int)a.x % BLOC_SIZE) < HALF_BLOC + 1 && ((int)a.x % BLOC_SIZE) > HALF_BLOC - 1))
-				return (0);
-		}
-		if (DRAWING_MODE)
-			put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, BLUE, &w->img[GAME]);
+		return (door_vertical_handling(w, a, map, door));
 	}
 	return (1);
 }
@@ -49,12 +60,10 @@ static int			door_handler(t_wolf *w, t_vector a, t_coord map)
 **	On arrondit le point, pour pouvoir utiliser le modulo
 **	On enregistre le point dans hit_point
 **	On return la texture a afficher
-**	Si l'option debug existe, alors on trace le point du rayon
-**	(visualisation du trace de rayon, (FOV))
 */
 
 static t_texture	find_intersection(t_wolf *w, t_vector a,
-										t_hit_info *hit, int i)
+										t_hit_info *hit)
 {
 	t_coord		map;
 
@@ -62,30 +71,18 @@ static t_texture	find_intersection(t_wolf *w, t_vector a,
 	map.y = (int)(a.y / BLOC_SIZE);
 	if (map.x < w->map_size.x && map.y < w->map_size.y)
 	{
-		if (w->map[map.y][map.x] > '0' && w->map[map.y][map.x] < '0' + T_DOOR + 1)
+		if (w->map[map.y][map.x] > '0'
+			&& w->map[map.y][map.x] < '0' + T_DOOR + 1)
 		{
 			if (door_handler(w, a, map))
 			{
-				if ((int)(fmod(a.x, BLOC_SIZE)) == (int)(fmod(a.y, BLOC_SIZE)))
-				{
-					if (((int)(fmod(a.x, BLOC_SIZE)) == BLOC_SIZE - 1))
-					{
-						a.y = (int)(a.y + 1);
-						a.x = (int)(a.x + 1);
-					}
-				}
-				else if (fmod(a.x, BLOC_SIZE) < fmod(a.y, BLOC_SIZE))
-					a.y = (int)(a.y + 1);
-				else
-					a.x = (int)(a.x + 1);
+				my_round(&a);
 				hit->point = a;
+				hit->side = a.y;
 				return ((t_texture)(w->map[map.y][map.x] - '0'));
 			}
 		}
-		if (DRAWING_MODE)
-			put_pixel_img((t_coord){(int)a.x, (int)a.y, 0}, RED, &w->img[GAME]);
 	}
-	(void)i;
 	return (0);
 }
 
@@ -111,9 +108,8 @@ static t_texture	raycast(t_wolf *w, t_vector a, t_vector b,
 	i = -1;
 	while (++i < delta)
 	{
-		if ((texture = find_intersection(w, a, hit, i)))
+		if ((texture = find_intersection(w, a, hit)))
 		{
-			hit->side = a.y;
 			if (i % 2)
 				hit->side = a.x;
 			return (texture);
@@ -146,9 +142,9 @@ void				launch_raycast_1(t_wolf *w)
 	i = -1;
 	while (++i < WIN_W)
 	{
-		end.x = (w->cam.pos.x - (w->cam.lengthView *
+		end.x = (w->cam.pos.x - (w->cam.length_view *
 				d_cos(w->cam.pos.angle + w->cam.ray_dir[i])));
-		end.y = (w->cam.pos.y - (w->cam.lengthView *
+		end.y = (w->cam.pos.y - (w->cam.length_view *
 				d_sin(w->cam.pos.angle + w->cam.ray_dir[i])));
 		if ((text = raycast(w, w->cam.pos, end, &w->hit[i])))
 		{
@@ -157,10 +153,10 @@ void				launch_raycast_1(t_wolf *w)
 									+ ((w->hit[i].point.x - w->cam.pos.x)
 									* (w->hit[i].point.x - w->cam.pos.x)));
 			w->hit[i].dist = d_cos(w->cam.ray_dir[i]) * w->hit[i].real_dist;
-			w->hit[i].h_wall = (BLOC_SIZE / w->hit[i].dist) * w->cam.screenDist;
+			w->hit[i].hwall = (BLOC_SIZE / w->hit[i].dist) * w->cam.screen_dist;
 			w->hit[i].object = w->texture[text];
 			w->hit[i].texture = text;
-			if(w->hit[i].dist > w->max_dist)
+			if (w->hit[i].dist > w->max_dist)
 				w->max_dist = w->hit[i].dist;
 		}
 	}

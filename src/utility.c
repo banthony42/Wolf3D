@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 18:57:47 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/29 17:53:22 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/04 19:27:42 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,17 +89,16 @@ int			load_texture(t_wolf *w)
 	error = 0;
 	error |= load_img("./texture/doom_font.xpm", &w->texture[T_FONT], w);
 	error |= load_img("./texture/main_menu.xpm", &w->texture[T_MAIN_MENU], w);
-	error |= load_img("./texture/greystone.xpm", &w->texture[T_STONE], w);
-	error |= load_img("./texture/wood.xpm", &w->texture[T_WOOD], w);
-	error |= load_img("./texture/redbrick.xpm", &w->texture[T_REDBRICK], w);
-	error |= load_img("./texture/colorstone.xpm", &w->texture[T_FLOOR], w);
-	error |= load_img("./texture/door.xpm", &w->texture[T_DOOR], w);
-	error |= load_img("./texture/door_side.xpm", &w->texture[T_DOOR_SIDE], w);
 	error |= load_img("./texture/interface_creator.xpm",
 						&w->texture[T_CREATOR_INTERFACE], w);
 	error |= load_img("./texture/map_creator.xpm",
 						&w->texture[T_MAP_CREATOR], w);
 	error |= load_img("./texture/eraser_icon.xpm", &w->texture[T_ERASER], w);
+	error |= load_img("./texture/greystone.xpm", &w->texture[T_STONE], w);
+	error |= load_img("./texture/wood.xpm", &w->texture[T_WOOD], w);
+	error |= load_img("./texture/redbrick.xpm", &w->texture[T_REDBRICK], w);
+	error |= load_img("./texture/door.xpm", &w->texture[T_DOOR], w);
+	error |= load_img("./texture/door_side.xpm", &w->texture[T_DOOR_SIDE], w);
 	if (error)
 		return (0);
 	return (1);
