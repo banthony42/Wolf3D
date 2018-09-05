@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 19:13:48 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 13:58:26 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 17:04:33 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	draw_palette(t_wolf *w)
 	box.x = item_size.x + 2;
 	box.y = item_size.y + 2;
 	pt.y = PERCENTAGE(50, w->img[GAME_I].size.y);
-	pt.x = (PERCENTAGE(45, w->img[GAME_I].size.x));
+	pt.x = (PERCENTAGE(40, w->img[GAME_I].size.x));
 	pt.x -= ((TEXT / 2) * (box.x + TEXT_P));
 	while (++i < TEXT)
 	{
@@ -109,7 +109,7 @@ void	draw_map(t_wolf *w, char **map, t_coord map_size)
 		while (map[i.y][++i.x])
 		{
 			p.x = (i.x * it.x) + rest.x;
-			if ((text = (t_texture)(map[i.y][i.x] - '0')) && text != T_SPAWN)
+			if ((text = (t_texture)(map[i.y][i.x] - '0')))
 				put_texture_on_img_at(&w->img[MAP_I], &w->texture[text], p, it);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 13:39:30 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 14:18:45 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 18:02:23 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ static void		init_raycast(t_wolf *w)
 	w->cam.height_view = WIN_H / 2;
 	w->cam.screen_dist = (double)(WIN_W / 2) / d_tan(FOV / 2);
 	w->cam.length_view = 100 * BLOC_SIZE;
-	w->cam.spd_move = 200;
-	w->cam.spd_angle = 100;
+	w->cam.spd_move = SPD_MOVE;
+	w->cam.spd_angle = SPD_ANGLE;
 	w->textured = 1;
 	list_doors(w);
 }

@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 16:35:14 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 17:25:38 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int			eventk_map_creator(int keyhook, void *wolf)
 			ft_memset(w->map_crea.map[i], '0',
 						sizeof(char) * ft_strlen(w->map_crea.map[i]));
 	}
-	else if (keyhook == MLX_KEY_V && w->map_crea.texture != T_ERASER)
+	else if (keyhook == MLX_KEY_V)
 		build_valid_map(w);
 	return (0);
 }
@@ -41,7 +41,7 @@ static int	palette_choice(t_wolf *w, int x, int y)
 
 	i = -1;
 	pt.y = PERCENTAGE(50, w->img[GAME_I].size.y);
-	pt.x = (PERCENTAGE(45, w->img[GAME_I].size.x));
+	pt.x = (PERCENTAGE(40, w->img[GAME_I].size.x));
 	pt.x -= ((TEXT / 2) * ((ITEM_SIZE + 2) + TEXT_P));
 	y -= w->img[MAP_CREATOR].size.y;
 	while (++i < TEXT)

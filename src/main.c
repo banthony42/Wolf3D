@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 16:56:14 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 17:52:27 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 static size_t	line_is_valid(char *line, size_t y, size_t sizetab)
 {
-	size_t i;
-	size_t len;
+	size_t	i;
+	size_t	len;
+	int		spawner;
 
 	i = 0;
 	len = 0;
+	spawner = 0;
+	sizetab--;
 	if (!ft_strchr(WALL, line[0])
 		|| !ft_strchr(WALL, (int)line[ft_strlen(line) - 1]))
 		return (0);
@@ -26,12 +29,16 @@ static size_t	line_is_valid(char *line, size_t y, size_t sizetab)
 	{
 		if ((y == 0 || y == sizetab) && !ft_strchr(WALL, line[i]))
 			return (0);
+		if ((ft_strchr(";", line[i])))
+			spawner++;
 		if (ft_isdigit((int)line[i]))
 			len++;
 		else if (line[i] != '0' + T_SPAWN)
 			return (0);
 		i++;
 	}
+	if (spawner > 1)
+		return (0);
 	return (len);
 }
 

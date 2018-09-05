@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 16:55:18 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 18:05:03 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef enum	e_page
 typedef enum	e_keystate
 {
 	LAST_KEY_PRESS,
-	KEY_TAB, KEY_W, KEY_A, KEY_S, KEY_D,
+	KEY_TAB, KEY_W, KEY_A, KEY_S, KEY_D, KEY_SHIFT,
 	KEY_C, KEY_LEFT, KEY_RIGHT, KEY_SPACEBAR,
 	NB_KEYSTATE,
 }				t_keystate;
@@ -268,7 +268,6 @@ typedef struct		s_wolf
 	int				cursor;
 	int				textured;
 	t_coord			mini_map;
-	char			padding[4];
 	t_door			doors[MAX_DOOR];
 	double			cos_table[360];
 	double			sin_table[360];

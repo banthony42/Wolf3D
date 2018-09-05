@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/04 18:22:23 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 18:04:11 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static void	movements_and_use(int keyhook, t_wolf *w)
 		move(w, BEHIND);
 	if (w->keypress[KEY_D])
 		move(w, RIGHT);
+	if (w->keypress[KEY_SHIFT] && w->cam.spd_move == SPD_MOVE)
+		w->cam.spd_move = SPD_MOVE * 2;
 }
 
 int			eventk_game(int keyhook, void *wolf)
@@ -105,6 +107,8 @@ void		draw_game(void *wolf)
 		else
 			w->cam.height_view = WIN_H / 2;
 	}
+	if (!w->keypress[KEY_SHIFT] && w->cam.spd_move != SPD_MOVE)
+		w->cam.spd_move = SPD_MOVE;
 	while (++i < MAX_DOOR)
 		update_doors(w, i);
 	renderer(w);

@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 16:57:12 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 18:04:16 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@
 # define JUMP_VELOCITY 450
 # define GRAVITY 1500
 # define FOG_MIN 10
+# define SPD_MOVE 200.0
+# define SPD_ANGLE 100.0
 
 /*
 **	Menu Principal
@@ -124,7 +126,7 @@
 # define MC_TITLE "MAP CREATOR"
 # define MC_INFO "Draw your map"
 # define MC_SAVE "save"
-# define TEXT 10
+# define TEXT 11
 # define TEXT_P 16
 # define CUSTOM_MAP_NAME "./custom_map_0.txt"
 # define MAP_CREA_MAX_MAP '9' + 1

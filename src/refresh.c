@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 16:39:18 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 17:26:19 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ void		build_valid_map(t_wolf *w)
 	char	texture;
 	int		i;
 
+	if (w->map_crea.texture == T_ERASER
+		|| w->map_crea.texture == T_SPAWN)
+		return ;
 	texture = '0' + w->map_crea.texture;
 	ft_memset(w->map_crea.map[0], texture,
 				sizeof(char) * ft_strlen(w->map_crea.map[0]));

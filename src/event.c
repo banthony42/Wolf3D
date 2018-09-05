@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 17:17:38 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/28 19:46:57 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 18:05:32 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int				keypress(int keycode, void *w)
 		wolf->keypress[KEY_RIGHT] = 1;
 	else if (keycode == MLX_KEY_C)
 		wolf->keypress[KEY_C] = 1;
+	else if (keycode == MLX_KEY_SHIFT_LEFT)
+		wolf->keypress[KEY_SHIFT] = 1;
 	wolf->keypress[LAST_KEY_PRESS] = keycode;
 	return (1);
 }
@@ -68,6 +70,8 @@ int				keyrelease(int keycode, void *w)
 		wolf->keypress[KEY_RIGHT] = 0;
 	else if (keycode == MLX_KEY_C)
 		wolf->keypress[KEY_C] = 0;
+	else if (keycode == MLX_KEY_SHIFT_LEFT)
+		wolf->keypress[KEY_SHIFT] = 0;
 	return (1);
 }
 
