@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 14:08:48 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 16:57:12 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,17 @@
 # define ERR_IMG "Error: While creating new image"
 # define ERR_TEXTURE "Error: While loading texture"
 # define ERR_DOOR "Error: Too many doors in the map file"
-# define ERR_QUIT "User exit"
-
+# define ERR_QUIT "Wolf3D can't continue further."
 /*
 **	Usage
 */
-# define KEY "W/A/S/D - Right/Left Arrow - Sneak: C - Jump: Spacebar\n"
+# define KEY_1 "move:\tW/A/S/D\nLook:\tRight/Left Arrow\nSneak:\tC\n"
+# define KEY_2 "Jump:\tSPACEBAR\nMap:\tTAB\nUse:\tE\n"
 # define HELP_1 "0:\tsol.\n1:\tstone.\n2:\twood.\n3:\tredbrick.\n4:\tporte.\n"
 # define HELP_2 "5:\tpurplestone.\n6:\teagle wall.\n7:\tmossy.\n"
-# define HELP_3 "8:\tbluestone.\n9:\tcolorstone.\n=:\tspawn.\n"
+# define HELP_3 "8:\tbluestone.\n9:\tcolorstone.\n;:\tspawn.\n"
+# define QUIT "User exit"
+# define MC_USAGE "Delete:\tReset map.\nV:Build an empty valid map.\n"
 
 /*
 ** Calcul d'un pourcentage p sur la valeur x
@@ -99,7 +101,7 @@
 # define RANGE 64
 # define JUMP_VELOCITY 450
 # define GRAVITY 1500
-# define FOG_MIN 64
+# define FOG_MIN 10
 
 /*
 **	Menu Principal

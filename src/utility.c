@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 18:57:47 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 13:55:20 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 16:54:09 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void		save_map_into_file(t_wolf *w)
 	int		fd;
 
 	c = '0' - 1;
+	if (!(tab_is_valid(w->map_crea.map, w)))
+		return ;
 	path = ft_strdup(CUSTOM_MAP_NAME);
 	while ((fd = open(path, O_CREAT | O_WRONLY | O_EXCL, 0700)) < 0
 				&& ++c < MAP_CREA_MAX_MAP)
@@ -105,6 +107,7 @@ int			load_texture(t_wolf *w)
 	error |= load_img("./texture/bluestone.xpm", &w->texture[T_BLUESTONE], w);
 	error |= load_img("./texture/colorstone.xpm", &w->texture[T_COLORSTONE], w);
 	error |= load_img("./texture/door_side.xpm", &w->texture[T_DOOR_SIDE], w);
+	error |= load_img("./texture/spawn_cross.xpm", &w->texture[T_SPAWN], w);
 	if (error)
 		return (0);
 	return (1);

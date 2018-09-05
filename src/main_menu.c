@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:40:31 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/04 22:04:36 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 15:19:07 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int			eventk_menu(int keyhook, void *wolf)
 										&& w->cursor <= MAP_CREATOR)
 		w->current_page = (t_page)w->cursor;
 	else if (keyhook == MLX_KEY_ENTER)
-		wolf_exit("Exit", 0, w);
+		wolf_exit(QUIT, 0, w);
 	return (0);
 }
 

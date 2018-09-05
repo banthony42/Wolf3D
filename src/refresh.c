@@ -6,11 +6,30 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/04 16:38:46 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 16:39:18 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
+
+void		build_valid_map(t_wolf *w)
+{
+	char	texture;
+	int		i;
+
+	texture = '0' + w->map_crea.texture;
+	ft_memset(w->map_crea.map[0], texture,
+				sizeof(char) * ft_strlen(w->map_crea.map[0]));
+	i = w->map_crea.m_size.y - 1;
+	ft_memset(w->map_crea.map[i], texture,
+				sizeof(char) * ft_strlen(w->map_crea.map[i]));
+	i = -1;
+	while (++i < w->map_crea.m_size.y)
+	{
+		w->map_crea.map[i][0] = texture;
+		w->map_crea.map[i][ft_strlen(w->map_crea.map[i]) - 1] = texture;
+	}
+}
 
 int			new_img(t_wolf *w, t_page page, t_coord size)
 {
@@ -23,6 +42,36 @@ int			new_img(t_wolf *w, t_page page, t_coord size)
 	w->img[page].data = mlx_get_data_addr(w->img[page].ptr, &w->img[page].bpp,
 									&w->img[page].width, &w->img[page].endian);
 	w->img[page].octet = (unsigned int)(w->img[page].bpp / 8);
+	return (1);
+}
+
+static void	img_clear(t_wolf *w, t_page page)
+{
+	t_coord size;
+
+	size = w->img[page].size;
+	mlx_destroy_image(w->mlx, w->img[page].ptr);
+	new_img(w, page, size);
+}
+
+int			refresh(void *wptr)
+{
+	t_wolf	*wolf;
+
+	wolf = NULL;
+	if (!(wolf = (t_wolf*)wptr))
+		return (0);
+	wolf->time.update(&wolf->time);
+	wolf->time.print(&wolf->time);
+	img_clear(wolf, wolf->current_page);
+	if (wolf->current_page == MAP_CREATOR)
+	{
+		img_clear(wolf, MAP_I);
+		img_clear(wolf, GAME_I);
+	}
+	if (wolf->current_page == GAME)
+		img_clear(wolf, MAP_I);
+	expose((t_wolf*)wptr);
 	return (1);
 }
 
@@ -64,34 +113,4 @@ void		expose(t_wolf *w)
 		mlx_put_image_to_window(w->mlx, w->win, w->img[GAME_I].ptr, 0,
 							w->img[MAP_CREATOR].size.y);
 	}
-}
-
-static void	img_clear(t_wolf *w, t_page page)
-{
-	t_coord size;
-
-	size = w->img[page].size;
-	mlx_destroy_image(w->mlx, w->img[page].ptr);
-	new_img(w, page, size);
-}
-
-int			refresh(void *wptr)
-{
-	t_wolf	*wolf;
-
-	wolf = NULL;
-	if (!(wolf = (t_wolf*)wptr))
-		return (0);
-	wolf->time.update(&wolf->time);
-	wolf->time.print(&wolf->time);
-	img_clear(wolf, wolf->current_page);
-	if (wolf->current_page == MAP_CREATOR)
-	{
-		img_clear(wolf, MAP_I);
-		img_clear(wolf, GAME_I);
-	}
-	if (wolf->current_page == GAME)
-		img_clear(wolf, MAP_I);
-	expose((t_wolf*)wptr);
-	return (1);
 }

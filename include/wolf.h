@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 14:25:41 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 16:55:18 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef enum	e_texture
 {
 	T_FLOOR, T_STONE, T_WOOD, T_REDBRICK, T_DOOR,
 	T_PURPLESTONE, T_EAGLE, T_MOSSY, T_BLUESTONE, T_COLORSTONE,
-	T_ERASER, T_DOOR_SIDE, T_WEAPON, T_SPAWN, T_MAIN_MENU,
+	T_ERASER, T_SPAWN, T_DOOR_SIDE, T_MAIN_MENU,
 	T_MAP_CREATOR, T_CREATOR_INTERFACE, T_FONT,
 	NB_TEXTURE,
 }				t_texture;
@@ -275,6 +275,8 @@ typedef struct		s_wolf
 	double			max_dist;
 }					t_wolf;
 
+void				build_valid_map(t_wolf *w);
+size_t				tab_is_valid(char **tab, t_wolf *wolf);
 void				my_round(t_vector *a);
 unsigned int		fog(t_hit_info hit, unsigned int pixel,
 							unsigned int fog_color, double fog_max);
