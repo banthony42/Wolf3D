@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/04 18:35:24 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 14:08:48 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,21 @@
 /*
 **	Message d'Erreur
 */
-# define ERR_MAP "Error: Invalid Map"
+# define ERR_MAP "Error: Invalid Map, run the executable alone for help."
 # define ERR_OPEN "Error: While openning the file"
 # define ERR_CLOSE "Error: While closing the file"
 # define ERR_IMG "Error: While creating new image"
 # define ERR_TEXTURE "Error: While loading texture"
 # define ERR_DOOR "Error: Too many doors in the map file"
 # define ERR_QUIT "User exit"
+
+/*
+**	Usage
+*/
+# define KEY "W/A/S/D - Right/Left Arrow - Sneak: C - Jump: Spacebar\n"
+# define HELP_1 "0:\tsol.\n1:\tstone.\n2:\twood.\n3:\tredbrick.\n4:\tporte.\n"
+# define HELP_2 "5:\tpurplestone.\n6:\teagle wall.\n7:\tmossy.\n"
+# define HELP_3 "8:\tbluestone.\n9:\tcolorstone.\n=:\tspawn.\n"
 
 /*
 ** Calcul d'un pourcentage p sur la valeur x
@@ -71,7 +79,7 @@
 **	Parsing
 **	WALL:	Definit les caracteres etant des murs
 */
-# define WALL "123"
+# define WALL "12356789"
 
 /*
 **	Wolf3D
@@ -114,7 +122,7 @@
 # define MC_TITLE "MAP CREATOR"
 # define MC_INFO "Draw your map"
 # define MC_SAVE "save"
-# define TEXT 5
+# define TEXT 10
 # define TEXT_P 16
 # define CUSTOM_MAP_NAME "./custom_map_0.txt"
 # define MAP_CREA_MAX_MAP '9' + 1

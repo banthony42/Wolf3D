@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:45:46 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/04 18:20:46 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 13:26:48 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@
 **	Initialiser votre structure avec la fonction init_time_struct(&votre_struct)
 **	Appeler update_time(&votre_struct) a chaque debut de boucle
 **	print_delta_time vous fournit un debug / affichage des variables
+**
+**	PRINT_RATE est le temps en miliseconde entre chaque print.
 */
+
+# define PRINT_RATE 800
 
 typedef void	(*t_ft_dtime)(void *delta_time_struct);
 
@@ -34,6 +38,7 @@ typedef struct		s_delta_time
 	double			elapsed;
 	double			delta;
 	double			fps;
+	double			fps_timer;
 	t_ft_dtime		update;
 	t_ft_dtime		print;
 }					t_delta_time;

@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/04 19:38:39 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 14:25:41 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <math.h>
-
 # include <stdio.h>
 
 /*
@@ -39,12 +38,14 @@
 */
 typedef enum	e_texture
 {
-	T_FLOOR, T_STONE, T_WOOD, T_REDBRICK, T_DOOR, T_ERASER,
+	T_FLOOR, T_STONE, T_WOOD, T_REDBRICK, T_DOOR,
 	T_PURPLESTONE, T_EAGLE, T_MOSSY, T_BLUESTONE, T_COLORSTONE,
-	T_DOOR_SIDE, T_WEAPON, T_SPAWN, T_MAIN_MENU,
+	T_ERASER, T_DOOR_SIDE, T_WEAPON, T_SPAWN, T_MAIN_MENU,
 	T_MAP_CREATOR, T_CREATOR_INTERFACE, T_FONT,
 	NB_TEXTURE,
 }				t_texture;
+
+# define ALL_WALL T_COLORSTONE + 1
 
 /*
 **	Enumeration des etats du jeux.

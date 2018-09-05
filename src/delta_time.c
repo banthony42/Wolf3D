@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:46:03 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/04 18:09:54 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 13:19:53 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void			update_time(void *delta_time_struct)
 	ts->elapsed += (ts->present_time.tv_usec - ts->old_time.tv_usec) / 1000.0;
 	ts->delta = ts->elapsed / 1000;
 	ts->fps = 1 / ts->delta;
+	ts->fps_timer += ts->elapsed;
 }
 
 /*
@@ -64,6 +65,10 @@ void			print_delta_time(void *delta_time_struct)
 	ts = NULL;
 	if (!(ts = (t_delta_time*)delta_time_struct))
 		return ;
-	ft_putstr("fps:");
-	ft_putnbrendl((int)ts->fps);
+	if (ts->fps_timer >= PRINT_RATE)
+	{
+		ft_putstr("fps:");
+		ft_putnbrendl((int)ts->fps);
+		ts->fps_timer = 0;
+	}
 }

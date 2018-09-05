@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/28 13:31:06 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 12:18:29 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static size_t	line_is_valid(char *line, size_t y, size_t sizetab)
 			return (0);
 		if (ft_isdigit((int)line[i]))
 			len++;
-		else
+		else if (line[i] != '=')
 			return (0);
 		i++;
 	}
@@ -67,7 +67,18 @@ static void		usage(char *bin)
 {
 	ft_putstr("Error: Usage ");
 	ft_putstr(bin);
-	ft_putendl(" [file.txt]");
+	ft_putendl(" [file.txt]\n\nGame control:");
+	ft_putendl(KEY);
+	ft_putendl("To design a map you can use:");
+	ft_putstr(HELP_1);
+	ft_putstr(HELP_2);
+	ft_putstr(HELP_3);
+	ft_putendl("Spawn is optional.");
+	ft_putendl("Minimum size map is 3 x 3 character.");
+	ft_putendl("Maximum size map is 500 x 500 character.");
+	ft_putstr("A map can contain only ");
+	ft_putnbr(MAX_DOOR);
+	ft_putendl(" doors.");
 	ft_exit(NULL, -1);
 }
 

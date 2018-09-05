@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/06 18:00:24 by grdalmas          #+#    #+#             */
-/*   Updated: 2018/09/04 19:05:16 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 14:25:14 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int				check_collision(t_vector pt, t_wolf *w, int hitbox_radius)
 		new_pt.y = pt.y + (w->sin_table[i] * hitbox_radius);
 		new_map.x = (int)(new_pt.x / BLOC_SIZE);
 		new_map.y = (int)(new_pt.y / BLOC_SIZE);
-		if (new_map.x >= w->map_size.x || new_map.y >= w->map_size.y)
-			return (1);
-		if (new_map.x < 0 || new_map.y < 0)
+		if (new_map.x >= w->map_size.x || new_map.y >= w->map_size.y
+		|| new_map.x < 0 || new_map.y < 0)
 			return (1);
 		if (w->map[new_map.y][new_map.x] > '0'
-			&& w->map[new_map.y][new_map.x] < ('0' + T_DOOR))
+			&& w->map[new_map.y][new_map.x] < ('0' + ALL_WALL)
+			&& w->map[new_map.y][new_map.x] != '0' + T_DOOR)
 			return (1);
 		if (w->map[new_map.y][new_map.x] == '0' + T_DOOR
 			&& (door = get_door(w, pt)))

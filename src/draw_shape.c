@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 19:13:48 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/04 18:06:41 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 13:58:26 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 void	draw_palette(t_wolf *w)
 {
-	t_coord			pt;
-	t_coord			box;
-	t_coord			item_size;
-	unsigned int	i;
+	t_coord	pt;
+	t_coord	box;
+	t_coord	item_size;
+	int		i;
 
-	i = 0;
+	i = -1;
 	item_size.x = ITEM_SIZE;
 	item_size.y = ITEM_SIZE;
 	box.x = item_size.x + 2;
 	box.y = item_size.y + 2;
 	pt.y = PERCENTAGE(50, w->img[GAME_I].size.y);
-	pt.x = (PERCENTAGE(50, w->img[GAME_I].size.x));
+	pt.x = (PERCENTAGE(45, w->img[GAME_I].size.x));
 	pt.x -= ((TEXT / 2) * (box.x + TEXT_P));
-	while (i < TEXT)
+	while (++i < TEXT)
 	{
 		box.color = 0xd4af37;
 		if (w->map_crea.texture == i + 1)
@@ -36,7 +36,6 @@ void	draw_palette(t_wolf *w)
 		put_texture_on_img_at(&w->img[GAME_I], &w->texture[T_STONE + i],
 								pt, item_size);
 		pt.x += box.x + TEXT_P;
-		i++;
 	}
 }
 
@@ -110,7 +109,7 @@ void	draw_map(t_wolf *w, char **map, t_coord map_size)
 		while (map[i.y][++i.x])
 		{
 			p.x = (i.x * it.x) + rest.x;
-			if ((text = (t_texture)(map[i.y][i.x] - '0')))
+			if ((text = (t_texture)(map[i.y][i.x] - '0')) && text != T_SPAWN)
 				put_texture_on_img_at(&w->img[MAP_I], &w->texture[text], p, it);
 		}
 	}

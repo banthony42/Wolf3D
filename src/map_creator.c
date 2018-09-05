@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/16 14:41:29 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 13:58:20 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,21 @@ static int	palette_choice(t_wolf *w, int x, int y)
 	int		i;
 	t_coord	pt;
 
-	i = 0;
+	i = -1;
 	pt.y = PERCENTAGE(50, w->img[GAME_I].size.y);
-	pt.x = (PERCENTAGE(50, w->img[GAME_I].size.x));
+	pt.x = (PERCENTAGE(45, w->img[GAME_I].size.x));
 	pt.x -= ((TEXT / 2) * ((ITEM_SIZE + 2) + TEXT_P));
 	y -= w->img[MAP_CREATOR].size.y;
-	while (i < TEXT)
+	while (++i < TEXT)
 	{
 		if (x > pt.x && x < (pt.x + ITEM_SIZE)
 			&& y > pt.y && y < (pt.y + ITEM_SIZE))
 			w->map_crea.texture = (t_texture)((int)T_STONE + i);
-		i++;
 		pt.x += ITEM_SIZE + 2 + TEXT_P;
 	}
+	if (x > pt.x && x < (pt.x + ITEM_SIZE)
+		&& y > pt.y && y < (pt.y + ITEM_SIZE))
+		w->map_crea.texture = (t_texture)((int)T_ERASER);
 	pt.x = PERCENTAGE(80, w->img[GAME_I].size.x);
 	if (x > pt.x && x < (pt.x + (int)(ft_strlen(MC_SAVE) * 32))
 		&& y > pt.y && y < (pt.y + ITEM_SIZE))

@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/04 19:05:02 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 14:09:43 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static t_texture	find_intersection(t_wolf *w, t_vector a,
 	if (map.x < w->map_size.x && map.y < w->map_size.y)
 	{
 		if (w->map[map.y][map.x] > '0'
-			&& w->map[map.y][map.x] < '0' + T_DOOR + 1)
+			&& w->map[map.y][map.x] < '0' + ALL_WALL)
 		{
 			if (door_handler(w, a, map))
 			{

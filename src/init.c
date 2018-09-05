@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 13:39:30 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/04 19:24:15 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/05 14:18:45 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static void		list_doors(t_wolf *w)
 				w->doors[n_door].ptr = &w->map[i.y][i.x];
 				w->doors[n_door].timer = 0;
 				w->doors[n_door].incr = -1;
-				ft_putnbrendl(n_door);
 				n_door++;
 			}
 		}
@@ -80,7 +79,7 @@ static void		init_raycast(t_wolf *w)
 		w->sin_table[i] = d_sin(i);
 	}
 	spawn = find_spawn(w->map, T_SPAWN);
-	spawn.angle = 315;
+	spawn.angle = 180;
 	w->cam.pos = spawn;
 	w->cam.height_view = WIN_H / 2;
 	w->cam.screen_dist = (double)(WIN_W / 2) / d_tan(FOV / 2);
