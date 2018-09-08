@@ -6,67 +6,11 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/08 17:15:58 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/08 20:02:50 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-static size_t	line_is_valid(char *line, size_t y, size_t sizetab, int *spawn)
-{
-	size_t	i;
-	size_t	len;
-
-	i = 0;
-	len = 0;
-	if (!ft_strchr(WALL, line[0])
-		|| !ft_strchr(WALL, (int)line[ft_strlen(line) - 1]))
-		return (0);
-	while (line[i])
-	{
-		if ((y == 0 || y == sizetab) && !ft_strchr(WALL, line[i]))
-			return (0);
-		if ((ft_strchr(";", line[i])))
-			*spawn += 1;
-		if (ft_isdigit((int)line[i]))
-			len++;
-		else if (line[i] != '0' + T_SPAWN)
-			return (0);
-		i++;
-	}
-	if (*spawn > 1)
-		return (0);
-	return (len);
-}
-
-size_t			tab_is_valid(char **tab, t_wolf *wolf, int save_size)
-{
-	int		i;
-	size_t	len;
-	size_t	tmp;
-	int		spawn;
-
-	spawn = 0;
-	if ((len = ft_tablen(tab)) > MAP_MAX || len < MAP_MIN)
-		wolf_exit(ERR_MAP, -1, wolf);
-	i = -1;
-	if (save_size)
-		wolf->map_size.y = (int)len;
-	while (++i < (int)len)
-	{
-		if (!(tmp = line_is_valid(tab[i], (size_t)i, len - 1, &spawn))
-			|| tmp < MAP_MIN || tmp > MAP_MAX)
-		{
-			ft_putendl(ERR_MAP);
-			return (0);
-		}
-		if ((int)tmp > wolf->map_size.x && save_size)
-			wolf->map_size.x = (int)tmp;
-	}
-	ft_printtab(tab, ft_putstr, "\n");
-	ft_putstr("\nMap OK!\n");
-	return (len);
-}
 
 static void		usage(char *bin)
 {
@@ -126,7 +70,7 @@ int				main(int ac, char **av)
 		ft_strdel(&tmp);
 		ft_strdel(&line);
 	}
-	if (!(tab_is_valid(wolf.map, &wolf, 1)))
+	if (!(map_is_valid(wolf.map, &wolf, 1)))
 		wolf_exit(NULL, -1, &wolf);
 	if (close(fd) < 0)
 		wolf_exit(ERR_CLOSE, -1, &wolf);

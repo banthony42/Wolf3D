@@ -6,7 +6,7 @@
 #    By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/09/04 19:45:32 by banthony         ###   ########.fr        #
+#    Updated: 2018/09/08 20:03:19 by banthony         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ HEADER_FILE = wolf.h	\
 
 SRC_FILE +=	main.c
 SRC_FILE += game.c
-SRC_FILE += game_end.c
+SRC_FILE += parser.c
 SRC_FILE += map_creator.c
 SRC_FILE += main_menu.c
 SRC_FILE += refresh.c

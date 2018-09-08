@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 14:09:43 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/08 18:59:22 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 static int			door_vertical_handling(t_wolf *w, t_vector a, t_coord map,
 											t_door *door)
 {
-	if (w->map[map.y + 1][map.x] && w->map[map.y + 1][map.x]
-		&& w->map[map.y - 1][map.x] != '0' && w->map[map.y + 1][map.x] != '0')
+	if (w->map[map.y - 1][map.x] && w->map[map.y + 1][map.x]
+		&& w->map[map.y - 1][map.x] != '0' && w->map[map.y + 1][map.x] != '0'
+		&& w->map[map.y - 1][map.x] != '0' + T_DOOR
+		&& w->map[map.y + 1][map.x] != '0' + T_DOOR)
 	{
 		if (((int)a.y % BLOC_SIZE) == 0
 			|| ((int)a.y % BLOC_SIZE) == BLOC_SIZE - 1)
@@ -37,7 +39,9 @@ static int			door_handler(t_wolf *w, t_vector a, t_coord map)
 	if (w->map[map.y][map.x] == '0' + T_DOOR && (door = get_door(w, a)))
 	{
 		if (w->map[map.y][map.x + 1] && w->map[map.y][map.x - 1]
-		&& w->map[map.y][map.x + 1] != '0' && w->map[map.y][map.x - 1] != '0')
+		&& w->map[map.y][map.x + 1] != '0' && w->map[map.y][map.x - 1] != '0'
+		&& w->map[map.y][map.x + 1] != '0' + T_DOOR
+		&& w->map[map.y][map.x - 1] != '0' + T_DOOR)
 		{
 			if (((int)a.x % BLOC_SIZE) == 0
 				|| ((int)a.x % BLOC_SIZE) == BLOC_SIZE - 1)

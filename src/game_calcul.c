@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/08 16:16:59 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/08 17:04:58 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/08 20:01:08 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,20 +101,4 @@ t_door			*get_door(t_wolf *w, t_vector hit_point)
 			return (&w->doors[i]);
 	}
 	return (NULL);
-}
-
-void			my_round(t_vector *a)
-{
-	if ((int)(fmod(a->x, BLOC_SIZE)) == (int)(fmod(a->y, BLOC_SIZE)))
-	{
-		if (((int)(fmod(a->x, BLOC_SIZE)) == BLOC_SIZE - 1))
-		{
-			a->y = (int)(a->y + 1);
-			a->x = (int)(a->x + 1);
-		}
-	}
-	else if (fmod(a->x, BLOC_SIZE) < fmod(a->y, BLOC_SIZE))
-		a->y = (int)(a->y + 1);
-	else
-		a->x = (int)(a->x + 1);
 }

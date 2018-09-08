@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 13:39:30 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 18:02:23 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/08 19:59:50 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,15 +114,12 @@ void			init(t_wolf *wolf)
 	wolf->win = mlx_new_window(wolf->mlx, WIN_W, WIN_H, WIN_NAME);
 	wolf->draw[MAIN_MENU] = draw_main_menu;
 	wolf->draw[GAME] = draw_game;
-	wolf->draw[GAME_END] = draw_game_end;
 	wolf->draw[MAP_CREATOR] = draw_map_creator;
 	wolf->event_key[MAIN_MENU] = eventk_menu;
 	wolf->event_key[GAME] = eventk_game;
-	wolf->event_key[GAME_END] = eventk_game_end;
 	wolf->event_key[MAP_CREATOR] = eventk_map_creator;
 	wolf->event_mouse[MAIN_MENU] = eventm_menu;
 	wolf->event_mouse[GAME] = eventm_game;
-	wolf->event_mouse[GAME_END] = eventm_game_end;
 	wolf->event_mouse[MAP_CREATOR] = eventm_map_creator;
 	wolf->current_page = MAIN_MENU;
 	wolf->cursor = 1;

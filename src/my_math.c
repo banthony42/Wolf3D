@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/09 19:11:32 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/15 16:45:55 by grdalmas         ###   ########.fr       */
+/*   Updated: 2018/09/08 17:43:54 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,20 @@ double			d_sin(double degree)
 double			d_tan(double degree)
 {
 	return (tan(to_radian(degree)));
+}
+
+void			my_round(t_vector *a)
+{
+	if ((int)(fmod(a->x, BLOC_SIZE)) == (int)(fmod(a->y, BLOC_SIZE)))
+	{
+		if (((int)(fmod(a->x, BLOC_SIZE)) == BLOC_SIZE - 1))
+		{
+			a->y = (int)(a->y + 1);
+			a->x = (int)(a->x + 1);
+		}
+	}
+	else if (fmod(a->x, BLOC_SIZE) < fmod(a->y, BLOC_SIZE))
+		a->y = (int)(a->y + 1);
+	else
+		a->x = (int)(a->x + 1);
 }

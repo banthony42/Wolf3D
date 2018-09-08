@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 18:57:47 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/08 16:19:57 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/08 20:02:56 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void		save_map_into_file(t_wolf *w)
 	int		fd;
 
 	c = '0' - 1;
-	if (!(tab_is_valid(w->map_crea.map, w, 0)))
+	if (!(map_is_valid(w->map_crea.map, w, 0)))
 		return ;
 	path = ft_strdup(CUSTOM_MAP_NAME);
 	while ((fd = open(path, O_CREAT | O_WRONLY | O_EXCL, 0700)) < 0

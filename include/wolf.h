@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/08 16:19:19 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/08 20:02:12 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef enum	e_texture
 */
 typedef enum	e_page
 {
-	MAIN_MENU, GAME, MAP_CREATOR, GAME_END, NB_PAGE, GAME_I, MAP_I, NB_IMG,
+	MAIN_MENU, GAME, MAP_CREATOR, NB_PAGE, GAME_I, MAP_I, NB_IMG,
 }				t_page;
 
 /*
@@ -275,7 +275,7 @@ typedef struct		s_wolf
 }					t_wolf;
 
 void				build_valid_map(t_wolf *w);
-size_t				tab_is_valid(char **tab, t_wolf *wolf, int save_size);
+size_t				map_is_valid(char **map, t_wolf *wolf, int save_size);
 void				my_round(t_vector *a);
 unsigned int		fog(t_hit_info hit, unsigned int pixel,
 							unsigned int fog_color, double fog_max);
@@ -320,17 +320,14 @@ void				put_pixel_img(t_coord pt, unsigned int color, t_img *img);
 
 int					eventk_menu(int keyhook, void *wolf);
 int					eventk_game(int keyhook, void *wolf);
-int					eventk_game_end(int keyhook, void *wolf);
 int					eventk_map_creator(int keyhook, void *wolf);
 
 int					eventm_menu(int button, int x, int y, void *wolf);
 int					eventm_game(int button, int x, int y, void *wolf);
-int					eventm_game_end(int button, int x, int y, void *wolf);
 int					eventm_map_creator(int button, int x, int y, void *wolf);
 
 void				draw_main_menu(void *wolf);
 void				draw_game(void *wolf);
-void				draw_game_end(void *wolf);
 void				draw_map_creator(void *wolf);
 
 int					keypress(int keycode, void *w);
