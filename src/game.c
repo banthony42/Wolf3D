@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 18:04:11 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/08 17:04:32 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ static void	movements_and_use(int keyhook, t_wolf *w)
 		move(w, BEHIND);
 	if (w->keypress[KEY_D])
 		move(w, RIGHT);
-	if (w->keypress[KEY_SHIFT] && w->cam.spd_move == SPD_MOVE)
-		w->cam.spd_move = SPD_MOVE * 2;
 }
 
 int			eventk_game(int keyhook, void *wolf)
@@ -61,6 +59,8 @@ int			eventk_game(int keyhook, void *wolf)
 		w->cam.pos.angle += w->cam.spd_angle * w->time.delta;
 	if (w->keypress[KEY_LEFT])
 		w->cam.pos.angle -= w->cam.spd_angle * w->time.delta;
+	if (w->keypress[KEY_SHIFT] && w->cam.spd_move == SPD_MOVE)
+		w->cam.spd_move = SPD_MOVE * 2;
 	movements_and_use(keyhook, w);
 	launch_raycast_1(w);
 	return (0);
@@ -105,7 +105,10 @@ void		draw_game(void *wolf)
 		if (w->cam.height_view > (WIN_H / 2))
 			w->cam.velocity = w->cam.velocity - GRAVITY * w->time.delta;
 		else
+		{
 			w->cam.height_view = WIN_H / 2;
+			w->cam.velocity = 0;
+		}
 	}
 	if (!w->keypress[KEY_SHIFT] && w->cam.spd_move != SPD_MOVE)
 		w->cam.spd_move = SPD_MOVE;
