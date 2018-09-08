@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 18:04:16 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/08 16:32:07 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,13 @@
 **	Usage
 */
 # define KEY_1 "move:\tW/A/S/D\nLook:\tRight/Left Arrow\nSneak:\tC\n"
-# define KEY_2 "Jump:\tSPACEBAR\nMap:\tTAB\nUse:\tE\n"
+# define KEY_2 "Jump:\tSPACEBAR\nMap:\tTAB\nUse:\tE\nTexture:F1\n"
+# define KEY_3 "Run:\tLEFT SHIFT\n"
 # define HELP_1 "0:\tsol.\n1:\tstone.\n2:\twood.\n3:\tredbrick.\n4:\tporte.\n"
 # define HELP_2 "5:\tpurplestone.\n6:\teagle wall.\n7:\tmossy.\n"
 # define HELP_3 "8:\tbluestone.\n9:\tcolorstone.\n;:\tspawn.\n"
 # define QUIT "User exit"
-# define MC_USAGE "Delete:\tReset map.\nV:Build an empty valid map.\n"
+# define MC_USAGE "Delete:\tReset map.\nV:\tBuild an empty valid map.\n"
 
 /*
 ** Calcul d'un pourcentage p sur la valeur x
@@ -103,7 +104,7 @@
 # define GRAVITY 1500
 # define FOG_MIN 10
 # define SPD_MOVE 200.0
-# define SPD_ANGLE 100.0
+# define SPD_ANGLE 80.0
 
 /*
 **	Menu Principal

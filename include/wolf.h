@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 18:05:03 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/08 16:19:19 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,7 +275,7 @@ typedef struct		s_wolf
 }					t_wolf;
 
 void				build_valid_map(t_wolf *w);
-size_t				tab_is_valid(char **tab, t_wolf *wolf);
+size_t				tab_is_valid(char **tab, t_wolf *wolf, int save_size);
 void				my_round(t_vector *a);
 unsigned int		fog(t_hit_info hit, unsigned int pixel,
 							unsigned int fog_color, double fog_max);

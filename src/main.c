@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 17:52:27 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/08 16:19:30 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static size_t	line_is_valid(char *line, size_t y, size_t sizetab)
 	i = 0;
 	len = 0;
 	spawner = 0;
-	sizetab--;
 	if (!ft_strchr(WALL, line[0])
 		|| !ft_strchr(WALL, (int)line[ft_strlen(line) - 1]))
 		return (0);
@@ -42,7 +41,7 @@ static size_t	line_is_valid(char *line, size_t y, size_t sizetab)
 	return (len);
 }
 
-size_t			tab_is_valid(char **tab, t_wolf *wolf)
+size_t			tab_is_valid(char **tab, t_wolf *wolf, int save_size)
 {
 	int		i;
 	size_t	len;
@@ -51,23 +50,21 @@ size_t			tab_is_valid(char **tab, t_wolf *wolf)
 	if ((len = ft_tablen(tab)) > MAP_MAX || len < MAP_MIN)
 		wolf_exit(ERR_MAP, -1, wolf);
 	i = -1;
-	wolf->map_size.y = (int)len;
+	if (save_size)
+		wolf->map_size.y = (int)len;
 	while (++i < (int)len)
 	{
-		if (!(tmp = line_is_valid(tab[i], (size_t)i, len))
+		if (!(tmp = line_is_valid(tab[i], (size_t)i, len - 1))
 			|| tmp < MAP_MIN || tmp > MAP_MAX)
 		{
 			ft_putendl(ERR_MAP);
 			return (0);
 		}
-		if ((int)tmp > wolf->map_size.x)
+		if ((int)tmp > wolf->map_size.x && save_size)
 			wolf->map_size.x = (int)tmp;
 	}
 	ft_printtab(tab, ft_putstr, "\n");
 	ft_putstr("\nMap OK!\n");
-	ft_putnbr(wolf->map_size.x);
-	ft_putstr(" x ");
-	ft_putnbrendl(wolf->map_size.y);
 	return (len);
 }
 
@@ -78,6 +75,7 @@ static void		usage(char *bin)
 	ft_putendl(" [file.txt]\n\nGame control:");
 	ft_putstr(KEY_1);
 	ft_putstr(KEY_2);
+	ft_putstr(KEY_3);
 	ft_putendl("\nMap creator control:");
 	ft_putendl(MC_USAGE);
 	ft_putendl("To design a map you can use:");
@@ -128,7 +126,7 @@ int				main(int ac, char **av)
 		ft_strdel(&tmp);
 		ft_strdel(&line);
 	}
-	if (!(tab_is_valid(wolf.map, &wolf)))
+	if (!(tab_is_valid(wolf.map, &wolf, 1)))
 		wolf_exit(NULL, -1, &wolf);
 	if (close(fd) < 0)
 		wolf_exit(ERR_CLOSE, -1, &wolf);
