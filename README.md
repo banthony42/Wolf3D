@@ -25,7 +25,6 @@ make</br>
 # Bugs connus
 Game:
   Les fps chutes en mode non texturé, lorsque l'on se rapproche des murs.
-  Les map avec spawner sont considéré invalide, surement à cause de la mise à la norme.
 
 Linux:
   La transparence ne fonctionne pas car la palette de couleur pour la fenêtre est en 24bit au lieu de 32bit.
