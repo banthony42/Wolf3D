@@ -20,6 +20,7 @@ make</br>
 </br>
 ./wolf3D ./map/...
 
+Le pacakge xorg est requis
 
 
 # Bugs connus
