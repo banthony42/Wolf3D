@@ -10,15 +10,15 @@ grdalmas</br>
 jlobjois consultant en mathématique</br>
 
 # Install and Run (MacOS & Linux only)
-git clone https://github.com/banthony42/Wolf3D.git</br>
+`git clone https://github.com/banthony42/Wolf3D.git`</br>
 </br>
-cd Wolf3D</br>
+`cd Wolf3D`</br>
 </br>
-git clone https://github.com/banthony42/libft.git</br>
+`git clone https://github.com/banthony42/libft.git`</br>
 </br>
-make</br>
+`make`</br>
 </br>
-./wolf3D ./map/...
+`./wolf3D ./map/...`
 
 Le pacakge xorg est requis
 
