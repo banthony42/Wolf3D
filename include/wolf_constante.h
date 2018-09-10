@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/08 20:19:32 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/10 15:21:16 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define ERR_IMG "Error: While creating new image"
 # define ERR_TEXTURE "Error: While loading texture"
 # define ERR_DOOR "Error: Too many doors in the map file"
-# define ERR_DOOR_PLACEMENT "Error: A door is misplaced or badly surrounded."
+# define ERR_DOOR_PLACEMENT "Error: A door is misplaced or badly surrounded at "
 # define ERR_QUIT "Wolf3D can't continue further."
 /*
 **	Usage

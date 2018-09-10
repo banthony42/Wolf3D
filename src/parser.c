@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/08 20:00:50 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/08 20:16:49 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/10 15:29:26 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,14 @@
 **	Le premier if correspond a deux murs en ligne vertical (y).
 **	Le deuxieme corresspond a deux murs en ligne horizontal (x).
 */
-static int				check_adjacent_to_door(char **map, t_coord i)
+
+static void		check_empty(char **map, t_coord i, int *j)
+{
+	if (map[i.y][i.x] == '0')
+		*j += 1;
+}
+
+static int		check_adjacent_to_door(char **map, t_coord i)
 {
 	if (map[i.y][i.x] == '0' + T_DOOR)
 	{
@@ -29,32 +36,44 @@ static int				check_adjacent_to_door(char **map, t_coord i)
 			;
 		else if ((ft_strchr(WALL, map[i.y][i.x - 1])
 		&& ft_strchr(WALL, map[i.y][i.x + 1]))
- 		&& ft_strchr(EMPTY_BLOC, map[i.y - 1][i.x])
+		&& ft_strchr(EMPTY_BLOC, map[i.y - 1][i.x])
 		&& ft_strchr(EMPTY_BLOC, map[i.y + 1][i.x]))
 			;
 		else
+		{
+			ft_putstr(ERR_DOOR_PLACEMENT);
+			ft_putnbr(i.y);
+			ft_putstr(" x ");
+			ft_putnbr(i.x);
+			ft_putendl(" coordinate.");
 			return (1);
+		}
 	}
 	return (0);
 }
 
-static int				map_is_incoherent(char **map)
+static int		map_is_incoherent(char **map)
 {
 	t_coord i;
+	int		j;
+	int		error;
 
+	j = 0;
+	error = 0;
 	i.y = -1;
 	while (map[++i.y])
 	{
 		i.x = -1;
 		while (map[i.y][++i.x])
 		{
-			if (check_adjacent_to_door(map, i))
-			{
-				ft_putendl(ERR_MAP);
-				ft_putendl(ERR_DOOR_PLACEMENT);
-				return (1);
-			}
+			check_empty(map, i, &j);
+			error |= check_adjacent_to_door(map, i);
 		}
+	}
+	if (j == 0 || error)
+	{
+		ft_putendl(ERR_MAP);
+		return (1);
 	}
 	ft_printtab(map, ft_putstr, "\n");
 	ft_putstr("\nMap OK!\n");
