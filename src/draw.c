@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:11:01 by banthony          #+#    #+#             */
-/*   Updated: 2018/08/22 14:25:39 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/11 13:02:19 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void		put_pixel_img(t_coord pt, unsigned int color, t_img *img)
 
 	if (!img || !img->data)
 		return ;
-	if (pt.y > WIN_H || pt.y < 0 || pt.x > WIN_W || pt.x < 0)
+	if (pt.y >= WIN_H || pt.y < 0 || pt.x >= WIN_W || pt.x < 0)
 		return ;
 	pos = (unsigned int)(pt.y * img->width) + ((unsigned int)pt.x * img->octet);
 	if (pos > (unsigned)(img->width * WIN_W))
@@ -41,9 +41,9 @@ void		put_pixel_from_txt(t_coord pti, t_coord ptt, t_img *txt, t_img *img)
 
 	if (!txt || !img || !txt->data || !img->data)
 		return ;
-	if (pti.y > img->size.y || pti.y < 0 || pti.x > img->size.x || pti.x < 0)
+	if (pti.y >= img->size.y || pti.y < 0 || pti.x >= img->size.x || pti.x < 0)
 		return ;
-	if (ptt.x > txt->size.x || ptt.y > txt->size.y || ptt.x < 0 || ptt.y < 0)
+	if (ptt.x >= txt->size.x || ptt.y >= txt->size.y || ptt.x < 0 || ptt.y < 0)
 		return ;
 	pos = (unsigned int)(pti.y * img->width)
 			+ ((unsigned int)pti.x * img->octet);

@@ -6,7 +6,7 @@
 #    By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/09/08 20:03:19 by banthony         ###   ########.fr        #
+#    Updated: 2018/09/11 13:03:37 by banthony         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,7 +77,7 @@ all: $(NAME)
 $(NAME): $(SRC) $(INCLUDE)
 	make -C $(MLX_LIB)
 	make -C $(LIBFT)
-	gcc -D DRAWING_MODE=0 $(FLAGS) $(HEAD_DIR) -c $(SRC)
+	gcc $(FLAGS) $(HEAD_DIR) -c $(SRC)
 	mkdir -p $(OBJ_PATH)
 	mv $(OBJ) $(OBJ_PATH)
 	gcc $(FLAGS) $(OBJ2) $(HEAD_DIR) $(LIBFT_NAME) $(LIB)  -o $(NAME)
@@ -98,6 +98,14 @@ debug: $(SRC) $(INCLUDE)
 	mv $(OBJ) $(OBJ_PATH)
 	gcc $(FLAGS) $(OBJ2) $(HEAD_DIR) $(LIBFT_NAME_SANIT) $(LIB) -o $(NAME) $(DEBUG)
 
+coverage: $(SRC) $(INCLUDE)
+	make -C $(MLX_LIB)
+	make -C $(LIBFT)
+	gcc  -fprofile-arcs -ftest-coverage $(FLAGS) $(HEAD_DIR) -c $(SRC)
+	mkdir -p $(OBJ_PATH)
+	mv $(OBJ) $(OBJ_PATH)
+	gcc -fprofile-arcs -ftest-coverage $(FLAGS) $(OBJ2) $(HEAD_DIR) $(LIBFT_NAME) $(LIB)  -o $(NAME)
+
 clean:
 	make clean -C $(LIBFT)
 	rm -rf $(OBJ_PATH) $(TRASH)
@@ -107,6 +115,10 @@ fclean: clean
 	rm -f $(NAME)
 	make -C $(MLX_LIB) clean
 	-rm ./custom_map*
+	-rm ./*.gcda
+	-rm ./*.gcno
+	-rm ./*.data
+	-rm -rf html
 	-rm $(OBJ)
 
 re: fclean all
