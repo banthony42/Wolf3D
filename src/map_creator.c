@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:58:11 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 17:25:38 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/12 19:57:01 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,7 @@ int			eventm_map_creator(int button, int x, int y, void *wolf)
 	pt.y = (((y - start.y) / ITEM_SIZE));
 	if (pt.y >= 0 && pt.y < w->map_crea.m_size.y
 		&& pt.x >= 0 && pt.x < w->map_crea.m_size.x)
-		w->map_crea.map[pt.y][pt.x] = (char)('0' + w->map_crea.texture);
-	if (w->map_crea.texture == T_ERASER)
-		w->map_crea.map[pt.y][pt.x] = '0';
+		draw_on_map_crea(w, pt);
 	return (0);
 }
 

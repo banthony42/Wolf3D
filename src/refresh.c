@@ -6,33 +6,11 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 23:33:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 17:26:19 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/12 19:49:13 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-void		build_valid_map(t_wolf *w)
-{
-	char	texture;
-	int		i;
-
-	if (w->map_crea.texture == T_ERASER
-		|| w->map_crea.texture == T_SPAWN)
-		return ;
-	texture = '0' + w->map_crea.texture;
-	ft_memset(w->map_crea.map[0], texture,
-				sizeof(char) * ft_strlen(w->map_crea.map[0]));
-	i = w->map_crea.m_size.y - 1;
-	ft_memset(w->map_crea.map[i], texture,
-				sizeof(char) * ft_strlen(w->map_crea.map[i]));
-	i = -1;
-	while (++i < w->map_crea.m_size.y)
-	{
-		w->map_crea.map[i][0] = texture;
-		w->map_crea.map[i][ft_strlen(w->map_crea.map[i]) - 1] = texture;
-	}
-}
 
 int			new_img(t_wolf *w, t_page page, t_coord size)
 {

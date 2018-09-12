@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 14:47:42 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/08 18:59:22 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/12 19:56:39 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ static t_texture	raycast(t_wolf *w, t_vector a, t_vector b,
 **	Enregistrement de la texture a afficher
 */
 
-void				launch_raycast_1(t_wolf *w)
+void				launch_raycast(t_wolf *w)
 {
 	t_vector	end;
 	t_texture	text;

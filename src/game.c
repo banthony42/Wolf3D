@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:42:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/08 17:04:32 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/12 19:56:50 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int			eventk_game(int keyhook, void *wolf)
 	if (w->keypress[KEY_SHIFT] && w->cam.spd_move == SPD_MOVE)
 		w->cam.spd_move = SPD_MOVE * 2;
 	movements_and_use(keyhook, w);
-	launch_raycast_1(w);
+	launch_raycast(w);
 	return (0);
 }
 

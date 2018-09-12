@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/08 20:00:50 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/12 17:30:56 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/12 18:16:27 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void		check_empty(char **map, t_coord i, short *map_err)
 
 	nb_bloc = (short)(*map_err >> 8);
 	nb_door = *map_err & 0xFF;
-	if (map[i.y][i.x] == '0')
+	if (map[i.y][i.x] == '0' || map[i.y][i.x] == '0' + T_SPAWN)
 		nb_bloc++;
 	if (map[i.y][i.x] == '0' + T_DOOR)
 	{

@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/10 17:58:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/08 20:02:12 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/12 19:57:22 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,48 +274,41 @@ typedef struct		s_wolf
 	double			max_dist;
 }					t_wolf;
 
+void				draw_on_map_crea(t_wolf *w, t_coord pt);
 void				build_valid_map(t_wolf *w);
-size_t				map_is_valid(char **map, t_wolf *wolf, int save_size);
-void				my_round(t_vector *a);
-unsigned int		fog(t_hit_info hit, unsigned int pixel,
-							unsigned int fog_color, double fog_max);
-t_door				*get_door(t_wolf *w, t_vector hit_point);
-int					check_collision(t_vector pt, t_wolf *w, int hitbox_radius);
-void				launch_raycast_1(t_wolf *w);
 
+t_door				*get_door(t_wolf *w, t_vector hit_point);
+void				move(t_wolf *w, int dir);
+int					check_collision(t_vector pt, t_wolf *w, int hitbox_radius);
+void				launch_raycast(t_wolf *w);
+
+void				my_round(t_vector *a);
 double				d_tan(double degree);
 double				d_cos(double degree);
 double				d_sin(double degree);
-void				move(t_wolf *w, int dir);
 
 void				draw_palette(t_wolf *w);
-
 void				draw_text_button(char *str, t_wolf *w, t_page page,
 											t_coord pt);
 
 void				draw_map(t_wolf *w, char **map, t_coord map_size);
 void				draw_grid(t_wolf *w, t_page page, int square);
-
 void				draw_box(t_coord size, t_coord start, int offset,
 											t_img *img);
-
 void				draw_line_img(t_img *img, t_coord *pts_a,
 											t_coord *pts_b);
 
 t_coord				centerx_str(char *str, t_coord pt);
-
 void				string_to_img(char *str, t_coord pt, t_img *img,
 											t_wolf *wolf);
 
+int					new_img(t_wolf *wolf, t_page page, t_coord size);
 void				fill_img(t_img *img, unsigned int color);
 void				put_texture_on_img(t_img *dest, t_img *text);
-
 void				put_texture_on_img_at(t_img *dest, t_img *text, t_coord at,
 											t_coord text_size);
-
 void				put_pixel_from_txt(t_coord pti, t_coord ptt, t_img *text,
 											t_img *img);
-
 void				put_pixel_img(t_coord pt, unsigned int color, t_img *img);
 
 int					eventk_menu(int keyhook, void *wolf);
@@ -330,19 +323,22 @@ void				draw_main_menu(void *wolf);
 void				draw_game(void *wolf);
 void				draw_map_creator(void *wolf);
 
+int					close_win(void *wolf);
 int					keypress(int keycode, void *w);
 int					keyrelease(int keycode, void *w);
 int					mousehook(int button, int x, int y, t_wolf *wolf);
-int					new_img(t_wolf *wolf, t_page page, t_coord size);
+
 void				expose(t_wolf *wolf);
 int					refresh(void *wptr);
-int					close_win(void *wolf);
 void				renderer(t_wolf *w);
 void				init(t_wolf *wolf);
 
+size_t				map_is_valid(char **map, t_wolf *wolf, int save_size);
 void				save_map_into_file(t_wolf *w);
 int					load_texture(t_wolf *wolf);
 void				wolf_exit(char *str, int status, t_wolf *wolf);
 double				map_scaler(t_coord map_size, t_coord img_size);
+unsigned int		fog(t_hit_info hit, unsigned int pixel,
+							unsigned int fog_color, double fog_max);
 
 #endif

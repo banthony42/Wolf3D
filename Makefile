@@ -6,7 +6,7 @@
 #    By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/09/11 13:03:37 by banthony         ###   ########.fr        #
+#    Updated: 2018/09/12 19:57:50 by banthony         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,9 +34,10 @@ SRC_FILE += draw_shape.c
 SRC_FILE += delta_time.c
 SRC_FILE += game_calcul.c
 SRC_FILE += my_math.c
-SRC_FILE += raycast_algo1.c
+SRC_FILE += raycast_algo.c
 SRC_FILE += renderer.c
 SRC_FILE += init.c
+SRC_FILE += map_creator_drawing.c
 
 SRC = $(SRC_FILE:%c=$(PATH_SRC)%c)
 INCLUDE = $(HEADER_FILE:%h=$(PATH_HEAD)%h)
