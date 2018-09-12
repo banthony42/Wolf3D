@@ -6,11 +6,44 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/08 20:00:50 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/10 15:29:26 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/12 17:30:56 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
+
+/*
+**	Recuperation des compteurs puis increments.
+**	Recuperation des 8 premiers bits avec le masque 0xFF.
+**	Recuperation des 8 derniers bits avec le decalage de 8 bits vers la droite.
+*/
+
+static void		check_empty(char **map, t_coord i, short *map_err)
+{
+	short nb_bloc;
+	short nb_door;
+
+	nb_bloc = (short)(*map_err >> 8);
+	nb_door = *map_err & 0xFF;
+	if (map[i.y][i.x] == '0')
+		nb_bloc++;
+	if (map[i.y][i.x] == '0' + T_DOOR)
+	{
+		nb_door++;
+		if (nb_door >= MAX_DOOR)
+		{
+			ft_putstr(ERR_DOOR);
+			ft_putstr("\tDoor num: ");
+			ft_putnbr(nb_door);
+			ft_putstr(" at: ");
+			ft_putnbr(i.y);
+			ft_putstr(" x ");
+			ft_putnbr(i.x);
+			ft_putendl(" coordinate.");
+		}
+	}
+	*map_err = (short)((((short)nb_bloc) << 8) | nb_door);
+}
 
 /*
 **	Cette fonction verifie que les blocs adjacent d'une porte sont:
@@ -18,12 +51,6 @@
 **	Le premier if correspond a deux murs en ligne vertical (y).
 **	Le deuxieme corresspond a deux murs en ligne horizontal (x).
 */
-
-static void		check_empty(char **map, t_coord i, int *j)
-{
-	if (map[i.y][i.x] == '0')
-		*j += 1;
-}
 
 static int		check_adjacent_to_door(char **map, t_coord i)
 {
@@ -52,25 +79,35 @@ static int		check_adjacent_to_door(char **map, t_coord i)
 	return (0);
 }
 
+/*
+**	Pour respecter la norme le compteur de portes et le compteur de bloc vide
+**	sont fusionner dans la meme variable: map_err.
+**	map_err est un short, donc sur 16bit.
+**	Les bits de 0 a 7 sont reserve au compteur de portes.
+**	Les bits de 8 a 15 sont reserve au compteur de bloc vide.
+**	Le masque binaire 0x00FF recupere la valeur du compteur de portes.
+**	Le masque binaire 0xFF00 recupere la valeur du compteur de bloc vide.
+*/
+
 static int		map_is_incoherent(char **map)
 {
 	t_coord i;
-	int		j;
-	int		error;
+	short	map_err;
+	int		door_err;
 
-	j = 0;
-	error = 0;
+	map_err = 0;
+	door_err = 0;
 	i.y = -1;
 	while (map[++i.y])
 	{
 		i.x = -1;
 		while (map[i.y][++i.x])
 		{
-			check_empty(map, i, &j);
-			error |= check_adjacent_to_door(map, i);
+			check_empty(map, i, &map_err);
+			door_err |= check_adjacent_to_door(map, i);
 		}
 	}
-	if (j == 0 || error)
+	if ((map_err & 0xFF00) == 0 || (map_err & 0x00FF) >= MAX_DOOR || door_err)
 	{
 		ft_putendl(ERR_MAP);
 		return (1);
