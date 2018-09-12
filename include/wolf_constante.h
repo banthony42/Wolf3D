@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/10 15:21:16 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/12 20:45:46 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define ERR_DOOR "Error: Too many doors in the map file"
 # define ERR_DOOR_PLACEMENT "Error: A door is misplaced or badly surrounded at "
 # define ERR_QUIT "Wolf3D can't continue further."
+
 /*
 **	Usage
 */
@@ -34,7 +35,8 @@
 # define HELP_2 "5:\tpurplestone.\n6:\teagle wall.\n7:\tmossy.\n"
 # define HELP_3 "8:\tbluestone.\n9:\tcolorstone.\n;:\tspawn.\n"
 # define QUIT "User exit"
-# define MC_USAGE "Delete:\tReset map.\nV:\tBuild an empty valid map.\n"
+# define MC_USAGE "Delete:\t\tReset map.\nV:\t\tBuild an empty valid map.\n"
+# define MC_USAGE2 "C + clic:\tDraw a column.\nD + clic:\tDraw a line.\n"
 
 /*
 ** Calcul d'un pourcentage p sur la valeur x

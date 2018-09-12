@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/08 20:02:50 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/12 20:45:18 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static void		usage(char *bin)
 	ft_putstr(KEY_2);
 	ft_putstr(KEY_3);
 	ft_putendl("\nMap creator control:");
-	ft_putendl(MC_USAGE);
+	ft_putstr(MC_USAGE);
+	ft_putendl(MC_USAGE2);
 	ft_putendl("To design a map you can use:");
 	ft_putstr(HELP_1);
 	ft_putstr(HELP_2);
@@ -32,6 +33,9 @@ static void		usage(char *bin)
 	ft_putstr("A map can contain only ");
 	ft_putnbr(MAX_DOOR);
 	ft_putendl(" doors.");
+	ft_putstr("Door error notifications will be print only for the first ");
+	ft_putnbr(MAX_DOOR);
+	ft_putendl(" additional doors.");
 	ft_exit(NULL, -1);
 }
 
