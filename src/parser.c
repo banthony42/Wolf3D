@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/08 20:00:50 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/12 18:16:27 by banthony         ###   ########.fr       */
+/*   Updated: 2018/09/12 20:30:06 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@
 
 static void		check_empty(char **map, t_coord i, short *map_err)
 {
-	short nb_bloc;
+	short empty_bloc;
 	short nb_door;
 
-	nb_bloc = (short)(*map_err >> 8);
+	empty_bloc = (short)(*map_err >> 8);
 	nb_door = *map_err & 0xFF;
-	if (map[i.y][i.x] == '0' || map[i.y][i.x] == '0' + T_SPAWN)
-		nb_bloc++;
-	if (map[i.y][i.x] == '0' + T_DOOR)
+	if ((map[i.y][i.x] == '0' || map[i.y][i.x] == '0' + T_SPAWN) && !empty_bloc)
+		empty_bloc = 1;
+	if (map[i.y][i.x] == '0' + T_DOOR && nb_door < MAX_DOOR * 2)
 	{
 		nb_door++;
 		if (nb_door >= MAX_DOOR)
@@ -42,7 +42,7 @@ static void		check_empty(char **map, t_coord i, short *map_err)
 			ft_putendl(" coordinate.");
 		}
 	}
-	*map_err = (short)((((short)nb_bloc) << 8) | nb_door);
+	*map_err = (short)((((short)empty_bloc) << 8) | nb_door);
 }
 
 /*
