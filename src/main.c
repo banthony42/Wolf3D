@@ -6,7 +6,7 @@
 /*   By: grdalmas <grdalmas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 01:01:07 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/12 20:45:18 by banthony         ###   ########.fr       */
+/*   Updated: 2019/03/23 00:36:38 by abara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int				main(int ac, char **av)
 		ft_exit(ERR_OPEN, -1);
 	while ((get_next_line(fd, &line)) > 0)
 	{
-		tmp = ft_strtrim2(line);
+		tmp = ft_strtrim2(line, 0);
 		wolf.map = ft_tabadd(wolf.map, tmp);
 		ft_strdel(&tmp);
 		ft_strdel(&line);

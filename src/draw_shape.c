@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 19:13:48 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/05 17:04:33 by banthony         ###   ########.fr       */
+/*   Updated: 2019/03/23 00:38:14 by abara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	draw_palette(t_wolf *w)
 	t_coord	pt;
 	t_coord	box;
 	t_coord	item_size;
-	int		i;
+	unsigned int		i;
 
-	i = -1;
+	i = 0;
 	item_size.x = ITEM_SIZE;
 	item_size.y = ITEM_SIZE;
 	box.x = item_size.x + 2;
@@ -27,7 +27,7 @@ void	draw_palette(t_wolf *w)
 	pt.y = PERCENTAGE(50, w->img[GAME_I].size.y);
 	pt.x = (PERCENTAGE(40, w->img[GAME_I].size.x));
 	pt.x -= ((TEXT / 2) * (box.x + TEXT_P));
-	while (++i < TEXT)
+	while (i < TEXT)
 	{
 		box.color = 0xd4af37;
 		if (w->map_crea.texture == i + 1)
@@ -36,6 +36,7 @@ void	draw_palette(t_wolf *w)
 		put_texture_on_img_at(&w->img[GAME_I], &w->texture[T_STONE + i],
 								pt, item_size);
 		pt.x += box.x + TEXT_P;
+		i++;
 	}
 }
 

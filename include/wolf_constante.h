@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:53:57 by banthony          #+#    #+#             */
-/*   Updated: 2018/09/12 20:45:46 by banthony         ###   ########.fr       */
+/*   Updated: 2019/03/23 00:40:30 by abara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@
 #  define WIN_W 1024
 #  define WIN_H 768
 # else
-#  define WIN_W 800
-#  define WIN_H 600
+#  define WIN_W 1024
+#  define WIN_H 768
 # endif
 # define WIN_NAME "Wolf3D"
 # define CENTERWIN_W(x) (WIN_W - x) / 2
